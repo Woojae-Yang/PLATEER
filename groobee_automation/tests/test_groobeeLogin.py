@@ -1,8 +1,9 @@
+
 import time
 import pytest
 import sys 
 import os 
-from PageObjects.LoginPage import loginpage
+from PageObjects.LoginPage import LoginPage
 from TestData.LoginData import LoginData
 from utilities.BaseClass import BaseClass
 
