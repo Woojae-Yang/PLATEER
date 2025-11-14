@@ -2,7 +2,7 @@ import time
 import pytest
 import sys 
 import os 
-from PageObjects.dashboard import Dashboard
+from PageObjects.LoginPage import loginpage
 from TestData.LoginData import LoginData
 from utilities.BaseClass import BaseClass
 

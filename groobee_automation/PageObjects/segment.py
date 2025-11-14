@@ -8,9 +8,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from PageObjects.dashboard import Dashboard
+from PageObjects.LoginPage import LoginPage
 from TestData.LoginData import LoginData
 from utilities.BaseClass import BaseClass
+from PageObjects.LNB import LNB
 
 
 class SegmentPage:
@@ -26,7 +27,7 @@ class SegmentPage:
     #### 세그먼트명
     seg_name_box = (By.XPATH, '/html/body/div[2]/div[3]/div/div/div/div[2]/div/div[1]/div/div[1]/div[2]/div/div/input')
     #### 상세 설명
-    seg_dscr_box = (By.XPATH '/html/body/div[2]/div[3]/div/div/div/div[2]/div/div[1]/div/div[2]/div[2]/div/div/input')
+    seg_dscr_box = (By.XPATH, '/html/body/div[2]/div[3]/div/div/div/div[2]/div/div[1]/div/div[2]/div[2]/div/div/input')
     #### 기간 설정
     period_box = (By.XPATH, '/html/body/div[2]/div[3]/div/div/div/div[2]/div/div[2]/div/div[4]/div[2]/div/div/div[2]/div/input')
     #### 세그먼트 변수
@@ -46,6 +47,8 @@ class SegmentPage:
     dropdown2 = (By.XPATH, '/html/body/div[2]/div[3]/div/div/div/div[2]/div/div[3]/div/div[2]/div[2]/div/div[2]/div[2]/div/div')
     dropdown3 = (By.XPATH, '/html/body/div[2]/div[3]/div/div/div/div[2]/div/div[3]/div/div[2]/div[2]/div/div[2]/div[3]/div/div')
 
+    #### 저장 btn
+    save_btn = (By.XPATH, '/html/body/div/div[3]/div/div/div/div[4]/div/button[2]')
 
     #-------------------------동작 선언 영역-------------------------
     ## 만들기 버튼 클릭
@@ -67,14 +70,17 @@ class SegmentPage:
     ## 세그먼트 변수 설정
     def set_seg_var(self):
         self.driver.find_element(self.dropdown1).click()
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element(By.XPATH, "//p[contains(text(),'브라우저 유형')]")
         self.driver.find_element(self.dropdown2).click()
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element(By.XPATH, "//p[contains(text(),'Chrome')]")
         self.driver.find_element(self.dropdown3).click()
-        time.sleep(1)
+        time.sleep(2)
         self.driver.find_element(By.XPATH, "//p[contains(text(),'일 때')]")
+        time.sleep(2)
+    ## 저장 버튼 클릭
+        slef.driver.ind_element(self.save_btn).click()
 
 
     #-------------------------동작 선언 영역-------------------------
@@ -83,4 +89,5 @@ class SegmentPage:
         self.input_seg_name(date)
         self.select_seg()
         self.set_seg_var()
+        
     
