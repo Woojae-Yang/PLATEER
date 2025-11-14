@@ -19,7 +19,7 @@ class TestDashboard(BaseClass):
     def test_login(self, get_data):
         log = self.get_log()
 
-        groobee = Dashboard(self.driver)
+        groobee = LoginPage(self.driver)
 
         #ID/PW 입력
         groobee.send_id().send_keys(get_data["ID"])

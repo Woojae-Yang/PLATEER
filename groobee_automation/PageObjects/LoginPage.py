@@ -25,15 +25,15 @@ class LoginPage:
     #-------------------------동작 선언 영역-------------------------
     #로그인
     def send_id(self):
-        return self.driver.find_element(*Dashboard.input_id)
+        return self.driver.find_element(*self.input_id)
     def send_pw(self):
-        return self.driver.find_element(*Dashboard.input_pw)
+        return self.driver.find_element(*self.input_pw)
     def click_login_btn(self):
-        self.driver.find_element(*Dashboard.loginBtn).click()
+        self.driver.find_element(*self.loginBtn).click()
 
     #고객사 검색
     def search_shop(self):
-        return self.driver.find_element(*Dashboard.search_box).send_keys("groobeeshop")
+        return self.driver.find_element(*self.search_box).send_keys("groobeeshop")
     def click_shop_login_btn(self):
-        self.driver.find_element(*Dashboard.shop_loginBtn).click()
-        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(Dashboard.dashboardMenu))
+        self.driver.find_element(*self.shop_loginBtn).click()
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(self.dashboardMenu))

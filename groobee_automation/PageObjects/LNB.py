@@ -31,30 +31,30 @@ class LNB:
     #-------------------------동작 선언 영역-------------------------
     #애널리틱스
     def click_dashboard_menu(self):
-        self.driver.find_element(*Dashboard.dashboardMenu).click()
+        self.driver.find_element(*self.dashboardMenu).click()
     def click_monitoring_menu(self):
-        self.driver.find_element(*Dashboard.monitoringMenu).click()
+        self.driver.find_element(*self.monitoringMenu).click()
     def click_datamonitoring_menu(self):
-        self.driver.find_element(*Dashboard.dataMonitoringMenu).click()
+        self.driver.find_element(*self.dataMonitoringMenu).click()
     #세그먼트
     def click_aisegment_menu(self):
-        self.driver.find_element(*Dashboard.aisegmentMenu).click()
+        self.driver.find_element(*self.aisegmentMenu).click()
     def click_segment_menu(self):
-        self.driver.find_element(*Dashboard.segmentMenu).click()
+        self.driver.find_element(*self.segmentMenu).click()
     #온사이트
     def click_recommend_menu(self):
-        self.driver.find_element(*Dashboard.recommendMenu).click()
+        self.driver.find_element(*self.recommendMenu).click()
     def click_campaign_menu(self):
-        self.driver.find_element(*Dashboard.campaignMenu).click()
+        self.driver.find_element(*self.campaignMenu).click()
     #오프사이트
     def click_pushnoti_menu(self):
-        self.driver.find_element(*Dashboard.pushNotiMenu).click()
+        self.driver.find_element(*self.pushNotiMenu).click()
     def click_kakaomoment_menu(self):
-        self.driver.find_element(*Dashboard.kakaoMomentMenu).click()
+        self.driver.find_element(*self.kakaoMomentMenu).click()
     def click_kakaoalim_menu(self):
-        self.driver.find_element(*Dashboard.kakaoAlimMenu).click()
+        self.driver.find_element(*self.kakaoAlimMenu).click()
     #관리
     def click_setting_menu(self):
-        self.driver.find_element(*Dashboard.settingMenu).click()
+        self.driver.find_element(*self.settingMenu).click()
     def click_help_menu(self):
-        self.driver.find_element(*Dashboard.helpMenu).click()
+        self.driver.find_element(*self.helpMenu).click()
