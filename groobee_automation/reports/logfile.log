@@ -1,3 +1,22 @@
-2025-11-13 09:34:01,415 - test_login - INFO - 대시보드 :: GROOBEE
-2025-11-13 09:34:47,638 - test_login - INFO - 대시보드 :: GROOBEE
-2025-11-13 09:38:09,943 - test_login - INFO - 대시보드 :: GROOBEE
+2025-11-14 16:46:14,015 - test_login - INFO - 대시보드 :: GROOBEE
+2025-11-14 16:46:16,519 - test_aisegment_create - INFO - 세그먼트명: VIP 테스트 세그먼트, 설명: VIP 설명
+2025-11-14 16:46:19,691 - test_aisegment_create - INFO - 세그먼트명: 뜸한 VIP 테스트 세그먼트, 설명: 뜸한 VIP 설명
+2025-11-14 16:46:22,809 - test_aisegment_create - INFO - 세그먼트명: 잠재 VIP 테스트 세그먼트, 설명: 잠재 VIP 설명
+2025-11-14 16:46:25,889 - test_aisegment_create - INFO - 세그먼트명: 신규 고객 테스트 세그먼트, 설명: 신규 고객 설명
+2025-11-14 16:46:29,138 - test_aisegment_create - INFO - 세그먼트명: 지금 잡아야 할 고객 테스트 세그먼트, 설명: 지금 잡아야 할 고객 설명
+2025-11-14 16:46:32,085 - test_aisegment_create - INFO - 세그먼트명: 신경써야 할 고객 테스트 세그먼트, 설명: 신경써야 할 고객 설명
+2025-11-14 16:46:34,670 - test_aisegment_create - INFO - 세그먼트명: 이탈 우려 테스트 세그먼트, 설명: 이탈 우려 설명
+2025-11-14 16:46:37,419 - test_aisegment_create - INFO - 세그먼트명: 이탈한 VIP 테스트 세그먼트, 설명: 이탈한 VIP 설명
+2025-11-14 16:46:40,177 - test_aisegment_create - INFO - 세그먼트명: 이탈한 잠재 VIP 테스트 세그먼트, 설명: 이탈한 잠재 VIP 설명
+2025-11-14 16:46:43,224 - test_aisegment_create - INFO - 세그먼트명: 이탈한 고객 테스트 세그먼트, 설명: 이탈한 고객 설명
+2025-11-14 16:49:46,856 - test_login - INFO - 대시보드 :: GROOBEE
+2025-11-14 16:49:48,812 - test_aisegment_create - INFO - 세그먼트명: VIP 테스트 세그먼트, 설명: VIP 설명
+2025-11-14 16:49:51,557 - test_aisegment_create - INFO - 세그먼트명: 뜸한 VIP 테스트 세그먼트, 설명: 뜸한 VIP 설명
+2025-11-14 16:49:54,109 - test_aisegment_create - INFO - 세그먼트명: 잠재 VIP 테스트 세그먼트, 설명: 잠재 VIP 설명
+2025-11-14 16:49:56,650 - test_aisegment_create - INFO - 세그먼트명: 신규 고객 테스트 세그먼트, 설명: 신규 고객 설명
+2025-11-14 16:49:59,142 - test_aisegment_create - INFO - 세그먼트명: 지금 잡아야 할 고객 테스트 세그먼트, 설명: 지금 잡아야 할 고객 설명
+2025-11-14 16:50:01,749 - test_aisegment_create - INFO - 세그먼트명: 신경써야 할 고객 테스트 세그먼트, 설명: 신경써야 할 고객 설명
+2025-11-14 16:50:04,572 - test_aisegment_create - INFO - 세그먼트명: 이탈 우려 테스트 세그먼트, 설명: 이탈 우려 설명
+2025-11-14 16:50:07,249 - test_aisegment_create - INFO - 세그먼트명: 이탈한 VIP 테스트 세그먼트, 설명: 이탈한 VIP 설명
+2025-11-14 16:50:09,807 - test_aisegment_create - INFO - 세그먼트명: 이탈한 잠재 VIP 테스트 세그먼트, 설명: 이탈한 잠재 VIP 설명
+2025-11-14 16:50:12,288 - test_aisegment_create - INFO - 세그먼트명: 이탈한 고객 테스트 세그먼트, 설명: 이탈한 고객 설명

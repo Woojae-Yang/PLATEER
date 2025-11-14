@@ -1,14 +1,27 @@
 import openpyxl
+import os
 
 class LoginData:
 
-    #엑셀 데이터 받기
     @staticmethod
     def get_excel_data(data_num):
-        path = openpyxl.load_workbook(r"/Users/ywj/Documents/PLATEER/automation/code/groobee-automation-project/GroobeeLoginData.xlsx")
-        sheet = path.active
+
+        # LoginData.py가 있는 TestData 폴더 절대경로
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # 프로젝트 루트(groobee_automation) 경로 = 상위 폴더
+        project_root = os.path.abspath(os.path.join(current_dir, ".."))
+
+        # 엑셀 파일 경로
+        excel_path = os.path.join(project_root, "GroobeeLoginData.xlsx")
+
+        # 엑셀 파일 로드
+        workbook = openpyxl.load_workbook(excel_path)
+        sheet = workbook.active
+
         result = {}
 
+        # 엑셀 데이터 읽기
         for i in range(2, sheet.max_row + 1):
             if str(sheet.cell(row=i, column=1).value) == str(data_num):
                 for j in range(2, sheet.max_column + 1):
@@ -17,5 +30,5 @@ class LoginData:
                     result[key] = value
                 break
 
-        path.close()
+        workbook.close()
         return [result]
