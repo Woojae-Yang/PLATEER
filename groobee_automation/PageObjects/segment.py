@@ -53,38 +53,46 @@ class SegmentPage:
     #-------------------------동작 선언 영역-------------------------
     ## 만들기 버튼 클릭
     def enter_make_seg(self):
-        self.driver.find_element(self.make_btn).click()
+        self.driver.find_element(*self.make_btn).click()
     ## 세그먼트 이름 입력
     def input_seg_name(self, today_date):
         seg_name = f'[Auto]segment{today_date}'
-        input_box = self.driver.find_element(self.seg_name_box)
+        input_box = self.driver.find_element(*self.seg_name_box)
         input_box.click()
         input_box.clear()
         input_box.send_keys(seg_name)
     ### 세그먼트 변수 선택 RNB : 시스템 > 브라우저유형 > 선택
     def select_seg(self):
-        self.driver.find_element(self.seg_var_btn).click()
-        self.driver.find_element(self.rnb_system_elem).click()
-        self.driver.find_element(self.rnb_browser_type).click()
-        self.driver.find_element(self.rnb_select_btn).click()
+        self.driver.find_element(*self.seg_var_btn).click()
+        self.driver.find_element(*self.rnb_system_elem).click()
+        self.driver.find_element(*self.rnb_browser_type).click()
+        self.driver.find_element(*self.rnb_select_btn).click()
     ## 세그먼트 변수 설정
     def set_seg_var(self):
-        self.driver.find_element(self.dropdown1).click()
+        self.driver.find_element(*self.dropdown1).click()
         time.sleep(2)
-        self.driver.find_element(By.XPATH, "//p[contains(text(),'브라우저 유형')]")
-        self.driver.find_element(self.dropdown2).click()
+        self.driver.find_element(By.XPATH, "//p[contains(text(),'브라우저 유형')]").click()
+
+        self.driver.find_element(*self.dropdown2).click()
         time.sleep(2)
-        self.driver.find_element(By.XPATH, "//p[contains(text(),'Chrome')]")
-        self.driver.find_element(self.dropdown3).click()
+        self.driver.find_element(By.XPATH, "//p[contains(text(),'Chrome')]").click()
+
+        self.driver.find_element(*self.dropdown3).click()
         time.sleep(2)
-        self.driver.find_element(By.XPATH, "//p[contains(text(),'일 때')]")
+        self.driver.find_element(By.XPATH, "//p[contains(text(),'일 때')]").click()
+
         time.sleep(2)
     ## 저장 버튼 클릭
-        slef.driver.ind_element(self.save_btn).click()
+        self.driver.find_element(*self.save_btn).click()
 
 
     #-------------------------동작 선언 영역-------------------------
     def create_segment(self, date : str):
+        #1) 세그먼트 메뉴로 이동
+        lnb = LNB(self.driver)
+        lnb.click_segment_menu()
+
+        #2) 세그먼트 생성
         self.enter_make_seg()
         self.input_seg_name(date)
         self.select_seg()
