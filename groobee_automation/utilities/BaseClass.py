@@ -27,7 +27,7 @@ class BaseClass:
             os.makedirs(log_dir, exist_ok=True)
             log_file_path = os.path.join(log_dir, "logfile.log")
             file_handler = logging.FileHandler(log_file_path, encoding="utf-8")
-            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            formatter = logging.Formatter('%(asctime)s - %(name)s - %(message)s')
             file_handler.setFormatter(formatter)
             log.addHandler(file_handler)
             log.setLevel(logging.DEBUG)

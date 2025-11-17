@@ -1,22 +1,41 @@
-2025-11-14 16:46:14,015 - test_login - INFO - 대시보드 :: GROOBEE
-2025-11-14 16:46:16,519 - test_aisegment_create - INFO - 세그먼트명: VIP 테스트 세그먼트, 설명: VIP 설명
-2025-11-14 16:46:19,691 - test_aisegment_create - INFO - 세그먼트명: 뜸한 VIP 테스트 세그먼트, 설명: 뜸한 VIP 설명
-2025-11-14 16:46:22,809 - test_aisegment_create - INFO - 세그먼트명: 잠재 VIP 테스트 세그먼트, 설명: 잠재 VIP 설명
-2025-11-14 16:46:25,889 - test_aisegment_create - INFO - 세그먼트명: 신규 고객 테스트 세그먼트, 설명: 신규 고객 설명
-2025-11-14 16:46:29,138 - test_aisegment_create - INFO - 세그먼트명: 지금 잡아야 할 고객 테스트 세그먼트, 설명: 지금 잡아야 할 고객 설명
-2025-11-14 16:46:32,085 - test_aisegment_create - INFO - 세그먼트명: 신경써야 할 고객 테스트 세그먼트, 설명: 신경써야 할 고객 설명
-2025-11-14 16:46:34,670 - test_aisegment_create - INFO - 세그먼트명: 이탈 우려 테스트 세그먼트, 설명: 이탈 우려 설명
-2025-11-14 16:46:37,419 - test_aisegment_create - INFO - 세그먼트명: 이탈한 VIP 테스트 세그먼트, 설명: 이탈한 VIP 설명
-2025-11-14 16:46:40,177 - test_aisegment_create - INFO - 세그먼트명: 이탈한 잠재 VIP 테스트 세그먼트, 설명: 이탈한 잠재 VIP 설명
-2025-11-14 16:46:43,224 - test_aisegment_create - INFO - 세그먼트명: 이탈한 고객 테스트 세그먼트, 설명: 이탈한 고객 설명
-2025-11-14 16:49:46,856 - test_login - INFO - 대시보드 :: GROOBEE
-2025-11-14 16:49:48,812 - test_aisegment_create - INFO - 세그먼트명: VIP 테스트 세그먼트, 설명: VIP 설명
-2025-11-14 16:49:51,557 - test_aisegment_create - INFO - 세그먼트명: 뜸한 VIP 테스트 세그먼트, 설명: 뜸한 VIP 설명
-2025-11-14 16:49:54,109 - test_aisegment_create - INFO - 세그먼트명: 잠재 VIP 테스트 세그먼트, 설명: 잠재 VIP 설명
-2025-11-14 16:49:56,650 - test_aisegment_create - INFO - 세그먼트명: 신규 고객 테스트 세그먼트, 설명: 신규 고객 설명
-2025-11-14 16:49:59,142 - test_aisegment_create - INFO - 세그먼트명: 지금 잡아야 할 고객 테스트 세그먼트, 설명: 지금 잡아야 할 고객 설명
-2025-11-14 16:50:01,749 - test_aisegment_create - INFO - 세그먼트명: 신경써야 할 고객 테스트 세그먼트, 설명: 신경써야 할 고객 설명
-2025-11-14 16:50:04,572 - test_aisegment_create - INFO - 세그먼트명: 이탈 우려 테스트 세그먼트, 설명: 이탈 우려 설명
-2025-11-14 16:50:07,249 - test_aisegment_create - INFO - 세그먼트명: 이탈한 VIP 테스트 세그먼트, 설명: 이탈한 VIP 설명
-2025-11-14 16:50:09,807 - test_aisegment_create - INFO - 세그먼트명: 이탈한 잠재 VIP 테스트 세그먼트, 설명: 이탈한 잠재 VIP 설명
-2025-11-14 16:50:12,288 - test_aisegment_create - INFO - 세그먼트명: 이탈한 고객 테스트 세그먼트, 설명: 이탈한 고객 설명
+2025-11-17 19:08:10,637 - test_login - 로그인 완료: 대시보드 :: GROOBEE
+2025-11-17 19:08:13,389 - test_aisegment_create_rfm - 생성 완료: [QA] VIP 테스트 세그먼트
+2025-11-17 19:08:16,066 - test_aisegment_create_rfm - 생성 완료: [QA] 뜸한 VIP 테스트 세그먼트
+2025-11-17 19:08:18,756 - test_aisegment_create_rfm - 생성 완료: [QA] 잠재 VIP 테스트 세그먼트
+2025-11-17 19:08:21,432 - test_aisegment_create_rfm - 생성 완료: [QA] 신규 고객 테스트 세그먼트
+2025-11-17 19:08:24,139 - test_aisegment_create_rfm - 생성 완료: [QA] 지금 잡아야 할 고객 테스트 세그먼트
+2025-11-17 19:08:26,832 - test_aisegment_create_rfm - 생성 완료: [QA] 신경써야 할 고객 테스트 세그먼트
+2025-11-17 19:08:29,465 - test_aisegment_create_rfm - 생성 완료: [QA] 이탈 우려 테스트 세그먼트
+2025-11-17 19:08:32,111 - test_aisegment_create_rfm - 생성 완료: [QA] 이탈한 VIP 테스트 세그먼트
+2025-11-17 19:08:34,739 - test_aisegment_create_rfm - 생성 완료: [QA] 이탈한 잠재 VIP 테스트 세그먼트
+2025-11-17 19:08:37,394 - test_aisegment_create_rfm - 생성 완료: [QA] 이탈한 고객 테스트 세그먼트
+2025-11-17 19:08:42,207 - test_aisegment_create_purchase - 생성 완료: [QA] 0~20% 테스트 세그먼트
+2025-11-17 19:08:44,951 - test_aisegment_create_purchase - 생성 완료: [QA] 21~40% 테스트 세그먼트
+2025-11-17 19:08:47,719 - test_aisegment_create_purchase - 생성 완료: [QA] 41~60% 테스트 세그먼트
+2025-11-17 19:08:50,467 - test_aisegment_create_purchase - 생성 완료: [QA] 61~80% 테스트 세그먼트
+2025-11-17 19:08:53,256 - test_aisegment_create_purchase - 생성 완료: [QA] 81~100% 테스트 세그먼트
+2025-11-17 19:08:57,068 - test_aisegment_create_purchase - 생성 완료: [QA] 직접 입력 테스트 세그먼트
+2025-11-17 19:09:01,069 - test_aisegment_create_tastes - 생성 완료: [QA] 대표 상품 테스트 세그먼트
+2025-11-17 19:09:04,558 - test_aisegment_create_tastes - 생성 완료: [QA] 많이 조회한 상품 테스트 세그먼트
+2025-11-17 19:09:12,613 - test_aisegment_delete - 삭제 완료: [QA] 많이 조회한 상품 테스트 세그먼트
+2025-11-17 19:09:18,437 - test_aisegment_delete - 삭제 완료: [QA] 대표 상품 테스트 세그먼트
+2025-11-17 19:09:24,354 - test_aisegment_delete - 삭제 완료: [QA] 직접 입력 테스트 세그먼트
+2025-11-17 19:09:30,245 - test_aisegment_delete - 삭제 완료: [QA] 81~100% 테스트 세그먼트
+2025-11-17 19:09:36,072 - test_aisegment_delete - 삭제 완료: [QA] 61~80% 테스트 세그먼트
+2025-11-17 19:09:41,976 - test_aisegment_delete - 삭제 완료: [QA] 41~60% 테스트 세그먼트
+2025-11-17 19:09:47,858 - test_aisegment_delete - 삭제 완료: [QA] 21~40% 테스트 세그먼트
+2025-11-17 19:09:53,729 - test_aisegment_delete - 삭제 완료: [QA] 0~20% 테스트 세그먼트
+2025-11-17 19:09:59,588 - test_aisegment_delete - 삭제 완료: [QA] 이탈한 고객 테스트 세그먼트
+2025-11-17 19:10:05,459 - test_aisegment_delete - 삭제 완료: [QA] 이탈한 잠재 VIP 테스트 세그먼트
+2025-11-17 19:10:11,319 - test_aisegment_delete - 삭제 완료: [QA] 이탈한 VIP 테스트 세그먼트
+2025-11-17 19:10:17,203 - test_aisegment_delete - 삭제 완료: [QA] 이탈 우려 테스트 세그먼트
+2025-11-17 19:10:23,142 - test_aisegment_delete - 삭제 완료: [QA] 신경써야 할 고객 테스트 세그먼트
+2025-11-17 19:10:29,021 - test_aisegment_delete - 삭제 완료: [QA] 지금 잡아야 할 고객 테스트 세그먼트
+2025-11-17 19:10:34,844 - test_aisegment_delete - 삭제 완료: [QA] 신규 고객 테스트 세그먼트
+2025-11-17 19:10:40,761 - test_aisegment_delete - 삭제 완료: [QA] 잠재 VIP 테스트 세그먼트
+2025-11-17 19:10:46,650 - test_aisegment_delete - 삭제 완료: [QA] 뜸한 VIP 테스트 세그먼트
+2025-11-17 19:10:52,507 - test_aisegment_delete - 삭제 완료: [QA] VIP 테스트 세그먼트
+2025-11-17 19:11:04,263 - test_segment_create_onsite1 - 생성 완료: [QA] 온사이트(단일) 테스트 세그먼트
+2025-11-17 19:11:15,166 - test_segment_create_onsite2 - 생성 완료: [QA] 온사이트(조합) 테스트 세그먼트
+2025-11-17 19:11:23,550 - test_segment_delete - 삭제 완료: [QA] 온사이트(조합) 테스트 세그먼트
+2025-11-17 19:11:29,383 - test_segment_delete - 삭제 완료: [QA] 온사이트(단일) 테스트 세그먼트
