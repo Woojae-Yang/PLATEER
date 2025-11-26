@@ -22,6 +22,7 @@ class TestAiCampaignCreate(BaseClass):
 
         # 만들기 버튼 클릭
         groobee.click_create_btn().click()
+        time.sleep(1)
 
         # 타이틀 노출까지 대기
         WebDriverWait(driver, 10).until(
@@ -36,6 +37,7 @@ class TestAiCampaignCreate(BaseClass):
 
         # 접속 유형 설정
         groobee.click_type_pcweb().click()
+        time.sleep(1)
 
         # 알고리즘 설정(다국어 모달 회피)
         groobee.click_set_algo_goods().click()
@@ -61,26 +63,29 @@ class TestAiCampaignCreate(BaseClass):
         # 다음 단계(다국어 모달 회피)
         next_btn = groobee.click_next_btn()
         driver.execute_script("arguments[0].click();", next_btn)
+        time.sleep(1)
 
         # 디자인 유형
         groobee.click_design_script().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 다음 단계(다국어 모달 회피)
         next_btn = groobee.click_next_btn()
         driver.execute_script("arguments[0].click();", next_btn)
+        time.sleep(1)
 
         # 필터링 설정
         groobee.click_filter_order().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 스케줄
         groobee.click_schedule_self().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 저장(다국어 모달 회피)
         save_btn = groobee.click_save_btn()
         driver.execute_script("arguments[0].click();", save_btn)
+        time.sleep(1)
 
         # 세그먼트 생성 확인
         groobee.click_pause_tab().click()

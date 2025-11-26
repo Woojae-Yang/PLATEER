@@ -26,6 +26,7 @@ class TestCampaignCreate(BaseClass):
 
         # 만들기 버튼 클릭
         groobee.click_create_btn().click()
+        time.sleep(1)
 
         # 타이틀 노출까지 대기
         WebDriverWait(driver, 10).until(
@@ -40,23 +41,24 @@ class TestCampaignCreate(BaseClass):
 
         # 접속 유형 설정
         groobee.click_type_pcweb().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 타겟 설정
         groobee.click_seg_load().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 세그먼트 불러오기 RNB
         groobee.click_seg_tab().click()
-        time.sleep(0.5)
+        time.sleep(1)
         groobee.click_now_pc_seg().click()
-        time.sleep(0.5)
+        time.sleep(1)
         groobee.click_select_btn().click()
         time.sleep(1)
 
         # 다음 단계(다국어 모달 회피)
         next_btn = groobee.click_next_btn()
         driver.execute_script("arguments[0].click();", next_btn)
+        time.sleep(1)
 
         # 파일 업로드 RNB
         groobee.click_file_upload_btn().click()
@@ -76,20 +78,21 @@ class TestCampaignCreate(BaseClass):
 
         # URL 입력
         groobee.send_input_url().send_keys(self.campaign_url)
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 내용 입력
         groobee.click_des_btn().click()
         groobee.send_input_des().send_keys(self.campaign_txt)
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 노출 위치 설정
         groobee.click_set_br().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 다음 단계(다국어 모달 회피)
         next_btn = groobee.click_next_btn()
         driver.execute_script("arguments[0].click();", next_btn)
+        time.sleep(1)
 
         # 노출 빈도
         groobee.click_freq_combx().click()
@@ -100,6 +103,7 @@ class TestCampaignCreate(BaseClass):
         # 저장(다국어 모달 회피)
         save_btn = groobee.click_save_btn()
         driver.execute_script("arguments[0].click();", save_btn)
+        time.sleep(1)
 
         # 세그먼트 생성 확인
         groobee.click_pause_tab().click()
@@ -132,6 +136,7 @@ class TestCampaignCreate(BaseClass):
         # 몰 바로가기
         groobee.click_admin_icon().click()
         groobee.click_goto_mall().click()
+        time.sleep(1)
 
         # 새 창 찾기
         WebDriverWait(driver, 10).until(lambda d: len(d.window_handles) > 1)

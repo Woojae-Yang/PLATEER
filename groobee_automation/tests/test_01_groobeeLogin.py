@@ -44,3 +44,4 @@ class TestLogin(BaseClass):
         # 대시보드 진입 확인
         assert driver.title == self.login_expect_title
         log.info(f"로그인 완료: {driver.title}")
+        time.sleep(1)

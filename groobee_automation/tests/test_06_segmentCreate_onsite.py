@@ -24,6 +24,7 @@ class TestSegmentCreate(BaseClass):
 
         # 만들기 버튼 클릭
         groobee.click_create_btn().click()
+        time.sleep(1)
 
         # 타이틀 노출까지 대기
         WebDriverWait(driver, 10).until(
@@ -59,6 +60,7 @@ class TestSegmentCreate(BaseClass):
         # 저장(다국어 모달 회피)
         save_btn = groobee.click_save_btn()
         driver.execute_script("arguments[0].click();", save_btn)
+        time.sleep(1)
 
         # 세그먼트 생성 확인
         WebDriverWait(driver, 10).until(
@@ -81,6 +83,7 @@ class TestSegmentCreate(BaseClass):
 
         # 만들기 버튼 클릭
         groobee.click_create_btn().click()
+        time.sleep(1)
 
         # 타이틀 노출까지 대기
         WebDriverWait(driver, 10).until(
@@ -91,6 +94,7 @@ class TestSegmentCreate(BaseClass):
         # 세그먼트명/상세 설명 입력
         groobee.send_seg_name().send_keys(self.onsite2_seg_name)
         groobee.send_seg_des().send_keys(self.onsite2_seg_des)
+        time.sleep(1)
 
         # 타겟 설정
         groobee.click_range_onsite_native().click()
@@ -126,6 +130,7 @@ class TestSegmentCreate(BaseClass):
         # 저장(다국어 모달 회피)
         save_btn = groobee.click_save_btn()
         driver.execute_script("arguments[0].click();", save_btn)
+        time.sleep(1)
 
         # 세그먼트 생성 확인
         WebDriverWait(driver, 10).until(
