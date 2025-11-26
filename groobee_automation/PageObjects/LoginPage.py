@@ -32,3 +32,4 @@ class LoginPage:
         return self.driver.find_element(*LoginPage.search_box)
     def click_shop_login_btn(self):
         return self.driver.find_element(*LoginPage.shop_loginBtn)
+    ###재은프로님
