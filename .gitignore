@@ -1,0 +1,63 @@
+# =========================================
+# Python
+# =========================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual env
+venv/
+.env/
+.venv/
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs
+*.log
+logs/
+
+# =========================================
+# macOS
+# =========================================
+.DS_Store
+
+# =========================================
+# VSCode
+# =========================================
+.vscode/
+.vscode/*
+
+# =========================================
+# Selenium / WebDriver
+# =========================================
+chromedriver
+chromedriver.exe
+geckodriver
+drivers/
+
+# =========================================
+# Credentials & Configs
+# =========================================
+*.yaml
+*.yml
+*.json
+config/
+secrets/
+*.env
+
+# if you have token files
+token.txt
+token.json
+
+# =========================================
+# Cache
+# =========================================
+.cache/
