@@ -1,0 +1,17 @@
+credentials:
+  username: "groobee.wjyang102"
+  password: "dnwodid7024!"
+  
+  shop_id: "testywj"
+  shop_pw: "groobeegogo34$"
+
+urls:
+  admin_page: "https://admin.groobee.io/login"
+  shop_page: "https://shop16.grooshop.com/"
+  gelatto_page: "https://admin.groobee.io/gelatto/dashboard"
+  shop_no: "shop16"
+
+inputs:
+  topic: "Honda Motors"
+  word: "input_word"
+  description: "description"
