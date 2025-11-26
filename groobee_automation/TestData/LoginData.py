@@ -9,11 +9,8 @@ class LoginData:
         # LoginData.py가 있는 TestData 폴더 절대경로
         current_dir = os.path.dirname(os.path.abspath(__file__))
 
-        # 프로젝트 루트(groobee_automation) 경로 = 상위 폴더
-        project_root = os.path.abspath(os.path.join(current_dir, ".."))
-
-        # 엑셀 파일 경로
-        excel_path = os.path.join(project_root, "GroobeeLoginData.xlsx")
+        # 엑셀 파일 경로 (같은 폴더에 위치)
+        excel_path = os.path.join(current_dir, "GroobeeLoginData.xlsx")
 
         # 엑셀 파일 로드
         workbook = openpyxl.load_workbook(excel_path)

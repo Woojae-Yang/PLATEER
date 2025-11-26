@@ -9,9 +9,9 @@ class TestAisegmentCreate(BaseClass):
 
     tastes_expect_title = "새로운 취향 분석 세그먼트 만들기 :: GROOBEE"
     main_prod_name = "[QA] 대표 상품 테스트 세그먼트"
-    main_prod_des = "대표 상품 설명"
+    main_prod_des = "대표 상품"
     view_prod_name = "[QA] 많이 조회한 상품 테스트 세그먼트"
-    view_prod_des = "많이 조회한 상품 설명"
+    view_prod_des = "많이 조회한 상품"
 
     def test_aisegment_create_tastes(self, driver):
         log = self.get_log()
@@ -38,7 +38,7 @@ class TestAisegmentCreate(BaseClass):
 
         # 상품 선택
         groobee.click_tastes_handmade().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 저장(다국어 모달 회피)
         save_btn = groobee.click_save_btn()
@@ -64,11 +64,11 @@ class TestAisegmentCreate(BaseClass):
 
         # 많이 조회한 상품 전환
         groobee.click_tastes_seg_view().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 상품 선택
         groobee.click_tastes_handmade().click()
-        time.sleep(0.5)
+        time.sleep(1)
 
         # 저장(다국어 모달 회피)
         save_btn = groobee.click_save_btn()

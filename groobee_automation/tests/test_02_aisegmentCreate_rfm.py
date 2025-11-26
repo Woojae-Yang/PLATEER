@@ -34,14 +34,14 @@ class TestAisegmentCreate(BaseClass):
         for i, rfm_name in enumerate(rfm_options.keys()):
             # 세그먼트명/상세 설명 입력
             seg_name_text = f"[QA] {rfm_name} 테스트 세그먼트"
-            seg_des_text = f"{rfm_name} 설명"
+            seg_des_text = f"{rfm_name}"
             groobee.send_rfm_seg_name().send_keys(seg_name_text)
             groobee.send_rfm_seg_des().send_keys(seg_des_text)
 
             # RFM 세그먼트 선택
             rfm_element = driver.find_element(By.XPATH, f"//h6[contains(text(), '{rfm_name}')]")
             rfm_element.click()
-            time.sleep(0.5)
+            time.sleep(1)
 
             # 저장(다국어 모달 회피)
             save_btn = groobee.click_save_btn()

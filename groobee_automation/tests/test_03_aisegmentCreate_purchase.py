@@ -34,7 +34,7 @@ class TestAisegmentCreate(BaseClass):
         for i, purchase_name in enumerate(purchase_options.keys()):
             # 세그먼트명/상세 설명 입력
             seg_name_text = f"[QA] {purchase_name} 테스트 세그먼트"
-            seg_des_text = f"{purchase_name} 설명"
+            seg_des_text = f"{purchase_name}"
             groobee.send_purchase_seg_name().send_keys(seg_name_text)
             groobee.send_purchase_seg_des().send_keys(seg_des_text)
 
@@ -42,7 +42,7 @@ class TestAisegmentCreate(BaseClass):
             groobee.click_purchase_combo().click()
             purchase_element = driver.find_element(By.XPATH, f"//li[normalize-space()='{purchase_name}']")
             purchase_element.click()
-            time.sleep(0.5)
+            time.sleep(1)
 
             # 직접 입력 옵션
             if purchase_name == "직접 입력":

@@ -8,10 +8,10 @@ from utilities.BaseClass import BaseClass
 class TestSegmentCreate(BaseClass):
 
     onsite_expect_title = "새로운 세그먼트 만들기 :: GROOBEE"
-    onsite1_seg_name = "[QA] 온사이트(단일) 테스트 세그먼트"
-    onsite1_seg_des = "온사이트(단일) 설명"
-    onsite2_seg_name = "[QA] 온사이트(조합) 테스트 세그먼트"
-    onsite2_seg_des = "온사이트(조합) 설명"
+    onsite1_seg_name = "[QA] 온사이트웹-현재-PC접속 테스트 세그먼트"
+    onsite1_seg_des = "온사이트-현재-PC접속"
+    onsite2_seg_name = "[QA] 온사이트네이티브-과거x현재-로그인+남자+수요일 테스트 세그먼트"
+    onsite2_seg_des = "온사이트네이티브-과거x현재-로그인+남자+수요일"
 
     def test_segment_create_onsite1(self, driver):
         log = self.get_log()
@@ -34,6 +34,7 @@ class TestSegmentCreate(BaseClass):
         # 세그먼트명/상세 설명 입력
         groobee.send_seg_name().send_keys(self.onsite1_seg_name)
         groobee.send_seg_des().send_keys(self.onsite1_seg_des)
+        time.sleep(1)
 
         # 타겟 설정
         groobee.click_range_onsite_web().click()
