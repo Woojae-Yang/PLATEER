@@ -7,9 +7,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 
+from setup.base_action import BaseAction
 import setup.selenium_utils as util
+from setup.logger import info
 
-class GelattoProduct:
+class GelattoProduct(BaseAction):
 
     def __init__(self, driver, wait, tab):
         self.driver = driver
@@ -125,25 +127,21 @@ class GelattoProduct:
     
     #### 기본값 설정 정보 입력
     def input_values(self):
+        info("[Input_values] 기본값 설정 정보 입력")
         # 대표 문구
-        represent_elem = self.driver.find_element(*self.represnt_txt_box)
-        util.clear_input(represent_elem) # 기존 값 삭제
-        represent_elem.send_keys('Automation Test')
-        time.sleep(1)
+        self.input(self.represnt_txt_box, "Automation Test", "대표 문구")
         # 첫인사
-        hello_box = self.driver.find_element(*self.hello_box)
-        util.clear_input(hello_box)
-        hello_box.send_keys('Hello Gelatto')
-        time.sleep(1)
+        self.input(self.hello_box, "Hello Gelatto", "첫 인사")
         # 플레이스홀더
-        placeholder = self.driver.find_element(*self.placeholder)
-        util.clear_input(placeholder)
-        placeholder.send_keys('Automation Placeholder')
+        self.input(self.placeholder, "Automation Placeholder", "플레이스홀더")
         time.sleep(1)
+        info("[Input_values] 기본값 설정 정보 입력 완료")
+
     
     def click_save(self):
         self.driver.find_element(*self.save_btn).click()
         time.sleep(1)
+        ## 모달에서 확인 클릭
         self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
     
     ######################## 용어 사전 활동 -------------------------

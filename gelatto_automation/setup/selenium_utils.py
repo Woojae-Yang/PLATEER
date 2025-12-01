@@ -1,21 +1,75 @@
 
 import platform 
+import traceback
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
-
+from selenium.common.exceptions import (
+    NoSuchElementException, 
+    ElementClickInterceptedException, 
+    TimeoutException)
+from logger import info, warn, error, debug
 
 ## 운영체제에 따른 텍스트박스 전체 삭제 처리
-def clear_input(elem):
-    """운영체제에 맞게 텍스트 전체 삭제"""
-
+def clear_input(elem, name = "input field"):
+    """입력창 전체 삭제 + 로깅"""
     system = platform.system().lower()
     modifier = Keys.COMMAND if "darwin" in system else Keys.CONTROL
 
-    elem.click()
-    elem.send_keys(modifier, "a")
-    elem.send_keys(Keys.DELETE)
+    try:
+        elem.click()
+        elem.send_keys(modifier, "a")
+        elem.send_keys(Keys.DELETE)
+        info(f"[clear_input] Cleared text in {name}")
+        return True
+    except Exception as e:
+        error(f"[clear_input] Failed to clear {name}: {e}")
+        debug(traceback.format_exc())
+        return False
+    
+
+def safe_find(driver, locator, name="element"):
+    """요소 찾기 (없으면 None + 로깅)"""
+
+    try:
+        elem = driver.find_element(*locator)
+        info(f"[safe_find] Found {name}")
+        return elem
+
+    except NoSuchElementException:
+        warn(f"[safe_find] {name} not found")
+        return None
+
+    except Exception as e:
+        error(f"[safe_find] Unexpected error for {name}: {e}")
+        debug(traceback.format_exc())
+        return None
 
 
+
+def safe_click(driver, locator, name="element"):
+    """요소 클릭 (실패해도 예외 없이 로그만 남김)"""
+
+    try:
+        elem = driver.find_element(*locator)
+        elem.click()
+        info(f"[safe_click] Clicked {name}")
+        return True
+
+    except NoSuchElementException:
+        warn(f"[safe_click] {name} not found — skip")
+        return False
+
+    except ElementClickInterceptedException:
+        warn(f"[safe_click] {name} was intercepted — skip")
+        return False
+
+    except Exception as e:
+        error(f"[safe_click] Unexpected error clicking {name}: {e}")
+        debug(traceback.format_exc())
+        return False
+
+
+
+'''
 ## 특정 요소가 없으면 그냥 NONE 반환하고 스킵
 def safe_find(driver, locator):
     try:
@@ -32,3 +86,5 @@ def safe_click(driver, locator):
         return True
     except (NoSuchElementException, ElementClickInterceptedException):
         return False
+
+'''
