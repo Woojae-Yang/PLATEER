@@ -54,7 +54,7 @@ class AdminLogin:
         self.login_page.click_shop_login_btn().click()
         # 대시보드 메뉴 노출까지 대기
         self.wait.until(
-            EC.presence_of_element_located(self.login_page.dashboardMenu)
+            EC.visibility_of_element_located(self.login_page.dashboardMenu)
         )
         time.sleep(1)
 

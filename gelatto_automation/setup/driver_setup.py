@@ -18,11 +18,11 @@ def create_driver():
     options = Options()
     
     # headless 옵션 설정
-    # options.add_argument('--headless=new')
-    options.add_argument("no-sandbox")
+    options.add_argument('--headless')
+    options.add_argument("--no-sandbox")
     
     # 브라우저 윈도우 사이즈
-    #options.add_argument('--window-size=2560,2000')
+    options.add_argument('--window-size=2560,2000')  ## 도커에선 일단 ON
     
     # 불필요한 에러메시지 노출 방지
     options.add_experimental_option("excludeSwitches", ["enable-logging"])
@@ -39,11 +39,12 @@ def create_driver():
     ##### 
 
     # 크롬드라이버 자동 업데이트
-    service = Service(executable_path=ChromeDriverManager().install())
+    ## service = Service(executable_path=ChromeDriverManager().install()) ## 일단 이건 도커에서는 사용 안함
+    service = Service()
     
     # 드라이버 위치 경로 입력
     driver = webdriver.Chrome(service = service, options = options)
-    driver.maximize_window()
+    #driver.maximize_window() ## 도커에선 일단 OFF
     #driver.set_window_size(2560, 2000)
 
     wait = WebDriverWait(driver, 15)
