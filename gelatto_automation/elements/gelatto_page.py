@@ -103,11 +103,13 @@ class GelattoProduct(BaseAction):
 
     ######################## 대시보드 활동 -------------------------
     def enter_dashboard(self):
-        self.driver.find_element(*self.lnb_dashboard).click()
+        info("Gelatto LNB 대시보드 진입")
+        self.click(self.lnb_dashboard, "LNB 대시보드 클릭")
         time.sleep(1)
 
     def enter_log_rnb(self):
-        self.driver.find_element(*self.log_history_btn).click()
+        info("최근 활동 내역 RNB 호출")
+        self.click(self.log_history_btn, "최근 활동 내역 클릭")
         time.sleep(1)
 
     def get_recent_log(self):
