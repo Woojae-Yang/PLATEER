@@ -1,4 +1,6 @@
 
+from selenium.common.exceptions import TimeoutException
+
 from setup.selenium_utils import safe_find, safe_click, clear_input
 from setup.logger import info, warn, error
 
