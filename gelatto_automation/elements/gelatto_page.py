@@ -137,7 +137,6 @@ class GelattoProduct(BaseAction):
         time.sleep(1)
         info("[Input_values] 기본값 설정 정보 입력 완료")
 
-    
     def click_save(self):
         self.driver.find_element(*self.save_btn).click()
         time.sleep(1)

@@ -6,7 +6,7 @@ from selenium.common.exceptions import (
     NoSuchElementException, 
     ElementClickInterceptedException, 
     TimeoutException)
-from logger import info, warn, error, debug
+from setup.logger import info, warn, error, debug
 
 ## 운영체제에 따른 텍스트박스 전체 삭제 처리
 def clear_input(elem, name = "input field"):
