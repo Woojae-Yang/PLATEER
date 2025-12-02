@@ -7,7 +7,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 
-class ChatbotService:
+from setup.base_action import BaseAction
+import setup.selenium_utils as util
+from setup.logger import info
+
+class ChatbotService(BaseAction):
 
     def __init__(self, driver, wait, tab):
         self.driver = driver

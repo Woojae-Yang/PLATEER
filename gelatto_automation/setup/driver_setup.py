@@ -39,7 +39,7 @@ def create_driver():
     ##### 
 
     # 크롬드라이버 자동 업데이트
-    ## service = Service(executable_path=ChromeDriverManager().install()) ## 일단 이건 도커에서는 사용 안함
+    #service = Service(executable_path=ChromeDriverManager().install()) ## 일단 이건 도커에서는 사용 안함
     service = Service()
     
     # 드라이버 위치 경로 입력
