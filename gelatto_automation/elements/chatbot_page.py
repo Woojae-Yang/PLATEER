@@ -40,28 +40,33 @@ class ChatbotService(BaseAction):
     # 새로운 대화 생성
     def create_new(self):
         self.switch_tab()
-        self.driver.wait.until(EC.element_to_be_clickable(*self.new_chat_btn)).click()
+        info("새로운 대화 생성")
+        self.wait_and_click(self.new_chat_btn)
         time.sleep(2)
 
     def send_message(self, date_time):
         self.switch_tab()
         time.sleep(0.7)
         # 채팅텍스트박스 진입
-        text_input_box = self.driver.find_element(*self.text_input_elem)
+        info("채팅 텍스트박스 진입")
+        text_input_box = self.find(self.text_input_elem, "채팅 입력 텍스트박스")
         text_input_box.click()
         time.sleep(2)
         # 메세지 입력
+        info("메세지 입력")
         message = f'[AUTO] QA Test {date_time}'
         text_input_box.send_keys(message)
         time.sleep(1)
         # 엔터키 입력
+        info("메세지 전송")
         text_input_box.send_keys(Keys.ENTER)
         print("Sned Mesage Success!")
+        info("Sned Mesage Success!")
         return message
 
     def get_reply_msg(self):
         self.switch_tab()
-        reply_txt = self.driver.find_element(*self.bot_reply_elem).text
+        reply_txt = self.find(self.bot_reply_elem, "챗봇 응답 메세지").text
         return reply_txt
 
 

@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from setup.config_loader import ConfigLoader
 from elements.login_page import LoginPage
 
+from setup.logger import info
 
 class AdminLogin:
 
@@ -41,21 +42,26 @@ class AdminLogin:
         self.login_page.send_pw().send_keys(password)
         # 로그인 버튼 클릭
         self.login_page.click_login_btn().click()
-
+        
+        info("Admin Login Success!")
         print("Admin Login Success!")
         time.sleep(3)
     
     def enter_shop(self):
         # shop 검색
+        info("shop 검색")
         shop = self.config.get_shop
         self.login_page.search_shop().send_keys(shop)
         time.sleep(1)
         # shop 선택
+        info("shop 선택")
         self.login_page.click_shop_login_btn().click()
         # 대시보드 메뉴 노출까지 대기
         self.wait.until(
             EC.visibility_of_element_located(self.login_page.dashboardMenu)
         )
+        info("대시보드 노출")
+        print("대시보드 노출")
         time.sleep(1)
 
 
@@ -92,6 +98,7 @@ class EnterGelatto:
         self.open_gnb_menu()
         self.click_gelatto()
         time.sleep(3)
+        info("Gelatto Page Loaded!")
         print("Gelatto Page Loaded!")
 
 
