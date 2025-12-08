@@ -117,12 +117,14 @@ class GelattoProduct(BaseAction):
     ######################## 젤라또 만들기 활동 -------------------------
     #### 젤라도 만들기 진입
     def enter_make_gelatto(self):
-        self.driver.find_element(*self.lnb_make_gelatto).click()
+        info("젤라또 만들기 진입")
+        self.wait_and_click(self.lnb_make_gelatto, "젤라또 만들기 클릭")
         time.sleep(1)
 
     #### 기본 설정 탭
     def click_setting_tab(self):
-        self.driver.find_element(*self.setting_tab).click()
+        info("기본 설정 탭")
+        self.wait_and_click(self.setting_tab, "기본 설정 탭 클릭")
         time.sleep(0.7)
     
     #### 기본값 설정 정보 입력
@@ -138,32 +140,37 @@ class GelattoProduct(BaseAction):
         info("[Input_values] 기본값 설정 정보 입력 완료")
 
     def click_save(self):
-        self.driver.find_element(*self.save_btn).click()
+        info("저장하기")
+        self.wait_and_click(self.save_btn, "저장 버튼")
         time.sleep(1)
         ## 모달에서 확인 클릭
         self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
+        info("저장 완료")
     
     ######################## 용어 사전 활동 -------------------------
     #### 용어 사전 진입
     def enter_dict(self):
-        self.driver.find_element(*self.lnb_dict).click()
+        info("용어 사진 진입")
+        self.wait_and_click(self.lnb_dict, "용어 사전")
         time.sleep(1)
     
     ##### 제한 주제 탭 클릭
     def click_constrict_topic(self):
-        self.driver.find_element(*self.constrict_topic).click()
+        info("제한 주제")
+        self.wait_and_click(self.constrict_topic, "제한 주제")
         time.sleep(1)
     
     ##### 새 주제 버튼 클릭
     def open_add_topic_modal(self):
-        self.driver.find_element(*self.new_topic_btn).click()
+        info("새 주제")
+        self.wait_and_click(self.new_topic_btn, "새 주제")
         time.sleep(0.7)
     
     ##### 제한 주제 등록
     def add_topic(self, topic):
-        self.driver.find_element(*self.topic_box).send_keys(f'[AUTO] topic')
+        self.find(self.topic_box, "제한 주제 등록").send_keys(f'[AUTO] topic')
         time.sleep(1)
-        self.driver.find_element(*self.add_btn).click()
+        self.wait_and_click(*self.add_btn,"등록 버튼 클릭")
         time.sleep(0.7)
         
     ##### 전문 용어 탭 클릭
