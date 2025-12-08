@@ -118,13 +118,13 @@ class GelattoProduct(BaseAction):
     #### 젤라도 만들기 진입
     def enter_make_gelatto(self):
         info("젤라또 만들기 진입")
-        self.wait_and_click(self.lnb_make_gelatto, "젤라또 만들기 클릭")
+        self.wait_and_click(EC.element_to_be_clickable, self.lnb_make_gelatto, "젤라또 만들기 클릭")
         time.sleep(1)
 
     #### 기본 설정 탭
     def click_setting_tab(self):
         info("기본 설정 탭")
-        self.wait_and_click(self.setting_tab, "기본 설정 탭 클릭")
+        self.wait_and_click(EC.presence_of_element_located, self.setting_tab, "기본 설정 탭 클릭")
         time.sleep(0.7)
     
     #### 기본값 설정 정보 입력
@@ -141,7 +141,7 @@ class GelattoProduct(BaseAction):
 
     def click_save(self):
         info("저장하기")
-        self.wait_and_click(self.save_btn, "저장 버튼")
+        self.wait_and_click(EC.element_to_be_clickable, self.save_btn, "저장 버튼")
         time.sleep(1)
         ## 모달에서 확인 클릭
         self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
@@ -151,36 +151,36 @@ class GelattoProduct(BaseAction):
     #### 용어 사전 진입
     def enter_dict(self):
         info("용어 사진 진입")
-        self.wait_and_click(self.lnb_dict, "용어 사전")
+        self.wait_and_click(EC.element_to_be_clickable, self.lnb_dict, "용어 사전")
         time.sleep(1)
     
     ##### 제한 주제 탭 클릭
     def click_constrict_topic(self):
         info("제한 주제")
-        self.wait_and_click(self.constrict_topic, "제한 주제")
+        self.wait_and_click(EC.element_to_be_clickable, self.constrict_topic, "제한 주제")
         time.sleep(1)
     
     ##### 새 주제 버튼 클릭
     def open_add_topic_modal(self):
         info("새 주제")
-        self.wait_and_click(self.new_topic_btn, "새 주제")
+        self.wait_and_click(EC.element_to_be_clickable, self.new_topic_btn, "새 주제")
         time.sleep(0.7)
     
     ##### 제한 주제 등록
     def add_topic(self, topic):
         self.find(self.topic_box, "제한 주제 등록").send_keys(f'[AUTO] topic')
         time.sleep(1)
-        self.wait_and_click(*self.add_btn,"등록 버튼 클릭")
+        self.wait_and_click(EC.element_to_be_clickable, self.add_btn, "등록 버튼 클릭")
         time.sleep(0.7)
         
     ##### 전문 용어 탭 클릭
     def click_professional_word(self):
-        self.driver.find_element(*self.professional_word).click()
+        self.wait_and_click(EC.element_to_be_clickable, self.professional_word)
         time.sleep(0.7)
     
     ##### 새 단어 버튼 클릭
     def open_new_word_modal(self):
-        self.driver.find_element(*self.new_word_btn).click()
+        self.wait_and_click(EC.element_to_be_clickable, ,self.new_word_btn)
         time.sleep(0.7)
 
     ##### 새 단어 등록
