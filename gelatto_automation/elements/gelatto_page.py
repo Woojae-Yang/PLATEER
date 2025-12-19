@@ -200,7 +200,7 @@ class GelattoProduct(BaseAction):
     #### 분석 리포트 진입
     def enter_report(self):
         info("분석리포트 진입")
-        self.wait_and_click(self.lnb_report, "LNB 분석리포트")
+        self.find(self.lnb_report, "LNB 분석리포트").click()
         time.sleep(1)
 
     def select_period(self):
