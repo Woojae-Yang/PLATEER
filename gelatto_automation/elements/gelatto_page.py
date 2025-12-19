@@ -192,7 +192,7 @@ class GelattoProduct(BaseAction):
         self.find(self.word_box, "단어 텍스트박스").send_keys(f'[AUTO] word')
         self.find(self.description_box, "정의 텍스트박스").send_keys(f'[AUTO] description')
         time.sleep(1)
-        self.wait_and_click(self.add_btn_word, "등록 버튼")
+        self.wait_and_click(EC.presence_of_element_located, self.add_btn_word, "등록 버튼")
         info("새 단어 등록 완료")
         time.sleep(0.5)
     
@@ -200,19 +200,19 @@ class GelattoProduct(BaseAction):
     #### 분석 리포트 진입
     def enter_report(self):
         info("분석리포트 진입")
-        self.find(self.lnb_report, "LNB 분석리포트").click()
+        self.wait_and_click(EC.element_to_be_clickable, self.lnb_report, "LNB 분석리포트")
         time.sleep(1)
 
     def select_period(self):
         info("조회 기간")
-        self.wait_and_click(self.period_dropdown, "기간 드롭다운 박스")
-        self.wait_and_click(self.dropdown_6h, "6시간")
+        self.wait_and_click(EC.element_to_be_clickable, self.period_dropdown, "기간 드롭다운 박스")
+        self.wait_and_click(EC.element_to_be_clickable, self.dropdown_6h, "6시간")
         print("조회 기간 : 6시간")
                                                               
     #### 봇 분석 탭 진입
     def enter_bot_analy(self):
         info("봇 분석 탭 진입")
-        self.wait_and_click(self.bot_analy_tab, "봇 분석 탭")
+        self.wait_and_click(EC.element_to_be_clickable, self.bot_analy_tab, "봇 분석 탭")
         time.sleep(1)
     
     ##### 챗봇 응답 대화 수 출력
@@ -233,7 +233,7 @@ class GelattoProduct(BaseAction):
     #### 봇 내역 탭 진입
     def enter_bot_history(self):
         info("봇 내역 탭 진입")
-        self.wait_and_click(self.bot_history_tab)
+        self.wait_and_click(EC.element_to_be_clickable, self.bot_history_tab, "봇 내역 탭")
         time.sleep(1)
 
     ##### 데이터 테이블 > 내역 일시

@@ -1,6 +1,7 @@
 
 import platform 
 import traceback
+import time
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import (
     NoSuchElementException, 
@@ -18,6 +19,7 @@ def clear_input(elem, name = "input field"):
         elem.click()
         elem.send_keys(modifier, "a")
         elem.send_keys(Keys.DELETE)
+        time.sleep(0.7)
         info(f"[clear_input] Cleared text in {name}")
         return True
     except Exception as e:
