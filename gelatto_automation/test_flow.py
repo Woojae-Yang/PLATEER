@@ -98,7 +98,6 @@ if __name__ == "__main__":
     sent_txt, reply_txt = chat_flow.test_chatbot()
     print(sent_txt, reply_txt)
 
-    
     history_time, usr_msg = gelatto.get_msg_info()
     print(history_time, usr_msg)
 

@@ -118,7 +118,7 @@ class GelattoProduct(BaseAction):
     #### 젤라도 만들기 진입
     def enter_make_gelatto(self):
         info("젤라또 만들기 진입")
-        self.wait_and_click(EC.element_to_be_clickable, self.lnb_make_gelatto, "젤라또 만들기 클릭")
+        self.wait_and_click(EC.element_to_be_clickable, self.lnb_make_gelatto, "LNB 젤라또 만들기 클릭")
         time.sleep(1)
 
     #### 기본 설정 탭
@@ -151,7 +151,7 @@ class GelattoProduct(BaseAction):
     #### 용어 사전 진입
     def enter_dict(self):
         info("용어 사진 진입")
-        self.wait_and_click(EC.element_to_be_clickable, self.lnb_dict, "용어 사전")
+        self.wait_and_click(EC.element_to_be_clickable, self.lnb_dict, "LNB 용어 사전")
         time.sleep(1)
     
     ##### 제한 주제 탭 클릭
@@ -168,6 +168,7 @@ class GelattoProduct(BaseAction):
     
     ##### 제한 주제 등록
     def add_topic(self, topic):
+        info("제한 주제")
         self.find(self.topic_box, "제한 주제 등록").send_keys(f'[AUTO] topic')
         time.sleep(1)
         self.wait_and_click(EC.element_to_be_clickable, self.add_btn, "등록 버튼 클릭")
@@ -175,62 +176,75 @@ class GelattoProduct(BaseAction):
         
     ##### 전문 용어 탭 클릭
     def click_professional_word(self):
-        self.wait_and_click(EC.element_to_be_clickable, self.professional_word)
+        info("전문 용어")
+        self.wait_and_click(EC.element_to_be_clickable, self.professional_word, "전문 용어 탭")
         time.sleep(0.7)
     
     ##### 새 단어 버튼 클릭
     def open_new_word_modal(self):
-        self.wait_and_click(EC.element_to_be_clickable, ,self.new_word_btn)
+        info("새 단어")
+        self.wait_and_click(EC.element_to_be_clickable, self.new_word_btn, "새 단어")
         time.sleep(0.7)
 
     ##### 새 단어 등록
     def add_word_dscr(self, word, description):
-        self.driver.find_element(*self.word_box).send_keys(f'[AUTO] word')
-        self.driver.find_element(*self.description_box).send_keys(f'[AUTO] description')
+        info("새 단어 등록")
+        self.find(self.word_box, "단어 텍스트박스").send_keys(f'[AUTO] word')
+        self.find(self.description_box, "정의 텍스트박스").send_keys(f'[AUTO] description')
         time.sleep(1)
-        self.driver.find_element(*self.add_btn_word).click()
+        self.wait_and_click(self.add_btn_word, "등록 버튼")
+        info("새 단어 등록 완료")
         time.sleep(0.5)
     
     ######################## 분석 리포트 활동 -------------------------
     #### 분석 리포트 진입
     def enter_report(self):
-        self.driver.find_element(*self.lnb_report).click()
+        info("분석리포트 진입")
+        self.wait_and_click(self.lnb_report, "LNB 분석리포트")
         time.sleep(1)
 
     def select_period(self):
-        self.driver.find_element(*self.period_dropdown).click()
-        self.driver.find_element(*self.dropdown_6h).click()
+        info("조회 기간")
+        self.wait_and_click(self.period_dropdown, "기간 드롭다운 박스")
+        self.wait_and_click(self.dropdown_6h, "6시간")
         print("조회 기간 : 6시간")
                                                               
     #### 봇 분석 탭 진입
     def enter_bot_analy(self):
-        self.driver.find_element(*self.bot_analy_tab).click()
+        info("봇 분석 탭 진입")
+        self.wait_and_click(self.bot_analy_tab, "봇 분석 탭")
         time.sleep(1)
     
     ##### 챗봇 응답 대화 수 출력
     def get_conversation_cnt(self):
-        return self.driver.find_element(*self.conversation_response).text
+        info("응답 대화 수")
+        return self.find(self.conversation_response, "응답 대화 수")
     
     ##### 챗봇 응답 메세지 수 출력
     def get_msg_cnt(self):
-        return self.driver.find_element(*self.msg_response).text
+        info("응답 메세지 수")
+        return self.find(self.msg_response, "응답 메세지 수").text
     
     ##### 평균 응답 메세지 수 출력
     def get_avg_cnt(self):
-        return self.driver.find_element(*self.avg_response).text
+        info("평균 응답 메세지 수")
+        return self.find(self.avg_response, "평균 응답 메세지 수 ").text
 
     #### 봇 내역 탭 진입
     def enter_bot_history(self):
-        self.driver.find_element(*self.bot_history_tab).click()
+        info("봇 내역 탭 진입")
+        self.wait_and_click(self.bot_history_tab)
         time.sleep(1)
 
     ##### 데이터 테이블 > 내역 일시
     def get_history_date(self):
+        info("데이터 테이블 > 내역 일시")
         # 내역 일시
-        return self.driver.find_element(*self.history_time_elem).text
+        return self.find(self.history_time_elem, "내역 일시").text
         
     ##### 데이터 테이블 > 사용자 메세지
     def get_usr_msg(self):
-        return self.driver.find_element(*self.usr_msg_elem).text
+        info("데이터 테이블 > 사용자 메세지")
+        return self.find(self.usr_msg_elem, "사용자 메세지").text
         
     
