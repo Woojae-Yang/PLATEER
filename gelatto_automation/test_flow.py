@@ -8,6 +8,8 @@ from elements.chatbot_page import ChatbotService
 from actions.chatbot_action import ChatbotAction
 from actions.gelatto_action import GelattoAction
 
+from setup.logger import info
+
 class MainFlow:
 
     def __init__(self, driver, wait):
@@ -73,6 +75,13 @@ class ChatbotFlow:
         sent_txt, reply_txt = self.chatbot.chatbot_circle()
         return sent_txt, reply_txt
     
+    def repeat_chatbot_circle(self, count=25):
+        for i in range(1, count+1):
+            print(f"[Chatbot] Iteration {i}/{count}")
+            info(f"[Chatbot] Iteration {i}/{count}")
+            self.chatbot.chatbot_circle()
+
+
 class GelattoFlow:
 
     def __init__(self, driver, wait, tab):
@@ -94,9 +103,15 @@ if __name__ == "__main__":
     chat_flow = ChatbotFlow(driver, wait, main_flow.chatbot_tab)
     gelatto = GelattoAction(driver, wait, main_flow.gelatto_tab)
 
+    # 챗봇 전송 확인
     gelatto.make_gelatto()
+    old_credit = int(gelatto.get_credit_cnt())
     sent_txt, reply_txt = chat_flow.test_chatbot()
     print(sent_txt, reply_txt)
+    
+    #챗봇 메세지 반복 전송
+    chat_flow.repeat_chatbot_circle()
+    new_credit = int(gelatto.get_credit_cnt())
 
     history_time, usr_msg = gelatto.get_msg_info()
     print(history_time, usr_msg)
@@ -106,5 +121,10 @@ if __name__ == "__main__":
     else:
         print("chatbot message NG")
 
+    if new_credit -1 == old_credit:
+        print("크레딧 수치 변화 정상 동작")
+    else:
+        print("크레딧 수치 변화 NG")
+        
     gelatto.register_topic()
     gelatto.register_word()

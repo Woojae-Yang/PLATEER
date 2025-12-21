@@ -123,7 +123,6 @@ class ChatbotLogin:
     
     def open_shop_page(self):
         self.switch_tab()
-
         ### yaml 파일에서 shop_page URL 불러오기
         shop_url = self.config.shop_url
         self.driver.get(shop_url)
@@ -143,6 +142,7 @@ class ChatbotLogin:
         self.click_chatbot()
         self.switch_to_tab()
         time.sleep(3)
+        info("Shop Chatbot Loaded!")
         print("Shop Chatbot Loaded!")
 
 
