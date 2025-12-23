@@ -41,7 +41,7 @@ class ChatbotService(BaseAction):
     def create_new(self):
         self.switch_tab()
         info("새로운 대화 생성")
-        self.wait_and_click(self.new_chat_btn)
+        self.wait_and_click(EC.element_to_be_clickable, self.new_chat_btn, "새로운 대화")
         time.sleep(2)
 
     def send_message(self, date_time):

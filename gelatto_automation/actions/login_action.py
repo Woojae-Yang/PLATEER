@@ -129,7 +129,7 @@ class ChatbotLogin:
         time.sleep(3)
     
     def click_chatbot(self):
-        self.driver.find_element(*self.chatbot_btn).click()
+        self.wait.until(EC.element_to_be_clickable(self.chatbot_btn)).click()
         time.sleep(1)
 
     def switch_to_tab(self):
