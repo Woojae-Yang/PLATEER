@@ -85,8 +85,9 @@ class GelattoAction:
     def get_credit_cnt(self):
         info("당월 사용 크레딧 확인")
         self.gelatto.switch_tab()
-        self.driver.refresh()
-        time.sleep(0.7)
+        time.sleep(0.5)
+        self.gelatto.enter_dashboard()
+        time.sleep(0.5)
         return self.gelatto.get_credit_cnt()
 
         
