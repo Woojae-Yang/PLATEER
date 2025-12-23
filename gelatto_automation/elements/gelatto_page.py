@@ -118,7 +118,7 @@ class GelattoProduct(BaseAction):
 
     def get_credit_cnt(self):
         info("당월 사용 크레딧")
-        self.wait_and_click(EC.presence_of_all_elements_located, self.used_credit, "당월 사용 크레딧")
+        self.wait_and_click(EC.presence_of_element_located, self.used_credit, "당월 사용 크레딧")
         print(self.find(self.used_credit, "당월 사용 크레딧").text)
         return self.find(self.used_credit, "당월 사용 크레딧").text
 
