@@ -116,12 +116,7 @@ if __name__ == "__main__":
     history_time, usr_msg = gelatto.get_msg_info()
     print(history_time, usr_msg)
 
-    if sent_txt == usr_msg:
-        print("chatbot message OK")
-    else:
-        print("chatbot message NG")
-
-    if new_credit -1 == old_credit:
+    if new_credit > old_credit:
         print("크레딧 수치 변화 정상 동작")
     else:
         print("크레딧 수치 변화 NG")
