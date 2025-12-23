@@ -33,7 +33,7 @@ class GelattoProduct(BaseAction):
     ### [최근 활동 내역] > 1번째 내용
     recent_log = (By.XPATH, "/html/body/div[2]/div[3]/div/div/div[2]/div[1]/div[1]")
     ### 당월 사용 크레딧
-    used_credit = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[2]/div/div[3]")
+    used_credit = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[2]/div/div[3]/div[2]/h5")
                 
     ## 젤라또 만들기 -------------------------
     ### 기본 설정 탭
