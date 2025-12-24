@@ -8,7 +8,7 @@ from elements.chatbot_page import ChatbotService
 from actions.chatbot_action import ChatbotAction
 from actions.gelatto_action import GelattoAction
 
-from setup.logger import info
+from setup.logger import info, error 
 
 class MainFlow:
 
@@ -116,9 +116,11 @@ if __name__ == "__main__":
     history_time, usr_msg = gelatto.get_msg_info()
     print(history_time, usr_msg)
 
-    if new_credit > old_credit:
-        print("크레딧 수치 변화 정상 동작")
+    if new_credit-1 == old_credit:
+        info("크레딧 수치 변화 OK")
+        print("크레딧 수치 변화 OK")
     else:
+        error("크레딧 수치 변화 NG")
         print("크레딧 수치 변화 NG")
         
     gelatto.register_topic()
