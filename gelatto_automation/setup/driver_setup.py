@@ -18,7 +18,7 @@ def create_driver():
     options = Options()
     
     # headless 옵션 설정
-    #options.add_argument('--headless')
+    options.add_argument('--headless')
     options.add_argument("--no-sandbox")
     
     # 브라우저 윈도우 사이즈
@@ -45,7 +45,7 @@ def create_driver():
     # 드라이버 위치 경로 입력
     driver = webdriver.Chrome(service = service, options = options)
     #driver.maximize_window() ## 도커에선 일단 OFF
-    #driver.set_window_size(2560, 2000)
+    driver.set_window_size(2560, 2000)
 
     wait = WebDriverWait(driver, 15)
     
