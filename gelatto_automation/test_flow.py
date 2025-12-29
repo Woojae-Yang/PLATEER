@@ -53,7 +53,7 @@ class MainFlow:
         shop_tab = handles[shop_tab_idx]
         shop = ChatbotLogin(driver, wait, shop_tab, shop_tab_idx)
         shop.enter_chatbot()
-        time.sleep(2)
+        time.sleep(3)
 
         # Chatbot
         handles = driver.window_handles
@@ -61,7 +61,7 @@ class MainFlow:
         self.chatbot_tab = handles[self.chatbot_tab_idx]
         self.chatbot = ChatbotService(driver, wait, self.chatbot_tab)
         self.chatbot.switch_tab()
-        time.sleep(2)
+        time.sleep(3)
 
 class ChatbotFlow:
 

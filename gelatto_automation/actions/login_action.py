@@ -106,7 +106,7 @@ class EnterGelatto:
         print("Gelatto Page Loaded!")
 
     def wait_gelatto_dash(self):
-        time.sleep(2)
+        time.sleep(3)
         # 대시보드 메뉴 노출까지 대기
         self.wait.until(
             EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
@@ -132,7 +132,7 @@ class ChatbotLogin:
     
     def switch_tab(self):
         self.driver.switch_to.window(self.tab)
-        time.sleep(2)
+        time.sleep(3)
     
     def open_shop_page(self):
         self.switch_tab()
@@ -143,7 +143,7 @@ class ChatbotLogin:
     
     def click_chatbot(self):
         self.wait.until(EC.element_to_be_clickable(self.chatbot_btn)).click()
-        time.sleep(1.3)
+        time.sleep(2)
 
     def switch_to_tab(self):
         tabs = self.driver.window_handles

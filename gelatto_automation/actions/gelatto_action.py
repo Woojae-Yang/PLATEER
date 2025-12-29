@@ -30,7 +30,7 @@ class GelattoAction:
     # 젤라또 만들기
     def make_gelatto(self):
         self.gelatto.switch_tab()
-        time.sleep(2)
+        time.sleep(3)
         self.gelatto.driver.save_screenshot("./logs/ebug.png")
         info("젤라또 만들기")
         # 젤라또 만들기 진입
@@ -44,7 +44,7 @@ class GelattoAction:
     def get_msg_info(self):
         info("[봇 내역]탭에서 데이터 추출하기")
         self.gelatto.switch_tab()
-        time.sleep(2)
+        time.sleep(3)
         # 분석 리포트 진입
         self.gelatto.enter_report()
         # 봇 내역 탭 진입
@@ -60,20 +60,20 @@ class GelattoAction:
     def register_topic(self):
         info("제한 주제 등록")
         self.gelatto.switch_tab()
-        time.sleep(2)
+        time.sleep(3)
         topic = self.config.get_topic
         # 용어 사전 진입
         self.gelatto.enter_dict()
         self.gelatto.click_constrict_topic()
         self.gelatto.open_add_topic_modal()
         self.gelatto.add_topic(topic)
-        time.sleep(1.2)
+        time.sleep(2)
 
     # 용어 사전 > 전문 용어 > 새 단어 > 전문 용어 등록
     def register_word(self):
         info("전문 용어 등록")
         self.gelatto.switch_tab()
-        time.sleep(2)
+        time.sleep(3)
         word = self.config.get_input_word
         description = self.config.get_input_description
         # 전문 용어 진입
@@ -81,15 +81,15 @@ class GelattoAction:
         self.gelatto.click_professional_word()
         self.gelatto.open_new_word_modal()
         self.gelatto.add_word_dscr(word, description)
-        time.sleep(1.2)
+        time.sleep(2)
 
     # 대시보드 > 당월 사용 크레딧
     def get_credit_cnt(self):
         info("당월 사용 크레딧 확인")
         self.gelatto.switch_tab()
-        time.sleep(0.8)
+        time.sleep(1.5)
         self.gelatto.enter_dashboard()
-        time.sleep(0.8)
+        time.sleep(1.5)
         return self.gelatto.get_credit_cnt()
 
         

@@ -19,10 +19,10 @@ class ChatbotAction:
     # 챗봇 > 새로운 대화 > 대화창 입력 > 전송 버튼 (Keys.ENTER) > 응답 메세지 추출
     def chatbot_circle(self):
         self.chatbot.switch_tab()
-        time.sleep(1)
+        time.sleep(2)
 
         self.driver.refresh()
-        time.sleep(1)
+        time.sleep(2)
 
         #메세지 전송
         now = datetime.now()
@@ -32,7 +32,7 @@ class ChatbotAction:
         
         # 전송된 메세지
         sent_txt = self.chatbot.send_message(self.input_time)
-        time.sleep(5)
+        time.sleep(8)
         
         # 응답 메세지
         reply_txt = self.chatbot.get_reply_msg()

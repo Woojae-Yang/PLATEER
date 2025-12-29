@@ -105,12 +105,12 @@ class GelattoProduct(BaseAction):
     def enter_dashboard(self):
         info("대시보드 LNB")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
-        time.sleep(1)
+        time.sleep(3)
 
     def enter_log_rnb(self):
         info("최근 활동 RNB")
         self.wait_and_click(EC.element_to_be_clickable, self.log_history_btn, "최근 활동 RNB 호출")
-        time.sleep(1)
+        time.sleep(3)
 
     def get_recent_log(self):
         info("최근 활동 내역 조회")
@@ -133,7 +133,7 @@ class GelattoProduct(BaseAction):
     def click_setting_tab(self):
         info("기본 설정 탭")
         self.wait_and_click(EC.presence_of_element_located, self.setting_tab, "기본 설정 탭 클릭")
-        time.sleep(1.3)
+        time.sleep(2.5)
     
     #### 기본값 설정 정보 입력
     def input_values(self):
@@ -144,13 +144,13 @@ class GelattoProduct(BaseAction):
         self.input(self.hello_box, "Hello Gelatto", "첫 인사")
         # 플레이스홀더
         self.input(self.placeholder, "Automation Placeholder", "플레이스홀더")
-        time.sleep(1.3)
+        time.sleep(2.5)
         info("[Input_values] 기본값 설정 정보 입력 완료")
 
     def click_save(self):
         info("저장하기")
         self.wait_and_click(EC.element_to_be_clickable, self.save_btn, "저장 버튼")
-        time.sleep(1.3)
+        time.sleep(3)
         ## 모달에서 확인 클릭
         self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
         info("저장 완료")
@@ -160,56 +160,56 @@ class GelattoProduct(BaseAction):
     def enter_dict(self):
         info("용어 사진 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_dict, "LNB 용어 사전")
-        time.sleep(1.3)
+        time.sleep(2.5)
     
     ##### 제한 주제 탭 클릭
     def click_constrict_topic(self):
         info("제한 주제")
         self.wait_and_click(EC.element_to_be_clickable, self.constrict_topic, "제한 주제")
-        time.sleep(1.3)
+        time.sleep(2.5)
     
     ##### 새 주제 버튼 클릭
     def open_add_topic_modal(self):
         info("새 주제")
         self.wait_and_click(EC.element_to_be_clickable, self.new_topic_btn, "새 주제")
-        time.sleep(1)
+        time.sleep(2.5)
     
     ##### 제한 주제 등록
     def add_topic(self, topic):
         info("제한 주제")
         self.find(self.topic_box, "제한 주제 등록").send_keys(f'[AUTO] topic')
-        time.sleep(1.2)
+        time.sleep(3)
         self.wait_and_click(EC.element_to_be_clickable, self.add_btn, "등록 버튼 클릭")
-        time.sleep(1)
+        time.sleep(2)
         
     ##### 전문 용어 탭 클릭
     def click_professional_word(self):
         info("전문 용어")
         self.wait_and_click(EC.element_to_be_clickable, self.professional_word, "전문 용어 탭")
-        time.sleep(1)
+        time.sleep(2)
     
     ##### 새 단어 버튼 클릭
     def open_new_word_modal(self):
         info("새 단어")
         self.wait_and_click(EC.element_to_be_clickable, self.new_word_btn, "새 단어")
-        time.sleep(1)
+        time.sleep(2)
 
     ##### 새 단어 등록
     def add_word_dscr(self, word, description):
         info("새 단어 등록")
         self.find(self.word_box, "단어 텍스트박스").send_keys(f'[AUTO] word')
         self.find(self.description_box, "정의 텍스트박스").send_keys(f'[AUTO] description')
-        time.sleep(1)
+        time.sleep(2)
         self.wait_and_click(EC.presence_of_element_located, self.add_btn_word, "등록 버튼")
         info("새 단어 등록 완료")
-        time.sleep(0.8)
+        time.sleep(1.5)
     
     ######################## 분석 리포트 활동 -------------------------
     #### 분석 리포트 진입
     def enter_report(self):
         info("분석리포트 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_report, "LNB 분석리포트")
-        time.sleep(1.2)
+        time.sleep(2)
 
     def select_period(self):
         info("조회 기간")
@@ -221,7 +221,7 @@ class GelattoProduct(BaseAction):
     def enter_bot_analy(self):
         info("봇 분석 탭 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.bot_analy_tab, "봇 분석 탭")
-        time.sleep(1.2)
+        time.sleep(2)
     
     ##### 챗봇 응답 대화 수 출력
     def get_conversation_cnt(self):
@@ -242,7 +242,7 @@ class GelattoProduct(BaseAction):
     def enter_bot_history(self):
         info("봇 내역 탭 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.bot_history_tab, "봇 내역 탭")
-        time.sleep(1.2)
+        time.sleep(2)
 
     ##### 데이터 테이블 > 내역 일시
     def get_history_date(self):
