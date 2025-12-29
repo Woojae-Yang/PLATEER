@@ -47,6 +47,6 @@ def create_driver():
     #driver.maximize_window() ## 도커에선 일단 OFF
     driver.set_window_size(2560, 2000)
 
-    wait = WebDriverWait(driver, 15)
+    wait = WebDriverWait(driver, 20)
     
     return driver, wait

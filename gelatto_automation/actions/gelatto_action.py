@@ -34,7 +34,9 @@ class GelattoAction:
         self.gelatto.driver.save_screenshot("./logs/ebug.png")
         info("젤라또 만들기")
         # 젤라또 만들기 진입
+        info(f"[DEBUG-before] url={self.driver.current_url} handles={self.driver.window_handles}")
         self.gelatto.enter_make_gelatto()
+        info(f"[DEBUG-after] url={self.driver.current_url} handles={self.driver.window_handles}")
         self.gelatto.click_setting_tab()
         self.gelatto.input_values()
         self.gelatto.click_save()
