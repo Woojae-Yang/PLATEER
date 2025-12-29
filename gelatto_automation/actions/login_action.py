@@ -106,10 +106,10 @@ class EnterGelatto:
         print("Gelatto Page Loaded!")
 
     def wait_gelatto_dash(self):
-        time.sleep(1)
+        time.sleep(2)
         # 대시보드 메뉴 노출까지 대기
         self.wait.until(
-            EC.visibility_of_element_located(self.gelatto_page.lnb_dashboard)
+            EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
         )
         info("잴라또 대시보드 노출")
         print("젤라또 대시보드 노출")

@@ -31,10 +31,10 @@ class GelattoAction:
     def make_gelatto(self):
         self.gelatto.switch_tab()
         time.sleep(2)
+        self.gelatto.driver.save_screenshot("./logs/ebug.png")
         info("젤라또 만들기")
         # 젤라또 만들기 진입
         self.gelatto.enter_make_gelatto()
-        self.gelatto.driver.save_screenshot("./logs/ebug.png")
         self.gelatto.click_setting_tab()
         self.gelatto.input_values()
         self.gelatto.click_save()

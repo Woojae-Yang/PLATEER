@@ -127,7 +127,7 @@ class GelattoProduct(BaseAction):
     def enter_make_gelatto(self):
         info("젤라또 만들기 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_make_gelatto, "LNB 젤라또 만들기 클릭")
-        time.sleep(2)
+        time.sleep(3)
 
     #### 기본 설정 탭
     def click_setting_tab(self):
