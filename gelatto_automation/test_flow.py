@@ -36,6 +36,7 @@ class MainFlow:
         self.gelatto_tab_idx = 1   # 두번째 탭
         self.gelatto = EnterGelatto(driver, wait, self.gelatto_tab_idx)
         self.gelatto.enter_gelatto()
+        self.gelatto.wait_gelatto_dash()
         time.sleep(2)
 
         # 탭 추가 오픈
