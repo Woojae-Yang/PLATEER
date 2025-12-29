@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 from setup.config_loader import ConfigLoader
 from elements.login_page import LoginPage
+from elements.gelatto_page import GelattoProduct
 
 from setup.logger import info
 
@@ -73,12 +74,15 @@ class EnterGelatto:
     # gelatto 요소
     gelatto_elem = (By.XPATH, "//div[contains(text(),'gelatto')]")
 
+
     # -------------------------함수 선언 영역-------------------------
 
     def __init__(self, driver, wait, target_tab_idx):
         self.driver = driver
         self.wait = wait
         self.target_tab_idx = target_tab_idx
+        # 페이지 객체 주입
+        self.gelatto_page = GelattoProduct(driver, wait, target_tab_idx)
 
     def switch_tab(self):
         self.driver.switch_to.window(self.tab)
@@ -100,6 +104,15 @@ class EnterGelatto:
         time.sleep(3)
         info("Gelatto Page Loaded!")
         print("Gelatto Page Loaded!")
+
+    def wait_gelatto_dash(self):
+        time.sleep(1)
+        # 대시보드 메뉴 노출까지 대기
+        self.wait.until(
+            EC.visibility_of_element_located(self.gelatto_page.lnb_dashboard)
+        )
+        info("잴라또 대시보드 노출")
+        print("젤라또 대시보드 노출")
 
 
 class ChatbotLogin:
