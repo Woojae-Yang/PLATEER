@@ -45,7 +45,7 @@ class GelattoProduct(BaseAction):
     #### 플레이스홀더
     placeholder = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div[2]/div/div/div/div/div[2]/div[1]/div[8]/div[2]/div/div/input")
     #### 저장 btn
-    save_btn = (By.XPATH, "//button[contains(text(), '저장')]")
+    save_btn = (By.XPATH, "//button[., '저장')]")
 
 
     ## 용어 사전 -------------------------
@@ -127,13 +127,13 @@ class GelattoProduct(BaseAction):
     def enter_make_gelatto(self):
         info("젤라또 만들기 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_make_gelatto, "LNB 젤라또 만들기 클릭")
-        time.sleep(1.2)
+        time.sleep(2)
 
     #### 기본 설정 탭
     def click_setting_tab(self):
         info("기본 설정 탭")
         self.wait_and_click(EC.presence_of_element_located, self.setting_tab, "기본 설정 탭 클릭")
-        time.sleep(1)
+        time.sleep(1.3)
     
     #### 기본값 설정 정보 입력
     def input_values(self):
@@ -144,13 +144,13 @@ class GelattoProduct(BaseAction):
         self.input(self.hello_box, "Hello Gelatto", "첫 인사")
         # 플레이스홀더
         self.input(self.placeholder, "Automation Placeholder", "플레이스홀더")
-        time.sleep(1)
+        time.sleep(1.3)
         info("[Input_values] 기본값 설정 정보 입력 완료")
 
     def click_save(self):
         info("저장하기")
         self.wait_and_click(EC.element_to_be_clickable, self.save_btn, "저장 버튼")
-        time.sleep(1)
+        time.sleep(1.3)
         ## 모달에서 확인 클릭
         self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
         info("저장 완료")
