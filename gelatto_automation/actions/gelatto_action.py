@@ -34,9 +34,11 @@ class GelattoAction:
         info("젤라또 만들기")
         # 젤라또 만들기 진입
         self.gelatto.enter_make_gelatto()
+        self.gelatto.driver.save_screenshot("./logs/ebug.png")
         self.gelatto.click_setting_tab()
         self.gelatto.input_values()
         self.gelatto.click_save()
+        
 
     # 분석 리포트 > `봇 내역` 탭 > 데이터 테이블 > 내역 일시, 사용자 메세지
     def get_msg_info(self):
