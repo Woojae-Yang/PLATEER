@@ -37,7 +37,8 @@ class BaseAction:
         return False
 
     # Optional: Wait and click
-    def wait_and_click(self, condition, locator, name="element"):
+    def wait_and_click(self, condition, locator, name="element")
+        info(name)
         try:
             self.wait.until(condition(locator))
             return self.click(locator, name)
