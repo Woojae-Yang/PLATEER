@@ -46,7 +46,7 @@ class ChatbotService(BaseAction):
 
     def send_message(self, date_time):
         self.switch_tab()
-        time.sleep(0.7)
+        time.sleep(1.3)
         # 채팅텍스트박스 진입
         info("채팅 텍스트박스 진입")
         text_input_box = self.find(self.text_input_elem, "채팅 입력 텍스트박스")
@@ -56,7 +56,7 @@ class ChatbotService(BaseAction):
         info("메세지 입력")
         message = f'[AUTO] QA Test {date_time}'
         text_input_box.send_keys(message)
-        time.sleep(1)
+        time.sleep(1.3)
         # 엔터키 입력
         info("메세지 전송")
         text_input_box.send_keys(Keys.ENTER)

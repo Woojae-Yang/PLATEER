@@ -30,7 +30,7 @@ class GelattoAction:
     # 젤라또 만들기
     def make_gelatto(self):
         self.gelatto.switch_tab()
-        time.sleep(1)
+        time.sleep(1.2)
         info("젤라또 만들기")
         # 젤라또 만들기 진입
         self.gelatto.enter_make_gelatto()
@@ -42,7 +42,7 @@ class GelattoAction:
     def get_msg_info(self):
         info("[봇 내역]탭에서 데이터 추출하기")
         self.gelatto.switch_tab()
-        time.sleep(1)
+        time.sleep(1.2)
         # 분석 리포트 진입
         self.gelatto.enter_report()
         # 봇 내역 탭 진입
@@ -51,27 +51,27 @@ class GelattoAction:
         history_time = self.gelatto.get_history_date()
         # 사용자 메세지
         usr_msg = self.gelatto.get_usr_msg()
-        time.sleep(1)
+        time.sleep(1.2)
         return history_time, usr_msg
     
     # 용어 사전 > 제한 주제 > 새 주제 > 제한 주제 등록
     def register_topic(self):
         info("제한 주제 등록")
         self.gelatto.switch_tab()
-        time.sleep(1)
+        time.sleep(1.2)
         topic = self.config.get_topic
         # 용어 사전 진입
         self.gelatto.enter_dict()
         self.gelatto.click_constrict_topic()
         self.gelatto.open_add_topic_modal()
         self.gelatto.add_topic(topic)
-        time.sleep(1)
+        time.sleep(1.2)
 
     # 용어 사전 > 전문 용어 > 새 단어 > 전문 용어 등록
     def register_word(self):
         info("전문 용어 등록")
         self.gelatto.switch_tab()
-        time.sleep(1)
+        time.sleep(1.2)
         word = self.config.get_input_word
         description = self.config.get_input_description
         # 전문 용어 진입
@@ -79,15 +79,15 @@ class GelattoAction:
         self.gelatto.click_professional_word()
         self.gelatto.open_new_word_modal()
         self.gelatto.add_word_dscr(word, description)
-        time.sleep(1)
+        time.sleep(1.2)
 
     # 대시보드 > 당월 사용 크레딧
     def get_credit_cnt(self):
         info("당월 사용 크레딧 확인")
         self.gelatto.switch_tab()
-        time.sleep(0.5)
+        time.sleep(0.8)
         self.gelatto.enter_dashboard()
-        time.sleep(0.5)
+        time.sleep(0.8)
         return self.gelatto.get_credit_cnt()
 
         

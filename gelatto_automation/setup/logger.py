@@ -2,6 +2,7 @@
 import sys
 import os
 import logging
+from datetime import datetime
 
 # Docker 컨테이너 안의 로그 디렉토리
 LOG_DIR = "./logs"
@@ -25,11 +26,11 @@ logging.basicConfig(
 )
 
 # 표준 오류 로그 리다이렉트
-sys.stderr = open(STDERR_FILE, "w", encoding="utf-8")
+sys.stderr = open(STDERR_FILE, "a", encoding="utf-8")
 
 logger = logging.getLogger("app_logger")
 
-def info(msg): logger.info(msg)
-def warn(msg): logger.warning(msg)
-def error(msg): logger.error(msg)
-def debug(msg): logger.debug(msg)
+def info(msg): logger.info(f'[{datetime.now()}]_{msg}')
+def warn(msg): logger.warning(f'[{datetime.now()}]_{msg}')
+def error(msg): logger.error(f'[{datetime.now()}]_{msg}')
+def debug(msg): logger.debug(f'[{datetime.now()}]_{msg}')

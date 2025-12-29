@@ -130,7 +130,7 @@ class ChatbotLogin:
     
     def click_chatbot(self):
         self.wait.until(EC.element_to_be_clickable(self.chatbot_btn)).click()
-        time.sleep(1)
+        time.sleep(1.3)
 
     def switch_to_tab(self):
         tabs = self.driver.window_handles

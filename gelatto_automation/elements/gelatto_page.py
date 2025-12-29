@@ -127,13 +127,13 @@ class GelattoProduct(BaseAction):
     def enter_make_gelatto(self):
         info("젤라또 만들기 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_make_gelatto, "LNB 젤라또 만들기 클릭")
-        time.sleep(1)
+        time.sleep(1.2)
 
     #### 기본 설정 탭
     def click_setting_tab(self):
         info("기본 설정 탭")
         self.wait_and_click(EC.presence_of_element_located, self.setting_tab, "기본 설정 탭 클릭")
-        time.sleep(0.7)
+        time.sleep(1)
     
     #### 기본값 설정 정보 입력
     def input_values(self):
@@ -160,39 +160,39 @@ class GelattoProduct(BaseAction):
     def enter_dict(self):
         info("용어 사진 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_dict, "LNB 용어 사전")
-        time.sleep(1)
+        time.sleep(1.3)
     
     ##### 제한 주제 탭 클릭
     def click_constrict_topic(self):
         info("제한 주제")
         self.wait_and_click(EC.element_to_be_clickable, self.constrict_topic, "제한 주제")
-        time.sleep(1)
+        time.sleep(1.3)
     
     ##### 새 주제 버튼 클릭
     def open_add_topic_modal(self):
         info("새 주제")
         self.wait_and_click(EC.element_to_be_clickable, self.new_topic_btn, "새 주제")
-        time.sleep(0.7)
+        time.sleep(1)
     
     ##### 제한 주제 등록
     def add_topic(self, topic):
         info("제한 주제")
         self.find(self.topic_box, "제한 주제 등록").send_keys(f'[AUTO] topic')
-        time.sleep(1)
+        time.sleep(1.2)
         self.wait_and_click(EC.element_to_be_clickable, self.add_btn, "등록 버튼 클릭")
-        time.sleep(0.7)
+        time.sleep(1)
         
     ##### 전문 용어 탭 클릭
     def click_professional_word(self):
         info("전문 용어")
         self.wait_and_click(EC.element_to_be_clickable, self.professional_word, "전문 용어 탭")
-        time.sleep(0.7)
+        time.sleep(1)
     
     ##### 새 단어 버튼 클릭
     def open_new_word_modal(self):
         info("새 단어")
         self.wait_and_click(EC.element_to_be_clickable, self.new_word_btn, "새 단어")
-        time.sleep(0.7)
+        time.sleep(1)
 
     ##### 새 단어 등록
     def add_word_dscr(self, word, description):
@@ -202,14 +202,14 @@ class GelattoProduct(BaseAction):
         time.sleep(1)
         self.wait_and_click(EC.presence_of_element_located, self.add_btn_word, "등록 버튼")
         info("새 단어 등록 완료")
-        time.sleep(0.5)
+        time.sleep(0.8)
     
     ######################## 분석 리포트 활동 -------------------------
     #### 분석 리포트 진입
     def enter_report(self):
         info("분석리포트 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_report, "LNB 분석리포트")
-        time.sleep(1)
+        time.sleep(1.2)
 
     def select_period(self):
         info("조회 기간")
@@ -221,7 +221,7 @@ class GelattoProduct(BaseAction):
     def enter_bot_analy(self):
         info("봇 분석 탭 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.bot_analy_tab, "봇 분석 탭")
-        time.sleep(1)
+        time.sleep(1.2)
     
     ##### 챗봇 응답 대화 수 출력
     def get_conversation_cnt(self):
@@ -242,7 +242,7 @@ class GelattoProduct(BaseAction):
     def enter_bot_history(self):
         info("봇 내역 탭 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.bot_history_tab, "봇 내역 탭")
-        time.sleep(1)
+        time.sleep(1.2)
 
     ##### 데이터 테이블 > 내역 일시
     def get_history_date(self):
