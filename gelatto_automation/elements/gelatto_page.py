@@ -21,11 +21,11 @@ class GelattoProduct(BaseAction):
     # -------------------------element 선언 영역-------------------------
     
     ## LNB
-    lnb_dashboard = (By.XPATH, "//p[contains(text(),'대시보드')]")
-    lnb_knwoledge = (By.XPATH, "//p[contains(text(),'지식 센터')]")
-    lnb_make_gelatto = (By.XPATH, "//p[contains(text(),'젤라또 만들기')]")
-    lnb_dict = (By.XPATH, "//p[contains(text(),'용어 사전')]")
-    lnb_report = (By.XPATH, "//p[contains(text(),'분석 리포트')]")
+    lnb_dashboard = (By.XPATH, "//*[contains(normalize-space(.), '대시보드')]")
+    lnb_knwoledge = (By.XPATH, "//*[contains(normalize-space(.), '지식 센터')]")
+    lnb_make_gelatto = (By.XPATH, "//*[contains(normalize-space(.), '젤라또 만들기')]")
+    lnb_dict = (By.XPATH, "//*[contains(normalize-space(.), '용어 사전')]")
+    lnb_report = (By.XPATH, "//*[contains(normalize-space(.), '분석 리포트')]")
 
     ## DashBoard -------------------------
     ### [최근 활동 내역] RNB 진입 버튼
