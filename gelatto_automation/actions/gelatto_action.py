@@ -30,7 +30,7 @@ class GelattoAction:
     # 젤라또 만들기
     def make_gelatto(self):
         self.gelatto.switch_tab()
-        time.sleep(1.2)
+        time.sleep(2)
         info("젤라또 만들기")
         # 젤라또 만들기 진입
         self.gelatto.enter_make_gelatto()
@@ -42,7 +42,7 @@ class GelattoAction:
     def get_msg_info(self):
         info("[봇 내역]탭에서 데이터 추출하기")
         self.gelatto.switch_tab()
-        time.sleep(1.2)
+        time.sleep(2)
         # 분석 리포트 진입
         self.gelatto.enter_report()
         # 봇 내역 탭 진입
@@ -58,7 +58,7 @@ class GelattoAction:
     def register_topic(self):
         info("제한 주제 등록")
         self.gelatto.switch_tab()
-        time.sleep(1.2)
+        time.sleep(2)
         topic = self.config.get_topic
         # 용어 사전 진입
         self.gelatto.enter_dict()
@@ -71,7 +71,7 @@ class GelattoAction:
     def register_word(self):
         info("전문 용어 등록")
         self.gelatto.switch_tab()
-        time.sleep(1.2)
+        time.sleep(2)
         word = self.config.get_input_word
         description = self.config.get_input_description
         # 전문 용어 진입

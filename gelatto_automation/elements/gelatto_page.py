@@ -45,7 +45,7 @@ class GelattoProduct(BaseAction):
     #### 플레이스홀더
     placeholder = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div[2]/div/div/div/div/div[2]/div[1]/div[8]/div[2]/div/div/input")
     #### 저장 btn
-    save_btn = (By.XPATH, "//button[., '저장')]")
+    save_btn = (By.XPATH, "//button[contains(text()), '저장')]")
 
 
     ## 용어 사전 -------------------------
