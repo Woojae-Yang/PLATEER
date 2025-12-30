@@ -19,9 +19,9 @@ def clear_input(elem, name = "input field"):
     try:
         elem.click()
         elem.send_keys(modifier, "a")
-        time.sleep(1)
+        time.sleep(2)
         elem.send_keys(Keys.DELETE)
-        time.sleep(1)
+        time.sleep(2)
         info(f"[clear_input] Cleared text in {name}")
         return True
     except Exception as e:

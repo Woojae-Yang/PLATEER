@@ -53,7 +53,7 @@ class AdminLogin:
         info("shop 검색")
         shop = self.config.get_shop
         self.login_page.search_shop().send_keys(shop)
-        time.sleep(1)
+        time.sleep(3)
         # shop 선택
         info("shop 선택")
         self.login_page.click_shop_login_btn().click()
@@ -63,7 +63,7 @@ class AdminLogin:
         )
         info("대시보드 노출")
         print("대시보드 노출")
-        time.sleep(1)
+        time.sleep(3)
 
 
 class EnterGelatto:

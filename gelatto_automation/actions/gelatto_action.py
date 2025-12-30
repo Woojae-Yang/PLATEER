@@ -55,7 +55,7 @@ class GelattoAction:
         history_time = self.gelatto.get_history_date()
         # 사용자 메세지
         usr_msg = self.gelatto.get_usr_msg()
-        time.sleep(1.2)
+        time.sleep(2)
         return history_time, usr_msg
     
     # 용어 사전 > 제한 주제 > 새 주제 > 제한 주제 등록
@@ -67,6 +67,7 @@ class GelattoAction:
         # 용어 사전 진입
         self.gelatto.enter_dict()
         self.gelatto.click_constrict_topic()
+        time.sleep(2)
         self.gelatto.open_add_topic_modal()
         self.gelatto.add_topic(topic)
         time.sleep(2)
@@ -81,6 +82,7 @@ class GelattoAction:
         # 전문 용어 진입
         self.gelatto.enter_dict()
         self.gelatto.click_professional_word()
+        time.sleep(2)
         self.gelatto.open_new_word_modal()
         self.gelatto.add_word_dscr(word, description)
         time.sleep(2)
@@ -89,9 +91,9 @@ class GelattoAction:
     def get_credit_cnt(self):
         info("당월 사용 크레딧 확인")
         self.gelatto.switch_tab()
-        time.sleep(1.5)
+        time.sleep(2)
         self.gelatto.enter_dashboard()
-        time.sleep(1.5)
+        time.sleep(2)
         return self.gelatto.get_credit_cnt()
 
         

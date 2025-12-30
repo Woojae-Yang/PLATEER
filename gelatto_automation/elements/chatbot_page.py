@@ -39,7 +39,9 @@ class ChatbotService(BaseAction):
 
     # 새로운 대화 생성
     def create_new(self):
+        time.sleep(1)
         self.switch_tab()
+        time.sleep(1)
         info("새로운 대화 생성")
         self.wait_and_click(EC.element_to_be_clickable, self.new_chat_btn, "새로운 대화")
         time.sleep(2)
@@ -66,6 +68,7 @@ class ChatbotService(BaseAction):
 
     def get_reply_msg(self):
         self.switch_tab()
+        time.sleep(2)
         reply_txt = self.find(self.bot_reply_elem, "챗봇 응답 메세지").text
         return reply_txt
 

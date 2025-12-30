@@ -113,6 +113,7 @@ class GelattoProduct(BaseAction):
         time.sleep(3)
 
     def get_recent_log(self):
+        time.sleep(2)
         info("최근 활동 내역 조회")
         return self.find(self.recent_log, "최근 활동 내역 조회").text
 
@@ -125,18 +126,21 @@ class GelattoProduct(BaseAction):
     ######################## 젤라또 만들기 활동 -------------------------
     #### 젤라도 만들기 진입
     def enter_make_gelatto(self):
+        time.sleep(2)
         info("젤라또 만들기 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_make_gelatto, "LNB 젤라또 만들기 클릭")
         time.sleep(3)
 
     #### 기본 설정 탭
     def click_setting_tab(self):
+        time.sleep(2)
         info("기본 설정 탭")
         self.wait_and_click(EC.presence_of_element_located, self.setting_tab, "기본 설정 탭 클릭")
         time.sleep(2.5)
     
     #### 기본값 설정 정보 입력
     def input_values(self):
+        time.sleep(2)
         info("[Input_values] 기본값 설정 정보 입력")
         # 대표 문구
         self.input(self.represnt_txt_box, "Automation Test", "대표 문구")
@@ -148,6 +152,7 @@ class GelattoProduct(BaseAction):
         info("[Input_values] 기본값 설정 정보 입력 완료")
 
     def click_save(self):
+        time.sleep(2)
         info("저장하기")
         self.wait_and_click(EC.element_to_be_clickable, self.save_btn, "저장 버튼")
         time.sleep(3)
@@ -196,6 +201,7 @@ class GelattoProduct(BaseAction):
 
     ##### 새 단어 등록
     def add_word_dscr(self, word, description):
+        time.sleep(2)
         info("새 단어 등록")
         self.find(self.word_box, "단어 텍스트박스").send_keys(f'[AUTO] word')
         self.find(self.description_box, "정의 텍스트박스").send_keys(f'[AUTO] description')
@@ -207,11 +213,13 @@ class GelattoProduct(BaseAction):
     ######################## 분석 리포트 활동 -------------------------
     #### 분석 리포트 진입
     def enter_report(self):
+        time.sleep(2)
         info("분석리포트 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.lnb_report, "LNB 분석리포트")
         time.sleep(2)
 
     def select_period(self):
+        time.sleep(2)
         info("조회 기간")
         self.wait_and_click(EC.element_to_be_clickable, self.period_dropdown, "기간 드롭다운 박스")
         self.wait_and_click(EC.element_to_be_clickable, self.dropdown_6h, "6시간")
@@ -219,22 +227,26 @@ class GelattoProduct(BaseAction):
                                                               
     #### 봇 분석 탭 진입
     def enter_bot_analy(self):
+        time.sleep(2)
         info("봇 분석 탭 진입")
         self.wait_and_click(EC.element_to_be_clickable, self.bot_analy_tab, "봇 분석 탭")
         time.sleep(2)
     
     ##### 챗봇 응답 대화 수 출력
     def get_conversation_cnt(self):
+        time.sleep(2)
         info("응답 대화 수")
         return self.find(self.conversation_response, "응답 대화 수")
     
     ##### 챗봇 응답 메세지 수 출력
     def get_msg_cnt(self):
+        time.sleep(2)
         info("응답 메세지 수")
         return self.find(self.msg_response, "응답 메세지 수").text
     
     ##### 평균 응답 메세지 수 출력
     def get_avg_cnt(self):
+        time.sleep(2)
         info("평균 응답 메세지 수")
         return self.find(self.avg_response, "평균 응답 메세지 수 ").text
 
@@ -246,12 +258,14 @@ class GelattoProduct(BaseAction):
 
     ##### 데이터 테이블 > 내역 일시
     def get_history_date(self):
+        time.sleep(2)
         info("데이터 테이블 > 내역 일시")
         # 내역 일시
         return self.find(self.history_time_elem, "내역 일시").text
         
     ##### 데이터 테이블 > 사용자 메세지
     def get_usr_msg(self):
+        time.sleep(2)
         info("데이터 테이블 > 사용자 메세지")
         return self.find(self.usr_msg_elem, "사용자 메세지").text
         
