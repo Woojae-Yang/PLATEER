@@ -3,12 +3,16 @@ import time
 from datetime import datetime
 
 from setup.driver_setup import create_driver
+from setup.config_loader import ConfigLoader
+
 from actions.login_action import AdminLogin, EnterGelatto, ChatbotLogin
-from elements.chatbot_page import ChatbotService
 from actions.chatbot_action import ChatbotAction
 from actions.gelatto_action import GelattoAction
 
+from elements.chatbot_page import ChatbotService
+
 from setup.logger import info, error 
+import setup.selenium_utils as util
 
 class MainFlow:
 
@@ -33,23 +37,26 @@ class MainFlow:
         admin_login.enter_shop()
 
         # Gelatto
-        self.gelatto_tab_idx = 1   # 두번째 탭
+        before = driver.window_handles[:]
+        self.gelatto_tab_idx = 1
         self.gelatto = EnterGelatto(driver, wait, self.gelatto_tab_idx)
         self.gelatto.enter_gelatto()
+        gelatto_handle = util.wait_new_tab(driver, before) 
+        self.driver.switch_to.window(gelatto_handle) 
         self.gelatto.wait_gelatto_dash()
         time.sleep(2)
+        self.gelatto_tab = gelatto_handle
 
         # 탭 추가 오픈
-        driver.execute_script("window.open('');") # 새로운 탭 오픈
+        before = driver.window_handles[:]
+        self.driver.execute_script("window.open('');") # 새로운 탭 오픈
         time.sleep(2)
+        blank_handle = util.wait_new_tab(driver, before)
+        self.driver.switch_to.window(blank_handle) 
 
-        # 열린 탭 모두 확인하여 인덱스 부여
-        handles = driver.window_handles
-        self.gelatto_tab = handles[self.gelatto_tab_idx]
-
-        # Shop
-        handles = driver.window_handles
-        shop_tab_idx = 2
+        # Shop (blank 탭에서 enter_chatbot 수행)
+        handles = driver.window_handles[:]
+        shop_tab_idx = -1
         shop_tab = handles[shop_tab_idx]
         shop = ChatbotLogin(driver, wait, shop_tab, shop_tab_idx)
         shop.enter_chatbot()
