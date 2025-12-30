@@ -3,6 +3,7 @@ import platform
 import traceback
 import time
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import (
     NoSuchElementException, 
     ElementClickInterceptedException, 
@@ -70,6 +71,12 @@ def safe_click(driver, locator, name="element"):
         debug(traceback.format_exc())
         return False
 
+
+def wait_new_tab(driver, before_handles, timeout=10):
+    WebDriverWait(driver, timeout).until(lambda d: len(d.window_handles) > len(before_handles))
+    after = set(driver.window_handles)
+    new_handle = list(after - set(before_handles))[0]
+    return new_handle
 
 
 '''
