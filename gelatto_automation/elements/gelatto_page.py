@@ -21,11 +21,11 @@ class GelattoProduct(BaseAction):
     # -------------------------element 선언 영역-------------------------
     
     ## LNB
-    lnb_dashboard = (By.XPATH, "//*[contains(normalize-space(.), '대시보드')]")
-    lnb_knwoledge = (By.XPATH, "//*[contains(normalize-space(.), '지식 센터')]")
-    lnb_make_gelatto = (By.XPATH, "//*[contains(normalize-space(.), '젤라또 만들기')]")
-    lnb_dict = (By.XPATH, "//*[contains(normalize-space(.), '용어 사전')]")
-    lnb_report = (By.XPATH, "//*[contains(normalize-space(.), '분석 리포트')]")
+    lnb_dashboard = (By.XPATH, "//*[contains(text(), '대시보드')]")
+    lnb_knwoledge = (By.XPATH, "//*[contains(text(), '지식 센터')]")
+    lnb_make_gelatto = (By.XPATH, "//*[contains(text(), '젤라또 만들기')]")
+    lnb_dict = (By.XPATH, "//*[contains(text(), '용어 사전')]")
+    lnb_report = (By.XPATH, "//*[contains(text(), '분석 리포트')]")
 
     ## DashBoard -------------------------
     ### [최근 활동 내역] RNB 진입 버튼
@@ -104,7 +104,7 @@ class GelattoProduct(BaseAction):
     ######################## 대시보드 활동 -------------------------
     def enter_dashboard(self):
         info("대시보드 LNB")
-        self.wait_and_click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
+        self.click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
         time.sleep(3)
 
     def enter_log_rnb(self):
@@ -135,7 +135,7 @@ class GelattoProduct(BaseAction):
     def click_setting_tab(self):
         time.sleep(2)
         info("기본 설정 탭")
-        self.wait_and_click(EC.presence_of_element_located, self.setting_tab, "기본 설정 탭 클릭")
+        self.wait_and_click(EC.element_to_be_clickable, self.setting_tab, "기본 설정 탭 클릭")
         time.sleep(2.5)
     
     #### 기본값 설정 정보 입력
