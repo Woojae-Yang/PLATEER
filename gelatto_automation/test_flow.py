@@ -39,7 +39,7 @@ class MainFlow:
 
         # Gelatto
         before = driver.window_handles[:]
-        #self.gelatto_tab_idx = 1
+        self.gelatto_tab_idx = 1
         self.gelatto = EnterGelatto(driver, wait, self.gelatto_tab_idx)
         self.gelatto.enter_gelatto()
         gelatto_handle = util.wait_new_tab(driver, before)
@@ -47,19 +47,20 @@ class MainFlow:
         self.gelatto.wait_gelatto_dash()
         time.sleep(2)
         self.gelatto_tab = gelatto_handle
-'''
+
+        '''
         # 탭 추가 오픈
         before = driver.window_handles[:]
         self.driver.execute_script("window.open('');") # 새로운 탭 오픈
         time.sleep(2)
         blank_handle = util.wait_new_tab(driver, before)
         self.driver.switch_to.window(blank_handle)
-'''
+        '''
+        
         # 탭 추가 오픈 (JS 사용 ❌)
         self.driver.switch_to.new_window(WindowTypes.TAB)
-
-        blank_handle = self.driver.current_window_handle
-        self.driver.switch_to.window(blank_handle)
+        blank_handle = driver.current_window_handle
+        driver.switch_to.window(blank_handle)
 
         # Shop (blank 탭에서 enter_chatbot 수행)
         handles = driver.window_handles[:]
