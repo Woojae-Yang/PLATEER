@@ -39,7 +39,7 @@ class MainFlow:
 
         # Gelatto
         before = driver.window_handles[:]
-        #self.gelatto_tab_idx = 1
+        self.gelatto_tab_idx = 1
         self.gelatto = EnterGelatto(driver, wait, self.gelatto_tab_idx)
         self.gelatto.enter_gelatto()
         gelatto_handle = util.wait_new_tab(driver, before)
