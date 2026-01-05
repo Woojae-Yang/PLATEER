@@ -139,7 +139,7 @@ if __name__ == "__main__":
         # driver.quit()
         pass
 
-    if new_credit-1 == old_credit:
+    if new_credit-2 == old_credit:
         info("크레딧 수치 변화 OK")
         print("크레딧 수치 변화 OK")
     else:
