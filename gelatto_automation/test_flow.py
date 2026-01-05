@@ -45,20 +45,16 @@ class MainFlow:
         gelatto_handle = util.wait_new_tab(driver, before)
         self.driver.switch_to.window(gelatto_handle)
         self.gelatto.wait_gelatto_dash()
-        print("gelatto going...")
         time.sleep(2)
         self.gelatto_tab = gelatto_handle
-        print(self.gelatto_tab)
 
         # 탭 추가 오픈
         before = driver.window_handles[:]
-        print(before)
         self.driver.execute_script("window.open('about:blank','_blank');") # 새로운 탭 오픈
         time.sleep(2)
         blank_handle = util.wait_new_tab(driver, before)
         self.driver.switch_to.window(blank_handle)
         
-
         # Shop (blank 탭에서 enter_chatbot 수행)
         handles = driver.window_handles[:]
         shop_tab_idx = -1
@@ -85,6 +81,8 @@ class ChatbotFlow:
     
     # 보낸 메세지, 응답 받은 메세지 
     def test_chatbot(self):
+        self.driver.refresh()
+        time.sleep(2)
         sent_txt, reply_txt = self.chatbot.chatbot_circle()
         return sent_txt, reply_txt
     
@@ -109,25 +107,37 @@ class GelattoFlow:
 
 
 if __name__ == "__main__":
+    import traceback
     driver, wait = create_driver()
+    try:
+        main_flow = MainFlow(driver, wait)
+        main_flow.prepare_main()
+        chat_flow = ChatbotFlow(driver, wait, main_flow.chatbot_tab)
+        gelatto = GelattoAction(driver, wait, main_flow.gelatto_tab)
 
-    main_flow = MainFlow(driver, wait)
-    main_flow.prepare_main()
-    chat_flow = ChatbotFlow(driver, wait, main_flow.chatbot_tab)
-    gelatto = GelattoAction(driver, wait, main_flow.gelatto_tab)
+        # 챗봇 전송 확인
+        gelatto.make_gelatto()
+        old_credit = int(gelatto.get_credit_cnt())
+        print("크레딧", old_credit)
+        sent_txt, reply_txt = chat_flow.test_chatbot()
+        print(sent_txt, reply_txt)
+        
+        #챗봇 메세지 반복 전송
+        chat_flow.repeat_chatbot_circle()
+        new_credit = int(gelatto.get_credit_cnt())
 
-    # 챗봇 전송 확인
-    gelatto.make_gelatto()
-    old_credit = int(gelatto.get_credit_cnt())
-    sent_txt, reply_txt = chat_flow.test_chatbot()
-    print(sent_txt, reply_txt)
-    
-    #챗봇 메세지 반복 전송
-    chat_flow.repeat_chatbot_circle()
-    new_credit = int(gelatto.get_credit_cnt())
+        history_time, usr_msg = gelatto.get_msg_info()
+        print(history_time, usr_msg)
 
-    history_time, usr_msg = gelatto.get_msg_info()
-    print(history_time, usr_msg)
+    except Exception as e:
+        print("=== EXCEPTION ===")
+        print(e)
+        traceback.print_exc()
+
+    finally:
+        # 디버깅 중엔 quit 주석 처리해서 화면 상태 확인
+        # driver.quit()
+        pass
 
     if new_credit-1 == old_credit:
         info("크레딧 수치 변화 OK")

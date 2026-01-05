@@ -104,7 +104,7 @@ class GelattoProduct(BaseAction):
     ######################## 대시보드 활동 -------------------------
     def enter_dashboard(self):
         info("대시보드 LNB")
-        self.click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
+        self.click(self.lnb_dashboard, "LNB 대시보드 진입")
         time.sleep(3)
 
     def enter_log_rnb(self):
@@ -117,7 +117,7 @@ class GelattoProduct(BaseAction):
         info("최근 활동 내역 조회")
         return self.find(self.recent_log, "최근 활동 내역 조회").text
 
-    def get_credit_cnt(self):
+    def credit_usage(self):
         info("당월 사용 크레딧")
         self.wait_and_click(EC.presence_of_element_located, self.used_credit, "당월 사용 크레딧")
         print(self.find(self.used_credit, "당월 사용 크레딧").text)

@@ -90,10 +90,16 @@ class GelattoAction:
     # 대시보드 > 당월 사용 크레딧
     def get_credit_cnt(self):
         info("당월 사용 크레딧 확인")
+        info(f"handle={self.driver.current_window_handle}")
+        info(f"url={self.driver.current_url}")
+        info(f"title={self.driver.title}")
+        info(f"handles={self.driver.window_handles}")
+
         self.gelatto.switch_tab()
-        time.sleep(2)
+        self.driver.refresh()
+        time.sleep(3)
         self.gelatto.enter_dashboard()
-        time.sleep(2)
-        return self.gelatto.get_credit_cnt()
+        time.sleep(3)
+        return self.gelatto.credit_usage()
 
         

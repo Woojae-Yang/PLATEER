@@ -8,6 +8,8 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from elements.chatbot_page import ChatbotService
 
+from setup.logger import info, error 
+
 class ChatbotAction:
     
     def __init__(self, driver, wait, tab):
@@ -19,10 +21,11 @@ class ChatbotAction:
     # 챗봇 > 새로운 대화 > 대화창 입력 > 전송 버튼 (Keys.ENTER) > 응답 메세지 추출
     def chatbot_circle(self):
         self.chatbot.switch_tab()
+        info(f"[Chatbot] after switch: handle={self.driver.current_window_handle}")
+        info(f"[Chatbot] after switch: url={self.driver.current_url}")
+        info(f"[Chatbot] after switch: title={self.driver.title}")
         time.sleep(2)
 
-        self.driver.refresh()
-        time.sleep(2)
 
         #메세지 전송
         now = datetime.now()

@@ -1,5 +1,6 @@
 import yaml
 import os 
+from setup.logger import info, error 
 
 class ConfigLoader:
     
@@ -10,10 +11,10 @@ class ConfigLoader:
 
         self.path = path if path else default_path
         # 디버깅용 정보
-        print(f"[ConfigLoader] __file__ dir: {base_dir}")
-        print(f"[ConfigLoader] trying to load config from: {self.path}")
-        print(f"[ConfigLoader] current working dir: {os.getcwd()}")
-        print(f"[ConfigLoader] exists? {os.path.exists(self.path)}")
+        info(f"[ConfigLoader] __file__ dir: {base_dir}")
+        info(f"[ConfigLoader] trying to load config from: {self.path}")
+        info(f"[ConfigLoader] current working dir: {os.getcwd()}")
+        info(f"[ConfigLoader] exists? {os.path.exists(self.path)}")
 
         self.config = self.load_config()
 

@@ -61,8 +61,8 @@ class AdminLogin:
         self.wait.until(
             EC.visibility_of_element_located(self.login_page.dashboardMenu)
         )
-        info("대시보드 노출")
-        print("대시보드 노출")
+        info("Admin 대시보드 노출")
+        print("Admin 대시보드 노출")
         time.sleep(3)
 
 
@@ -96,7 +96,7 @@ class EnterGelatto:
     def switch_to_tab(self):
         tabs = self.driver.window_handles
         self.driver.switch_to.window(tabs[self.target_tab_idx])
-        print(f"Switched to tab index: {self.target_tab_idx}")
+        info(f"Switched to tab index: {self.target_tab_idx}")
 
     def enter_gelatto(self):
         self.open_gnb_menu()
@@ -154,7 +154,7 @@ class ChatbotLogin:
     def switch_to_tab(self):
         tabs = self.driver.window_handles
         self.driver.switch_to.window(tabs[self.tab_idx])
-        print(f"Switched to tab index: {self.tab_idx}")
+        #print(f"Switched to tab index: {self.tab_idx}")
 
     def enter_chatbot(self):
         self.open_shop_page()
