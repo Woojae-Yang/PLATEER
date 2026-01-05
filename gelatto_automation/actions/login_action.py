@@ -106,10 +106,16 @@ class EnterGelatto:
         print("Gelatto Page Loaded!")
 
     def wait_gelatto_dash(self):
+        
+        # 탭 컨텍스트 확정(중요)
+        info(f"[Gelatto] handle={self.driver.current_window_handle}")
+        info(f"[Gelatto] url={self.driver.current_url}")
+        info(f"[Gelatto] title={self.driver.title}")
+
         time.sleep(3)
         # 대시보드 메뉴 노출까지 대기
         self.wait.until(
-            EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+            EC.presence_of_element_located(self.gelatto_page.lnb_dashboard)
         )
         info("잴라또 대시보드 노출")
         print("젤라또 대시보드 노출")
