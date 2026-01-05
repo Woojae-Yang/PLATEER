@@ -31,7 +31,7 @@ class GelattoAction:
     def make_gelatto(self):
         self.gelatto.switch_tab()
         time.sleep(3)
-        self.gelatto.driver.save_screenshot("./logs/ebug.png")
+        #self.gelatto.driver.save_screenshot("./logs/ebug.png")
         info("젤라또 만들기")
         # 젤라또 만들기 진입
         info(f"[DEBUG-before] url={self.driver.current_url} handles={self.driver.window_handles}")
