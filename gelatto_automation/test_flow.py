@@ -45,8 +45,10 @@ class MainFlow:
         gelatto_handle = util.wait_new_tab(driver, before)
         self.driver.switch_to.window(gelatto_handle)
         self.gelatto.wait_gelatto_dash()
+        print("gelatto going...")
         time.sleep(2)
         self.gelatto_tab = gelatto_handle
+        print(self.gelatto_tab)
 
         # 탭 추가 오픈
         before = driver.window_handles[:]
