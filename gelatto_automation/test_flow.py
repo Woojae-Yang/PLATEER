@@ -50,6 +50,7 @@ class MainFlow:
 
         # 탭 추가 오픈
         before = driver.window_handles[:]
+        print(before)
         self.driver.execute_script("window.open('about:blank','_blank');") # 새로운 탭 오픈
         time.sleep(2)
         blank_handle = util.wait_new_tab(driver, before)
