@@ -70,6 +70,7 @@ class GelattoAction:
         time.sleep(2)
         self.gelatto.open_add_topic_modal()
         self.gelatto.add_topic(topic)
+        print('제한 주제 등록 OK')
         time.sleep(2)
 
     # 용어 사전 > 전문 용어 > 새 단어 > 전문 용어 등록
@@ -85,15 +86,16 @@ class GelattoAction:
         time.sleep(2)
         self.gelatto.open_new_word_modal()
         self.gelatto.add_word_dscr(word, description)
+        print('전문 용어 등록 OK')
         time.sleep(2)
 
     # 대시보드 > 당월 사용 크레딧
     def get_credit_cnt(self):
         info("당월 사용 크레딧 확인")
-        info(f"handle={self.driver.current_window_handle}")
-        info(f"url={self.driver.current_url}")
-        info(f"title={self.driver.title}")
-        info(f"handles={self.driver.window_handles}")
+        info(f"[Credit] handle={self.driver.current_window_handle}")
+        info(f"[Credit] url={self.driver.current_url}")
+        info(f"[Credit] title={self.driver.title}")
+        info(f"[Credit] handles={self.driver.window_handles}")
 
         self.gelatto.switch_tab()
         self.driver.refresh()

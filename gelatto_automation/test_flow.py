@@ -86,7 +86,7 @@ class ChatbotFlow:
         sent_txt, reply_txt = self.chatbot.chatbot_circle()
         return sent_txt, reply_txt
     
-    def repeat_chatbot_circle(self, count=25):
+    def repeat_chatbot_circle(self, count=10):
         for i in range(1, count+1):
             print(f"[Chatbot] Iteration {i}/{count}")
             info(f"[Chatbot] Iteration {i}/{count}")
