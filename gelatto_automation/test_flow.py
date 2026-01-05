@@ -48,29 +48,13 @@ class MainFlow:
         time.sleep(2)
         self.gelatto_tab = gelatto_handle
 
-        '''
         # 탭 추가 오픈
         before = driver.window_handles[:]
-        self.driver.execute_script("window.open('');") # 새로운 탭 오픈
+        self.driver.execute_script("window.open('about:blank','_blank');") # 새로운 탭 오픈
         time.sleep(2)
         blank_handle = util.wait_new_tab(driver, before)
         self.driver.switch_to.window(blank_handle)
-        '''
-
-        # 탭 추가 오픈 (JS 사용 ❌)
-        before_tabs = self.driver.window_handles[:]
-        print("[NEW_TAB] before:", len(before_tabs), before_tabs)
-
-        self.driver.switch_to.new_window(WindowTypes.TAB)
-        after_tabs = self.driver.window_handles[:]
-        print("[NEW_TAB] after :", len(after_tabs), after_tabs)
-        blank_handle = self.driver.current_window_handle
-        print("[NEW_TAB] cur   :", blank_handle)
-
-        # ✅ 여기서 after가 안 늘면 진짜 문제
-        if len(after_tabs) <= len(before_tabs):
-            raise RuntimeError("new_window(TAB) did not create a new tab")
-
+        
 
         # Shop (blank 탭에서 enter_chatbot 수행)
         handles = driver.window_handles[:]
