@@ -86,7 +86,7 @@ class ChatbotFlow:
         sent_txt, reply_txt = self.chatbot.chatbot_circle()
         return sent_txt, reply_txt
     
-    def repeat_chatbot_circle(self, count=10):
+    def repeat_chatbot_circle(self, count=25):
         for i in range(1, count+1):
             print(f"[Chatbot] Iteration {i}/{count}")
             info(f"[Chatbot] Iteration {i}/{count}")
@@ -120,14 +120,11 @@ if __name__ == "__main__":
         old_credit = int(gelatto.get_credit_cnt())
         print("크레딧", old_credit)
         sent_txt, reply_txt = chat_flow.test_chatbot()
-        print(sent_txt, reply_txt)
+        print(f'질문 : {sent_txt} \n 답변 : {reply_txt}')
         
         #챗봇 메세지 반복 전송
         chat_flow.repeat_chatbot_circle()
         new_credit = int(gelatto.get_credit_cnt())
-
-        history_time, usr_msg = gelatto.get_msg_info()
-        print(history_time, usr_msg)
 
     except Exception as e:
         print("=== EXCEPTION ===")

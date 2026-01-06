@@ -120,7 +120,7 @@ class GelattoProduct(BaseAction):
     def credit_usage(self):
         info("당월 사용 크레딧")
         self.wait_and_click(EC.presence_of_element_located, self.used_credit, "당월 사용 크레딧")
-        print(self.find(self.used_credit, "당월 사용 크레딧").text)
+        print("크레딧", self.find(self.used_credit, "당월 사용 크레딧").text)
         return self.find(self.used_credit, "당월 사용 크레딧").text
 
     ######################## 젤라또 만들기 활동 -------------------------
