@@ -28,7 +28,7 @@ class GelattoAction:
         return conv_cnt, msg_cnt, avg_msg_cnt
     
     # 젤라또 만들기
-    def make_gelatto(self):
+    def make_gelatto(self, headline_parse_txt, greeting_txt, placeholder_txt):
         self.gelatto.switch_tab()
         time.sleep(3)
         #self.gelatto.driver.save_screenshot("./logs/ebug.png")
@@ -38,7 +38,7 @@ class GelattoAction:
         self.gelatto.enter_make_gelatto()
         info(f"[DEBUG-after] url={self.driver.current_url} handles={self.driver.window_handles}")
         self.gelatto.click_setting_tab()
-        self.gelatto.input_values()
+        self.gelatto.input_values(headline_parse_txt, greeting_txt, placeholder_txt)
         self.gelatto.click_save()
         
 

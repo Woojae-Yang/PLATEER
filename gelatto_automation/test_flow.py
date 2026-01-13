@@ -15,6 +15,8 @@ from setup.logger import info, error
 import setup.selenium_utils as util
 from selenium.webdriver.common.window import WindowTypes
 
+now = datetime.now()
+
 class MainFlow:
 
     def __init__(self, driver, wait):
@@ -71,6 +73,13 @@ class MainFlow:
         self.chatbot.switch_tab()
         time.sleep(3)
 
+        assert hasattr(self, "gelatto_tab") and self.gelatto_tab, "gelatto_tab not set"
+        assert hasattr(self, "chatbot_tab") and self.chatbot_tab, "chatbot_tab not set"
+
+        info(f"[prepare_main] handles={driver.window_handles}")
+        info(f"[prepare_main] gelatto_tab={self.gelatto_tab} chatbot_tab={self.chatbot_tab}")
+
+
 class ChatbotFlow:
 
     def __init__(self, driver, wait, tab):
@@ -116,7 +125,7 @@ if __name__ == "__main__":
         gelatto = GelattoAction(driver, wait, main_flow.gelatto_tab)
 
         # 챗봇 전송 확인
-        gelatto.make_gelatto()
+        gelatto.make_gelatto(f'[AUTO]대표문구_{now}', f'[AUTO]첫인사_{now}', f'[AUTO]Placeholder_{now}')
         old_credit = int(gelatto.get_credit_cnt())
         print("크레딧", old_credit)
         sent_txt, reply_txt = chat_flow.test_chatbot()

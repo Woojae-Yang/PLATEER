@@ -44,6 +44,12 @@ class GelattoProduct(BaseAction):
     hello_box = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div[2]/div/div/div/div/div[2]/div[1]/div[7]/div[2]/div/div/textarea[1]")
     #### 플레이스홀더
     placeholder = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div[2]/div/div/div/div/div[2]/div[1]/div[8]/div[2]/div/div/input")
+    #### 제안 질문 추가 버튼
+    suggeestion_add_btn = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div[2]/div/div/div/div/div[2]/div[1]/div[9]/div[2]/div/div[3]/span/button")
+    #### 제안 질문 텍스트 박스
+    suggestion_input = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div[2]/div/div/div/div/div[2]/div[1]/div[9]/div[2]/div/div[2]/div[5]/div/div/input")
+    #### 제안 질문 삭제 버튼
+    suggestion_del_btn = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div[2]/div/div/div/div/div[2]/div[1]/div[9]/div[2]/div/div[2]/div[5]/button[2]")
     #### 저장 btn
     save_btn = (By.XPATH, "//button[contains(text(), '저장')]")
 
@@ -139,17 +145,34 @@ class GelattoProduct(BaseAction):
         time.sleep(2.5)
     
     #### 기본값 설정 정보 입력
-    def input_values(self):
+    def input_values(self, headline_parse, greeting, placeholder):
         time.sleep(2)
         info("[Input_values] 기본값 설정 정보 입력")
         # 대표 문구
-        self.input(self.represnt_txt_box, "Automation Test", "대표 문구")
+        self.input(self.represnt_txt_box, headline_parse, "대표 문구")
         # 첫인사
-        self.input(self.hello_box, "Hello Gelatto", "첫 인사")
+        self.input(self.hello_box, greeting, "첫 인사")
         # 플레이스홀더
-        self.input(self.placeholder, "Automation Placeholder", "플레이스홀더")
+        self.input(self.placeholder, placeholder, "플레이스홀더")
         time.sleep(2.5)
         info("[Input_values] 기본값 설정 정보 입력 완료")
+    
+    ##### 제안 질문 추가
+    def add_suggestion_question(self, suggestion):
+        time.sleep(2)
+        info("[Input_values] 제안 질문 추가 입력")
+        # 추가 버튼 클릭
+        self.click(self.suggeestion_add_btn, "제안 질문 추가")
+        time.sleep(2)
+        # 제안 질문 입력
+        self.input(self.suggestion_input, suggestion, "제안 질문 입력")
+        info("[Input_values] 제안 질문 추가 입력 완료" )
+
+    ##### 제안 질문 삭제
+    def del_suggestion_question(self):
+        time.sleep(2)
+        self.click(self.suggestion_del_btn, "제안 질문 삭제")
+        info("제안 질문 삭제 완료")
 
     def click_save(self):
         time.sleep(2)
