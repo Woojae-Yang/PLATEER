@@ -61,7 +61,9 @@ def chatbot(flow):
     action.chatbot.switch_tab()
     return action
 
-#%% ###########[TestRail 결과 수집]##########
+# ######################
+# [TestRail 결과 수집]
+# ######################
 
 from setup.config_loader import ConfigLoader
 from setup.testrail_client import TestRailClient
@@ -109,7 +111,9 @@ def pytest_runtest_makereport(item, call):
         f"time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
     )
 
-    item.config._testrail_case_ids.add(int(case_id))
+    case_ids = case_id if isinstance(case_id, list) else [case_id]
+    for case_idx in case_ids:
+        item.config._testrail_case_ids.add(int(case_idx))
     item.config._testrail_results.append({
         "case_id": int(case_id),
         "status_id": status_id,

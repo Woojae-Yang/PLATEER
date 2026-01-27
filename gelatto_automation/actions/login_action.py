@@ -8,10 +8,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from setup.config_loader import ConfigLoader
+from setup.logger import info
+
 from elements.login_page import LoginPage
 from elements.gelatto_page import GelattoProduct
 
-from setup.logger import info
 
 class AdminLogin:
 

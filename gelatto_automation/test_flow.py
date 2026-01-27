@@ -4,15 +4,15 @@ from datetime import datetime
 
 from setup.driver_setup import create_driver
 from setup.config_loader import ConfigLoader
+from setup.logger import info, warn, error, debug
+import setup.selenium_utils as util
 
 from actions.login_action import AdminLogin, EnterGelatto, ChatbotLogin
-from actions.chatbot_action import ChatbotAction
 from actions.gelatto_action import GelattoAction
+from actions.chatbot_action import ChatbotAction
 
 from elements.chatbot_page import ChatbotService
 
-from setup.logger import info, error 
-import setup.selenium_utils as util
 from selenium.webdriver.common.window import WindowTypes
 
 now = datetime.now()

@@ -4,7 +4,6 @@ import time
 
 from elements.gelatto_page import GelattoProduct
 from setup.config_loader import ConfigLoader
-
 from setup.logger import info
 
 class GelattoAction:

@@ -8,6 +8,7 @@ from selenium.common.exceptions import (
     NoSuchElementException, 
     ElementClickInterceptedException, 
     TimeoutException)
+
 from setup.logger import info, warn, error, debug
 
 ## 운영체제에 따른 텍스트박스 전체 삭제 처리
@@ -19,9 +20,9 @@ def clear_input(elem, name = "input field"):
     try:
         elem.click()
         elem.send_keys(modifier, "a")
-        time.sleep(2)
+        time.sleep(1.7)
         elem.send_keys(Keys.DELETE)
-        time.sleep(2)
+        time.sleep(1.7)
         info(f"[clear_input] Cleared text in {name}")
         return True
     except Exception as e:
@@ -73,10 +74,15 @@ def safe_click(driver, locator, name="element"):
 
 
 def wait_new_tab(driver, before_handles, timeout=10):
-    WebDriverWait(driver, timeout).until(lambda d: len(d.window_handles) > len(before_handles))
-    after = set(driver.window_handles)
-    new_handle = list(after - set(before_handles))[0]
-    return new_handle
+    try:
+        WebDriverWait(driver, timeout).until(
+            lambda d: len(d.window_handles) > len(before_handles))
+        after = set(driver.window_handles)
+        new_handle = list(after - set(before_handles))[0]
+        return new_handle
+    except TimeoutException:
+        warn(f"[wait_new_tab] Timeout. before={before_handles}, now={driver.window_handles}")
+        return None
 
 
 '''
