@@ -3,7 +3,7 @@ import os
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from PageObjects.CampaignPage import CampaignPage
+from PageObjects.수정필요.CampaignPage import CampaignPage
 from utilities.BaseClass import BaseClass
 
 class TestCampaignCreate(BaseClass):
@@ -15,12 +15,12 @@ class TestCampaignCreate(BaseClass):
     campaign_url = "https://groobee.shop/product/list.html?cate_no=24"
     campaign_txt = "신상품으로 이동하기"
 
-    def test_campaign_create(self, driver):
+    def test_campaign_create_onsite(self, driver):
         log = self.get_log()
 
         groobee = CampaignPage(driver)
 
-        # AI 상품 추천 캠페인 메뉴 진입
+        # 온사이트 캠페인 메뉴 진입
         groobee.click_campaign_menu().click()
         time.sleep(1)
 
@@ -28,11 +28,15 @@ class TestCampaignCreate(BaseClass):
         groobee.click_create_btn().click()
         time.sleep(1)
 
+        # 온사이트 캠페인 선택
+        groobee.click_create_btn_onsite().click()
+        time.sleep(1)
+
         # 타이틀 노출까지 대기
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located(CampaignPage.cam_title)
         )
-        assert driver.title == self.campaign_expect_title
+        assert driver.title == self.campaign_expect_title, f"현재 페이지: {driver.title}, 기대 페이지: {self.campaign_expect_title}"
 
         # 캠페인명/상세 설명 입력
         groobee.send_cam_name().send_keys(self.campaign_name)
@@ -50,8 +54,17 @@ class TestCampaignCreate(BaseClass):
         # 세그먼트 불러오기 RNB
         groobee.click_seg_tab().click()
         time.sleep(1)
-        groobee.click_now_pc_seg().click()
+
+        seg_list = groobee.click_now_pc_seg()
+        try:
+            assert len(seg_list) > 0, "세그먼트 미노출"
+        except AssertionError:
+            log.error("세그먼트 미노출")
+            raise
+        else:
+            seg_list[0].click()
         time.sleep(1)
+
         groobee.click_select_btn().click()
         time.sleep(1)
 
@@ -105,14 +118,14 @@ class TestCampaignCreate(BaseClass):
         driver.execute_script("arguments[0].click();", save_btn)
         time.sleep(1)
 
-        # 세그먼트 생성 확인
+        # 캠페인 생성 확인
         groobee.click_pause_tab().click()
         WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located(
                 (By.XPATH, f"//p[contains(text(), '{self.campaign_name}')]")
             )
         )
-        assert groobee.get_cam_list_item(self.campaign_name).is_displayed()
+        assert groobee.get_cam_list_item(self.campaign_name).is_displayed(), f"생성 실패: {self.campaign_name}"
         log.info(f"생성 완료: {self.campaign_name}")
         time.sleep(1)
 
@@ -124,7 +137,7 @@ class TestCampaignCreate(BaseClass):
         groobee.click_progress_tab().click()
         time.sleep(1)
 
-    def test_campaign_service(self, driver):
+    def test_campaign_service_onsite(self, driver):
         log = self.get_log()
 
         groobee = CampaignPage(driver)
@@ -151,12 +164,41 @@ class TestCampaignCreate(BaseClass):
         time.sleep(2)
 
         # 캠페인 노출 확인
-        groobee.click_cam_popup().click()
+        cam_list = groobee.click_cam_popup()
+        try:
+            assert len(cam_list) > 0, "캠페인 미노출"
+        except AssertionError:
+            log.error("캠페인 미노출")
+            raise
+        else:
+            cam_list[0].click()
         time.sleep(2)
-        assert driver.title == self.service_expect_title
+        assert driver.title == self.service_expect_title, f"현재 페이지: {driver.title}, 기대 페이지: {self.service_expect_title}"
         log.info(f"캠페인 클릭: {self.service_expect_title}")
 
         # 기존 창 윈도우 전환
         driver.close()
         driver.switch_to.window(main_window)
+        BaseClass.refresh_page(driver, CampaignPage.dashboardMenu, timeout=10, retry=2)
         time.sleep(1)
+
+        # 대시보드 메뉴 진입
+        groobee.click_dashboard_menu().click()
+        driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        time.sleep(2)
+
+        # 노출 수/클릭 수 반영 확인
+        impressions = groobee.get_onsite_impressions()
+        assert impressions >= 1, f"현재 노출 수: {impressions}건"
+
+        clicks = groobee.get_onsite_clicks()
+        assert clicks >= 1, f"현재 클릭 수: {clicks}건"
+
+        # 캠페인 랭킹 노출 확인
+        groobee.click_dashboard_onsite_impressions_tab().click()
+        time.sleep(2)
+        assert groobee.is_ranking_campaign_displayed(), "캠페인 미노출"
+
+        groobee.click_dashboard_onsite_clicks_tab().click()
+        time.sleep(2)
+        assert groobee.is_ranking_campaign_displayed(), "캠페인 미노출"

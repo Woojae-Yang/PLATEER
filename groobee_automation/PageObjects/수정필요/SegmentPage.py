@@ -6,7 +6,8 @@ class SegmentPage:
         self.driver = driver
 
     # -------------------------element 선언 영역-------------------------
-    # 세그먼트 타겟팅 메뉴
+    # LNB
+    dashboardMenu = (By.XPATH, "//p[contains(text(),'대시보드')]")
     segmentMenu = (By.XPATH, "//a[@href='/segment']")
 
     # 만들기
@@ -43,6 +44,7 @@ class SegmentPage:
     and_Btn = (By.XPATH, "//button[normalize-space()='AND']")
     rnb_xBtn = (By.XPATH, "//span[normalize-space()='close_icon']")
     rnb_system = (By.XPATH, "//h6[contains(text(), '시스템')]")
+    rnb_system_os = (By.XPATH, "//h6[contains(text(), '접속 OS')]")
     rnb_system_device = (By.XPATH, "//h6[contains(text(),'접속 디바이스')]")
     rnb_system_browser = (By.XPATH, "//h6[contains(text(),'브라우저 유형')]")
     rnb_system_language = (By.XPATH, "//h6[contains(text(),'브라우저 언어')]")
@@ -66,15 +68,24 @@ class SegmentPage:
     seg_setting1 = (By.XPATH, "(//div[contains(@role,'combobox')])[1]")
     seg_setting1_pc = (By.XPATH, "//li[normalize-space()='PC']")
     seg_setting1_wed = (By.XPATH, "//li[contains(text(),'수')]")
+    seg_setting1_android = (By.XPATH, "//li[normalize-space()='Android']")
     seg_setting2 = (By.XPATH, "(//div[contains(@role,'combobox')])[2]")
     seg_setting2_yes = (By.XPATH, "//li[contains(text(),'일 때')]")
+    seg_setting3 = (By.XPATH, "(//div[contains(@role,'combobox')])[3]")
+    seg_setting3_ios = (By.XPATH, "//li[normalize-space()='iOS']")
+    seg_setting4 = (By.XPATH, "(//div[contains(@role,'combobox')])[4]")
+    seg_setting4_yes = (By.XPATH, "//li[contains(text(),'일 때')]")
+    seg_setting_or = (By.XPATH, "//button[normalize-space()='OR']")
+    seg_setting_and = (By.XPATH, "//button[normalize-space()='AND']")
 
     # 완료
     cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
     saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
 
     # -------------------------동작 선언 영역-------------------------
-    # 세그먼트 타겟팅 메뉴
+    # LNB
+    def click_dashboard_menu(self):
+        return self.driver.find_element(*SegmentPage.dashboardMenu)
     def click_segment_menu(self):
         return self.driver.find_element(*SegmentPage.segmentMenu)
 
@@ -159,6 +170,8 @@ class SegmentPage:
         return self.driver.find_element(*SegmentPage.rnb_xBtn)
     def click_rnb_system(self):
         return self.driver.find_element(*SegmentPage.rnb_system)
+    def click_rnb_system_os(self):
+        return self.driver.find_element(*SegmentPage.rnb_system_os)
     def click_rnb_system_device(self):
         return self.driver.find_element(*SegmentPage.rnb_system_device)
     def click_rnb_system_browser(self):
@@ -203,10 +216,24 @@ class SegmentPage:
         return self.driver.find_element(*SegmentPage.seg_setting1_pc)
     def click_seg_setting1_wed(self):
         return self.driver.find_element(*SegmentPage.seg_setting1_wed)
+    def click_seg_setting1_android(self):
+        return self.driver.find_element(*SegmentPage.seg_setting1_android)
     def click_seg_setting2(self):
         return self.driver.find_element(*SegmentPage.seg_setting2)
     def click_seg_setting2_yes(self):
         return self.driver.find_element(*SegmentPage.seg_setting2_yes)
+    def click_seg_setting3(self):
+        return self.driver.find_element(*SegmentPage.seg_setting3)
+    def click_seg_setting3_ios(self):
+        return self.driver.find_element(*SegmentPage.seg_setting3_ios)
+    def click_seg_setting4(self):
+        return self.driver.find_element(*SegmentPage.seg_setting4)
+    def click_seg_setting4_yes(self):
+        return self.driver.find_element(*SegmentPage.seg_setting4_yes)
+    def click_seg_setting_or(self):
+        return self.driver.find_element(*SegmentPage.seg_setting_or)
+    def click_seg_setting_and(self):
+        return self.driver.find_element(*SegmentPage.seg_setting_and)
 
     # 완료
     def click_cancel_btn(self):

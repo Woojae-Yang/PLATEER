@@ -67,7 +67,7 @@ class AisegmentPage:
     # 취향 분석 세그먼트 선택
     tastes_seg_main = (By.XPATH, "//button[contains(text(),'대표 상품')]")
     tastes_seg_view = (By.XPATH, "//button[contains(text(),'많이 조회한 상품')]")
-    tastes_handmade = (By.XPATH, "//h6[contains(text(),'핸드메이드 코트 선호')]")
+    tastes_handmade = (By.XPATH, "//h6[contains(text(),'핸드메이드 코트')]")
 
     # 완료
     cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")

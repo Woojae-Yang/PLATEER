@@ -1,9 +1,13 @@
 import os
 import inspect
 import logging
+import time
 
-from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.common.exceptions import TimeoutException, WebDriverException
+
 
 class BaseClass:
     driver: WebDriver = None
@@ -13,6 +17,47 @@ class BaseClass:
     def select_options(locator, text):
         sel = Select(locator)
         sel.select_by_visible_text(text)
+
+    # 웹 요소 대기 유틸 함수
+    @staticmethod
+    def wait_visible(driver, locator, timeout=10):
+        return WebDriverWait(driver, timeout).until(
+            EC.presence_of_element_located(locator)
+        )
+
+    @staticmethod
+    def wait_clickable(driver, locator, timeout=10):
+        return WebDriverWait(driver, timeout).until(
+            EC.element_to_be_clickable(locator)
+        )
+
+    # 리프레시 안정화 유틸 함수
+    @staticmethod
+    def refresh_page(driver, wait_locator=None, timeout=10, retry=1):
+        log = BaseClass.get_log()
+        for attempt in range(retry + 1):
+            try:
+                log.info(f"페이지 새로고침 시도 ({attempt + 1}/{retry + 1})")
+                driver.refresh()
+
+                # Document Ready 상태 확인
+                WebDriverWait(driver, timeout).until(
+                    lambda d: d.execute_script("return document.readyState") == "complete"
+                )
+
+                # 특정 요소가 있다면 그 요소까지 보장
+                if wait_locator:
+                    BaseClass.wait_visible(driver, wait_locator, timeout)
+
+                log.info("페이지 리프레시 완료")
+                return True
+
+            except (TimeoutException, WebDriverException):
+                log.warning("Refresh 이후 페이지 안정화 실패, 재시도 중...")
+                time.sleep(1)
+
+        log.error("Refresh 실패! 페이지가 완전히 로드되지 않았습니다.")
+        return False
 
     # 로그 유틸 함수
     @staticmethod
@@ -25,6 +70,7 @@ class BaseClass:
             project_dir = os.path.dirname(os.path.dirname(current_file))
             log_dir = os.path.join(project_dir, "reports")
             os.makedirs(log_dir, exist_ok=True)
+
             log_file_path = os.path.join(log_dir, "logfile.log")
             file_handler = logging.FileHandler(log_file_path, encoding="utf-8")
             formatter = logging.Formatter('%(asctime)s - %(name)s - %(message)s')

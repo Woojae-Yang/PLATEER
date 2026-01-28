@@ -2,7 +2,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from PageObjects.AisegmentPage import AisegmentPage
+from PageObjects.수정필요.AisegmentPage import AisegmentPage
 from utilities.BaseClass import BaseClass
 
 class TestAisegmentCreate(BaseClass):
@@ -25,16 +25,18 @@ class TestAisegmentCreate(BaseClass):
         # 만들기 버튼 클릭
         groobee.click_create_btn().click()
         groobee.click_tastes_seg().click()
+        time.sleep(1)
 
         # 타이틀 노출까지 대기
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located(AisegmentPage.tastes_seg_title)
         )
-        assert driver.title == self.tastes_expect_title
+        assert driver.title == self.tastes_expect_title, f"현재 페이지: {driver.title}, 기대 페이지: {self.tastes_expect_title}"
 
         # 세그먼트명/상세 설명 입력
         groobee.send_tastes_seg_name().send_keys(self.main_prod_name)
         groobee.send_tastes_seg_des().send_keys(self.main_prod_des)
+        time.sleep(1)
 
         # 상품 선택
         groobee.click_tastes_handmade().click()
@@ -50,17 +52,19 @@ class TestAisegmentCreate(BaseClass):
                 (By.XPATH, f"//p[contains(text(), '{self.main_prod_name}')]")
             )
         )
-        assert groobee.get_seg_list_item(self.main_prod_name).is_displayed()
+        assert groobee.get_seg_list_item(self.main_prod_name).is_displayed(), f"생성 실패: {self.main_prod_name}"
         log.info(f"생성 완료: {self.main_prod_name}")
         time.sleep(1)
 
         # 만들기 버튼 클릭
         groobee.click_create_btn().click()
         groobee.click_tastes_seg().click()
+        time.sleep(1)
 
         # 세그먼트명/상세 설명 입력
         groobee.send_tastes_seg_name().send_keys(self.view_prod_name)
         groobee.send_tastes_seg_des().send_keys(self.view_prod_des)
+        time.sleep(1)
 
         # 많이 조회한 상품 전환
         groobee.click_tastes_seg_view().click()
@@ -80,6 +84,6 @@ class TestAisegmentCreate(BaseClass):
                 (By.XPATH, f"//p[contains(text(), '{self.view_prod_name}')]")
             )
         )
-        assert groobee.get_seg_list_item(self.view_prod_name).is_displayed()
+        assert groobee.get_seg_list_item(self.view_prod_name).is_displayed(), f"생성 실패: {self.view_prod_name}"
         log.info(f"생성 완료: {self.view_prod_name}")
         time.sleep(1)

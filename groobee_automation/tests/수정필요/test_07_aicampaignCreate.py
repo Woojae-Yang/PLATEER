@@ -2,7 +2,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from PageObjects.RecommendPage import RecommendPage
+from PageObjects.수정필요.RecommendPage import RecommendPage
 from utilities.BaseClass import BaseClass
 
 class TestAiCampaignCreate(BaseClass):
@@ -28,7 +28,7 @@ class TestAiCampaignCreate(BaseClass):
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located(RecommendPage.cam_title)
         )
-        assert driver.title == self.aicampaign_expect_title
+        assert driver.title == self.aicampaign_expect_title, f"현재 페이지: {driver.title}, 기대 페이지: {self.aicampaign_expect_title}"
 
         # 캠페인명/상세 설명 입력
         groobee.send_cam_name().send_keys(self.aicampaign_name)
@@ -56,7 +56,18 @@ class TestAiCampaignCreate(BaseClass):
 
         # 세그먼트 불러오기 RNB
         groobee.click_aiseg_tab().click()
-        groobee.click_purchase_self_seg().click()
+        time.sleep(1)
+
+        seg_list = groobee.click_purchase_self_seg()
+        try:
+            assert len(seg_list) > 0, "세그먼트 미노출"
+        except AssertionError:
+            log.error("세그먼트 미노출")
+            raise
+        else:
+            seg_list[0].click()
+        time.sleep(1)
+
         groobee.click_select_btn().click()
         time.sleep(1)
 
@@ -75,6 +86,7 @@ class TestAiCampaignCreate(BaseClass):
         time.sleep(1)
 
         # 필터링 설정
+        groobee.click_filter_click().click()
         groobee.click_filter_order().click()
         time.sleep(1)
 
@@ -94,7 +106,7 @@ class TestAiCampaignCreate(BaseClass):
                 (By.XPATH, f"//p[contains(text(), '{self.aicampaign_name}')]")
             )
         )
-        assert groobee.get_cam_list_item(self.aicampaign_name).is_displayed()
+        assert groobee.get_cam_list_item(self.aicampaign_name).is_displayed(), f"생성 실패: {self.aicampaign_name}"
         log.info(f"생성 완료: {self.aicampaign_name}")
         time.sleep(1)
 

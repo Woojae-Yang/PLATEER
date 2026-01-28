@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.common import NoSuchElementException
 
 class CampaignPage:
 
@@ -6,11 +7,14 @@ class CampaignPage:
         self.driver = driver
 
     # -------------------------element 선언 영역-------------------------
-    # 온사이트 캠페인 메뉴
+    # LNB
+    dashboardMenu = (By.XPATH, "//p[contains(text(),'대시보드')]")
     campaignMenu = (By.XPATH, "//p[contains(text(),'온사이트 캠페인')]")
 
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
+    createBtn_onsite = (By.XPATH, "//li[contains(text(),'온사이트 캠페인')]")
+    createBtn_inapp = (By.XPATH, "//li[contains(text(),'인앱 메시지 캠페인')]")
 
     # 상태탭
     progress_tab = (By.XPATH, "//button[contains(text(),'진행중')]")
@@ -25,15 +29,15 @@ class CampaignPage:
 
     # 관리 도구
     tools_icon = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='MoreHorizIcon']]")
-    update_icon = (By.XPATH, "//div[contains(text(),'수정')]")
-    copy_icon = (By.XPATH, "//div[contains(text(),'복사')]")
-    report_icon = (By.XPATH, "//div[contains(text(),'분석 리포트')]")
-    view_icon = (By.XPATH, "//div[contains(text(),'미리보기')]")
-    exclusion_icon = (By.XPATH, "//div[contains(text(),'제외 조건 설정')]")
-    code_copy_icon = (By.XPATH, "//div[contains(text(),'코드 복사')]")
-    moveto_storage = (By.XPATH, "//div[contains(text(),'보관함으로 이동')]")
-    moveto_pause = (By.XPATH, "//div[contains(text(),'중지중으로 이동')]")
-    delete_icon = (By.XPATH, "//div[contains(text(),'삭제')]")
+    update_icon = (By.XPATH, "//p[contains(text(),'수정')]")
+    copy_icon = (By.XPATH, "//p[contains(text(),'복사')]")
+    report_icon = (By.XPATH, "//p[contains(text(),'분석 리포트')]")
+    view_icon = (By.XPATH, "//p[contains(text(),'미리보기')]")
+    exclusion_icon = (By.XPATH, "//p[contains(text(),'제외 조건 설정')]")
+    code_copy_icon = (By.XPATH, "//p[contains(text(),'코드 복사')]")
+    moveto_storage = (By.XPATH, "//p[contains(text(),'보관함으로 이동')]")
+    moveto_pause = (By.XPATH, "//p[contains(text(),'중지중으로 이동')]")
+    delete_icon = (By.XPATH, "//p[contains(text(),'삭제')]")
     delete_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
     delete_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
 
@@ -55,6 +59,7 @@ class CampaignPage:
     aiseg_tab = (By.XPATH, "//button[@id='basic-tab-0']")
     seg_tab = (By.XPATH, "//button[@id='basic-tab-1']")
     now_pc_seg = (By.XPATH, "//h6[contains(text(),'[QA] 온사이트웹-현재-PC접속 테스트 세그먼트')]")
+    now_os_seg = (By.XPATH, "//h6[contains(text(),'[QA] 온사이트네이티브-현재-접속OS 테스트 세그먼트')]")
     selectBtn = (By.XPATH, "//button[contains(text(),'선택')]")
 
     # 추가
@@ -65,6 +70,11 @@ class CampaignPage:
     d_type = (By.XPATH, "//button[contains(text(),'D안')]")
     e_type = (By.XPATH, "//button[contains(text(),'E안')]")
     type_del_icon = (By.XPATH, "(//button[@type='button'])[11]")
+
+    # 디자인 유형
+    design_popup = (By.XPATH, "//input[@value='POPUP']")
+    design_sticky_default = (By.XPATH, "//input[@value='STICKY_DEFAULT']")
+    design_sticky_btn = (By.XPATH, "//input[@value='STICKY_BUTTON']")
 
     # 파일 업로드 RNB
     file_uploadBtn = (By.XPATH, "//button[contains(text(),'파일 업로드')]")
@@ -79,6 +89,16 @@ class CampaignPage:
     desBtn = (By.XPATH, "(//input[@type='checkbox'])[5]")
     input_des = (By.XPATH, "//textarea[@placeholder='한글 공백 포함 최대 80자']")
     sort_des = (By.XPATH, "(//button[@value='center'])[2]")
+    input_txt20 = (By.XPATH, "//textarea[@placeholder='한글 공백 포함 최대 20자']")
+    input_txt16 = (By.XPATH, "//textarea[@placeholder='한글 공백 포함 최대 16자']")
+    input_txt40 = (By.XPATH, "//textarea[@placeholder='한글 공백 포함 최대 40자']")
+    input_txt15 = (By.XPATH, "//textarea[@placeholder='한글 공백 포함 최대 15자']")
+    bold_cbx = (By.XPATH, "(//input[@type='checkbox'])[1]")
+    bold_cbx2 = (By.XPATH, "(//input[@type='checkbox'])[2]")
+    bold_cbx3 = (By.XPATH, "(//input[@type='checkbox'])[3]")
+    sort_mid = (By.XPATH, "//button[@value='1']")
+    set_top = (By.XPATH, "//input[@value='48']")
+    set_bottom = (By.XPATH, "//input[@value='80']")
 
     # 노출 위치 설정
     set_tl = (By.XPATH, "//input[@value='TL']")
@@ -91,9 +111,23 @@ class CampaignPage:
     set_mr = (By.XPATH, "//input[@value='MR']")
     set_br = (By.XPATH, "//input[@value='BR']")
 
+    # 아이콘
+    icon_style = (By.XPATH, "//button[contains(text(),'스타일 선택')]")
+
+    # 스타일
+    corner_style = (By.XPATH, "//input[contains(@name,'antoine')]")
+
     # A/B/N 테스트 설정
     type_auto = (By.XPATH, "//input[@value='true']")
     target_order = (By.XPATH, "//input[@value='OR']")
+
+    # 스케줄
+    period_self = (By.XPATH, "//input[@value='MA']")
+    period_set = (By.XPATH, "//input[@value='ET']")
+    repeat_false = (By.XPATH, "//input[@value='false']")
+    repeat_true = (By.XPATH, "//input[@value='true']")
+    repeat_setting = (By.XPATH, "//button[contains(text(),'설정하기')]")
+    repeat_setting_done = (By.XPATH, "//button[contains(text(),'확인')]")
 
     # 노출 옵션
     freq_combx = (By.XPATH, "//div[contains(text(),'매일 1번')]")
@@ -118,14 +152,27 @@ class CampaignPage:
     # 서비스 페이지
     cam_popup = (By.XPATH, "(//img[@class='img_999999'])[1]")
 
+    # 대시보드 (조회할 값 실제 작성)
+    dashboard_onsite_ranking = (By.XPATH, "//h6[contains(text(),'[QA] PC/웹-페이지반복 테스트 캠페인')]")
+    dashboard_onsite_impressions = (By.XPATH, "//h6[contains(text(),'노출 수')]/following-sibling::h6")
+    dashboard_onsite_clicks = (By.XPATH, "//h6[contains(text(),'클릭 수')]/following-sibling::h6")
+    dashboard_onsite_impressions_tab = (By.XPATH, "(//button[@role='tab'][contains(text(),'노출 수')])[1]")
+    dashboard_onsite_clicks_tab = (By.XPATH, "(//button[@role='tab'][contains(text(),'클릭 수')])[1]")
+
     # -------------------------동작 선언 영역-------------------------
-    # AI 상품 추천 캠페인 메뉴
+    # LNB
+    def click_dashboard_menu(self):
+        return self.driver.find_element(*CampaignPage.dashboardMenu)
     def click_campaign_menu(self):
         return self.driver.find_element(*CampaignPage.campaignMenu)
 
     # 만들기
     def click_create_btn(self):
         return self.driver.find_element(*CampaignPage.createBtn)
+    def click_create_btn_onsite(self):
+        return self.driver.find_element(*CampaignPage.createBtn_onsite)
+    def click_create_btn_inapp(self):
+        return self.driver.find_element(*CampaignPage.createBtn_inapp)
 
     # 상태탭
     def click_progress_tab(self):
@@ -171,29 +218,67 @@ class CampaignPage:
     def click_delete_icon_confirm(self):
         return self.driver.find_element(*CampaignPage.delete_icon_confirm)
 
-    # 삭제할 캠페인 찾기
+    # 삭제할 캠페인 관리 도구 찾기
     @staticmethod
     def click_tools_icon_by_name(cam_element, driver):
         # row 찾기
         row = cam_element.find_element(By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]")
-
-        # row index 저장
         row_index = row.get_attribute("data-rowindex")
 
-        # 버튼 찾기
+        # pinned 영역
         pinned_container = driver.find_element(By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]")
         buttons = pinned_container.find_elements(By.XPATH, ".//button[contains(@class,'MuiIconButton-root')]")
 
-        # 버튼과 row index 매칭
-        target_btn = None
+        # row index 매칭
         for btn in buttons:
             btn_row = btn.find_element(By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]")
             btn_row_index = btn_row.get_attribute("data-rowindex")
-            if btn_row_index == row_index:
-                target_btn = btn
-                break
 
-        return target_btn
+            if btn_row_index == row_index:
+                return btn
+
+        raise NoSuchElementException(f"{row_index} 행에서 tools 아이콘을 찾을 수 없음")
+
+    # 상태 아이콘 자동 탐지 (진행중/중지중/보관함)
+    @staticmethod
+    def click_status_icon_by_name(cam_element, driver):
+        # row 찾기
+        row = cam_element.find_element(
+                By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]"
+            )
+        row_index = row.get_attribute("data-rowindex")
+
+        # 1) row 내부에서 Play/Pause 탐색
+        try:
+            inner_btn = row.find_element(
+                By.XPATH,
+                ".//button[.//*[name()='svg' and (@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
+            )
+            return inner_btn
+        except NoSuchElementException:
+            pass  # row 내부에 없으면 pinned 영역 검사
+
+        # 2) pinned columns 탐색
+        try:
+            pinned_container = driver.find_element(
+                By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
+            )
+            status_buttons = pinned_container.find_elements(
+                By.XPATH,
+                ".//button[.//*[name()='svg' and (@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
+            )
+
+            for btn in status_buttons:
+                btn_row = btn.find_element(
+                    By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]"
+                )
+                btn_row_index = btn_row.get_attribute("data-rowindex")
+                if btn_row_index == row_index:
+                    return btn
+        except NoSuchElementException:
+            pass
+
+        raise NoSuchElementException(f"{row_index} 행에서 상태 아이콘을 찾을 수 없음")
 
     # 캠페인 입력
     def send_cam_name(self):
@@ -221,7 +306,9 @@ class CampaignPage:
     def click_seg_tab(self):
         return self.driver.find_element(*CampaignPage.seg_tab)
     def click_now_pc_seg(self):
-        return self.driver.find_element(*CampaignPage.now_pc_seg)
+        return self.driver.find_elements(*CampaignPage.now_pc_seg)
+    def click_now_os_seg(self):
+        return self.driver.find_elements(*CampaignPage.now_os_seg)
     def click_select_btn(self):
         return self.driver.find_element(*CampaignPage.selectBtn)
 
@@ -240,6 +327,14 @@ class CampaignPage:
         return self.driver.find_element(*CampaignPage.e_type)
     def click_type_del_icon(self):
         return self.driver.find_element(*CampaignPage.type_del_icon)
+
+    # 디자인 유형
+    def click_design_popup(self):
+        return self.driver.find_element(*CampaignPage.design_popup)
+    def click_design_sticky_default(self):
+        return self.driver.find_element(*CampaignPage.design_sticky_default)
+    def click_design_sticky_btn(self):
+        return self.driver.find_element(*CampaignPage.design_sticky_btn)
 
     # 파일 업로드 RNB
     def click_file_upload_btn(self):
@@ -262,6 +357,26 @@ class CampaignPage:
         return self.driver.find_element(*CampaignPage.input_des)
     def click_sort_des(self):
         return self.driver.find_element(*CampaignPage.sort_des)
+    def send_input_txt20(self):
+        return self.driver.find_element(*CampaignPage.input_txt20)
+    def send_input_txt16(self):
+        return self.driver.find_element(*CampaignPage.input_txt16)
+    def send_input_txt40(self):
+        return self.driver.find_element(*CampaignPage.input_txt40)
+    def send_input_txt15(self):
+        return self.driver.find_element(*CampaignPage.input_txt15)
+    def click_bold_cbx(self):
+        return self.driver.find_element(*CampaignPage.bold_cbx)
+    def click_bold_cbx2(self):
+        return self.driver.find_element(*CampaignPage.bold_cbx2)
+    def click_bold_cbx3(self):
+        return self.driver.find_element(*CampaignPage.bold_cbx3)
+    def click_sort_mid(self):
+        return self.driver.find_element(*CampaignPage.sort_mid)
+    def click_set_top(self):
+        return self.driver.find_element(*CampaignPage.set_top)
+    def click_set_bottom(self):
+        return self.driver.find_element(*CampaignPage.set_bottom)
 
     # 노출 위치 설정
     def click_set_tl(self):
@@ -283,11 +398,33 @@ class CampaignPage:
     def click_set_br(self):
         return self.driver.find_element(*CampaignPage.set_br)
 
+    # 아이콘
+    def click_icon_style(self):
+        return self.driver.find_element(*CampaignPage.icon_style)
+
+    # 스타일
+    def click_corner_style(self):
+        return self.driver.find_element(*CampaignPage.corner_style)
+
     # A/B/N 테스트 설정
     def click_type_auto(self):
         return self.driver.find_element(*CampaignPage.type_auto)
     def click_target_order(self):
         return self.driver.find_element(*CampaignPage.target_order)
+
+    # 스케줄
+    def click_period_self(self):
+        return self.driver.find_element(*CampaignPage.period_self)
+    def click_period_set(self):
+        return self.driver.find_element(*CampaignPage.period_set)
+    def click_repeat_false(self):
+        return self.driver.find_element(*CampaignPage.repeat_false)
+    def click_repeat_true(self):
+        return self.driver.find_element(*CampaignPage.repeat_true)
+    def click_repeat_setting(self):
+        return self.driver.find_element(*CampaignPage.repeat_setting)
+    def click_repeat_setting_done(self):
+        return self.driver.find_element(*CampaignPage.repeat_setting_done)
 
     # 노출 옵션
     def click_freq_combx(self):
@@ -329,4 +466,25 @@ class CampaignPage:
 
     # 서비스 페이지
     def click_cam_popup(self):
-        return self.driver.find_element(*CampaignPage.cam_popup)
+        return self.driver.find_elements(*CampaignPage.cam_popup)
+
+    # 대시 보드
+    def is_ranking_campaign_displayed(self):
+        try:
+            return self.driver.find_element(*CampaignPage.dashboard_onsite_ranking).is_displayed()
+        except NoSuchElementException:
+            return False
+    def get_onsite_impressions(self):
+        import re
+        elem = self.driver.find_element(*CampaignPage.dashboard_onsite_impressions)
+        num = int(re.findall(r'\d+', elem.text)[0])
+        return num
+    def get_onsite_clicks(self):
+        import re
+        elem = self.driver.find_element(*CampaignPage.dashboard_onsite_clicks)
+        num = int(re.findall(r'\d+', elem.text)[0])
+        return num
+    def click_dashboard_onsite_impressions_tab(self):
+        return self.driver.find_element(*CampaignPage.dashboard_onsite_impressions_tab)
+    def click_dashboard_onsite_clicks_tab(self):
+        return self.driver.find_element(*CampaignPage.dashboard_onsite_clicks_tab)

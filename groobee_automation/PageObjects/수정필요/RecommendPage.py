@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import NoSuchElementException
 
 class RecommendPage:
 
@@ -6,7 +7,8 @@ class RecommendPage:
         self.driver = driver
 
     # -------------------------element 선언 영역-------------------------
-    # AI 상품 추천 캠페인 메뉴
+    # LNB
+    dashboardMenu = (By.XPATH, "//p[contains(text(),'대시보드')]")
     recommendMenu = (By.XPATH, "//p[contains(text(),'AI 상품 추천 캠페인')]")
 
     # 만들기
@@ -17,22 +19,22 @@ class RecommendPage:
     pause_tab = (By.XPATH, "//button[contains(text(),'중지중')]")
     storage_tab = (By.XPATH, "//button[contains(text(),'보관함')]")
 
-    # 상태
-    status_icon_play = (By.XPATH,"//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='PlayArrowIcon']]")
+    # 상태 아이콘 (전체 그리드 기준)
+    status_icon_play = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='PlayArrowIcon']]")
     status_icon_pause = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='PauseOutlinedIcon']]")
     status_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
     status_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
 
     # 관리 도구
     tools_icon = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='MoreHorizIcon']]")
-    update_icon = (By.XPATH, "//div[contains(text(),'수정')]")
-    copy_icon = (By.XPATH, "//div[contains(text(),'복사')]")
-    report_icon = (By.XPATH, "//div[contains(text(),'분석 리포트')]")
-    view_icon = (By.XPATH, "//div[contains(text(),'미리보기')]")
-    code_copy_icon = (By.XPATH, "//div[contains(text(),'코드 복사')]")
-    moveto_storage = (By.XPATH, "//div[contains(text(),'보관함으로 이동')]")
-    moveto_pause = (By.XPATH, "//div[contains(text(),'중지중으로 이동')]")
-    delete_icon = (By.XPATH, "//div[contains(text(),'삭제')]")
+    update_icon = (By.XPATH, "//p[contains(text(),'수정')]")
+    copy_icon = (By.XPATH, "//p[contains(text(),'복사')]")
+    report_icon = (By.XPATH, "//p[contains(text(),'분석 리포트')]")
+    view_icon = (By.XPATH, "//p[contains(text(),'미리보기')]")
+    code_copy_icon = (By.XPATH, "//p[contains(text(),'코드 복사')]")
+    moveto_storage = (By.XPATH, "//p[contains(text(),'보관함으로 이동')]")
+    moveto_pause = (By.XPATH, "//p[contains(text(),'중지중으로 이동')]")
+    delete_icon = (By.XPATH, "//p[contains(text(),'삭제')]")
     delete_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
     delete_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
 
@@ -46,6 +48,17 @@ class RecommendPage:
     type_mobile = (By.XPATH, "//input[@value='MO']")
     type_mobile_web = (By.XPATH, "//input[@value='MW']")
     type_mobile_app = (By.XPATH, "//input[@value='MA']")
+
+    # 노출 페이지
+    page_select_cb = (By.XPATH, "//div[@role='combobox']")
+    page_select_cb_main = (By.XPATH, "//li[contains(text(),'메인')]")
+    page_select_cb_category = (By.XPATH, "//li[contains(text(),'카테고리')]")
+    page_select_cb_product = (By.XPATH, "//li[contains(text(),'상품 상세')]")
+    page_select_cb_cart = (By.XPATH, "//li[contains(text(),'장바구니')]")
+    page_select_cb_search = (By.XPATH, "//li[contains(text(),'검색 결과')]")
+    page_select_cb_input = (By.XPATH, "//li[contains(text(),'직접 입력')]")
+    page_select_cb_input_bx = (By.XPATH, "//input[@id='downshift-multiple-input']")
+    page_select_cb_all = (By.XPATH, "//li[contains(text(),'모든 페이지')]")
 
     # 알고리즘 설정
     set_algo_goods = (By.XPATH, "//input[@value='GD']")
@@ -62,7 +75,7 @@ class RecommendPage:
     target_set = (By.XPATH, "//h6[contains(text(),'타겟 설정')]")
     seg_load = (By.XPATH, "//button[contains(text(),'세그먼트 불러오기')]")
 
-    # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
+    # 세그먼트 불러오기
     aiseg_tab = (By.XPATH, "//button[@id='basic-tab-0']")
     seg_tab = (By.XPATH, "//button[@id='basic-tab-1']")
     purchase_self_seg = (By.XPATH, "//h6[contains(text(),'[QA] 직접 입력 테스트 세그먼트')]")
@@ -86,7 +99,9 @@ class RecommendPage:
     saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
 
     # -------------------------동작 선언 영역-------------------------
-    # AI 상품 추천 캠페인 메뉴
+    # LNB
+    def click_dashboard_menu(self):
+        return self.driver.find_element(*RecommendPage.dashboardMenu)
     def click_recommend_menu(self):
         return self.driver.find_element(*RecommendPage.recommendMenu)
 
@@ -102,7 +117,7 @@ class RecommendPage:
     def click_storage_tab(self):
         return self.driver.find_element(*RecommendPage.storage_tab)
 
-    # 상태
+    # 상태 아이콘 (전체 그리드 기준)
     def click_status_icon_play(self):
         return self.driver.find_element(*RecommendPage.status_icon_play)
     def click_status_icon_pause(self):
@@ -112,7 +127,7 @@ class RecommendPage:
     def click_status_icon_confirm(self):
         return self.driver.find_element(*RecommendPage.status_icon_confirm)
 
-    # 관리 도구
+    # 관리 도구 (전체 그리드 기준)
     def click_tools_icon(self):
         return self.driver.find_element(*RecommendPage.tools_icon)
     def click_update_icon(self):
@@ -136,29 +151,67 @@ class RecommendPage:
     def click_delete_icon_confirm(self):
         return self.driver.find_element(*RecommendPage.delete_icon_confirm)
 
-    # 삭제할 캠페인 찾기
+    # 삭제할 캠페인 관리 도구 찾기
     @staticmethod
     def click_tools_icon_by_name(cam_element, driver):
         # row 찾기
         row = cam_element.find_element(By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]")
-
-        # row index 저장
         row_index = row.get_attribute("data-rowindex")
 
-        # 버튼 찾기
+        # pinned 영역
         pinned_container = driver.find_element(By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]")
         buttons = pinned_container.find_elements(By.XPATH, ".//button[contains(@class,'MuiIconButton-root')]")
 
-        # 버튼과 row index 매칭
-        target_btn = None
+        # row index 매칭
         for btn in buttons:
             btn_row = btn.find_element(By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]")
             btn_row_index = btn_row.get_attribute("data-rowindex")
-            if btn_row_index == row_index:
-                target_btn = btn
-                break
 
-        return target_btn
+            if btn_row_index == row_index:
+                return btn
+
+        raise NoSuchElementException(f"{row_index} 행에서 tools 아이콘을 찾을 수 없음")
+
+    # 상태 아이콘 자동 탐지 (진행중/중지중/보관함)
+    @staticmethod
+    def click_status_icon_by_name(cam_element, driver):
+        # row 찾기
+        row = cam_element.find_element(
+            By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]"
+        )
+        row_index = row.get_attribute("data-rowindex")
+
+        # 1) row 내부에서 Play/Pause 탐색
+        try:
+            inner_btn = row.find_element(
+                By.XPATH,
+                ".//button[.//*[name()='svg' and (@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
+            )
+            return inner_btn
+        except NoSuchElementException:
+            pass  # row 내부에 없으면 pinned 영역 검사
+
+        # 2) pinned columns 탐색
+        try:
+            pinned_container = driver.find_element(
+                By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
+            )
+            status_buttons = pinned_container.find_elements(
+                By.XPATH,
+                ".//button[.//*[name()='svg' and (@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
+            )
+
+            for btn in status_buttons:
+                btn_row = btn.find_element(
+                    By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]"
+                )
+                btn_row_index = btn_row.get_attribute("data-rowindex")
+                if btn_row_index == row_index:
+                    return btn
+        except NoSuchElementException:
+            pass
+
+        raise NoSuchElementException(f"{row_index} 행에서 상태 아이콘을 찾을 수 없음")
 
     # 캠페인 입력
     def send_cam_name(self):
@@ -176,7 +229,27 @@ class RecommendPage:
     def click_type_mobile_app(self):
         return self.driver.find_element(*RecommendPage.type_mobile_app)
 
-   # 알고리즘 설정
+    # 노출 페이지
+    def click_page_select_cb(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb)
+    def click_page_select_cb_main(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb_main)
+    def click_page_select_cb_category(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb_category)
+    def click_page_select_cb_product(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb_product)
+    def click_page_select_cb_cart(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb_cart)
+    def click_page_select_cb_search(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb_search)
+    def click_page_select_cb_input(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb_input)
+    def send_page_select_cb_input_bx(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb_input_bx)
+    def click_page_select_cb_all(self):
+        return self.driver.find_element(*RecommendPage.page_select_cb_all)
+
+    # 알고리즘 설정
     def click_set_algo_goods(self):
         return self.driver.find_element(*RecommendPage.set_algo_goods)
     def click_set_algo_special(self):
@@ -206,7 +279,7 @@ class RecommendPage:
     def click_seg_tab(self):
         return self.driver.find_element(*RecommendPage.seg_tab)
     def click_purchase_self_seg(self):
-        return self.driver.find_element(*RecommendPage.purchase_self_seg)
+        return self.driver.find_elements(*RecommendPage.purchase_self_seg)
     def click_select_btn(self):
         return self.driver.find_element(*RecommendPage.selectBtn)
 

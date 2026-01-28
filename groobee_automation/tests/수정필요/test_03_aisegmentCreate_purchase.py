@@ -2,7 +2,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from PageObjects.AisegmentPage import AisegmentPage
+from PageObjects.수정필요.AisegmentPage import AisegmentPage
 from utilities.BaseClass import BaseClass
 
 class TestAisegmentCreate(BaseClass):
@@ -27,7 +27,7 @@ class TestAisegmentCreate(BaseClass):
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located(AisegmentPage.purchase_seg_title)
         )
-        assert driver.title == self.purchase_expect_title
+        assert driver.title == self.purchase_expect_title, f"현재 페이지: {driver.title}, 기대 페이지: {self.purchase_expect_title}"
 
         # dict로 구매 확률 세그먼트 옵션 불러오기
         purchase_options = groobee.get_purchase_options()
@@ -38,6 +38,7 @@ class TestAisegmentCreate(BaseClass):
             seg_des_text = f"{purchase_name}"
             groobee.send_purchase_seg_name().send_keys(seg_name_text)
             groobee.send_purchase_seg_des().send_keys(seg_des_text)
+            time.sleep(1)
 
             # 구매 확률 세그먼트 선택
             groobee.click_purchase_combo().click()
@@ -63,7 +64,7 @@ class TestAisegmentCreate(BaseClass):
                     (By.XPATH, f"//p[contains(text(), '{seg_name_text}')]")
                 )
             )
-            assert groobee.get_seg_list_item(seg_name_text).is_displayed()
+            assert groobee.get_seg_list_item(seg_name_text).is_displayed(), f"생성 실패: {seg_name_text}"
             log.info(f"생성 완료: {seg_name_text}")
             time.sleep(1)
 
@@ -75,4 +76,4 @@ class TestAisegmentCreate(BaseClass):
                 WebDriverWait(driver, 10).until(
                     EC.presence_of_element_located(AisegmentPage.purchase_seg_title)
                 )
-                assert driver.title == self.purchase_expect_title
+                assert driver.title == self.purchase_expect_title, f"현재 페이지: {driver.title}, 기대 페이지: {self.purchase_expect_title}"
