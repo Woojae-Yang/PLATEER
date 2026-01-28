@@ -11,6 +11,7 @@ if PROJECT_ROOT not in sys.path:
 import pytest
 
 from setup.driver_setup import create_driver
+from setup.testrail_client import TestRailClient
 from test_flow import MainFlow
 
 from actions.gelatto_action import GelattoAction
@@ -61,9 +62,9 @@ def chatbot(flow):
     action.chatbot.switch_tab()
     return action
 
-# ######################
+# ##################################################################
 # [TestRail 결과 수집]
-# ######################
+# ##################################################################
 
 from setup.config_loader import ConfigLoader
 from setup.testrail_client import TestRailClient
@@ -93,9 +94,18 @@ def pytest_runtest_makereport(item, call):
     if not marker:
         return
 
-    case_id = marker.kwargs.get("case_id")
-    if not case_id:
+    # case_ids 우선, 없으면 case_id fallback
+    raw_case_ids = marker.kwargs.get("case_ids")
+    if raw_case_ids is None:
+        raw_case_ids = marker.kwargs.get("case_id")
+    if not raw_case_ids:
         return
+    
+    # 항상 list[int]로 정규화
+    if isinstance(raw_case_ids, (list, tuple, set)):
+        case_ids = [int(x) for x in raw_case_ids]
+    else:
+        case_ids = [int(raw_case_ids)]
 
     # pytest 결과 -> TestRail status 매핑
     if report.passed:
@@ -111,14 +121,14 @@ def pytest_runtest_makereport(item, call):
         f"time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
     )
 
-    case_ids = case_id if isinstance(case_id, list) else [case_id]
-    for case_idx in case_ids:
-        item.config._testrail_case_ids.add(int(case_idx))
-    item.config._testrail_results.append({
-        "case_id": int(case_id),
-        "status_id": status_id,
-        "comment": comment,
-    })
+    # 복수 case_id 모두 results에 넣기
+    for cid in case_ids:
+        item.config._testrail_case_ids.add(cid)
+        item.config._testrail_results.append({
+            "case_id": cid,
+            "status_id": status_id,
+            "comment": comment,
+        })
 
 def pytest_sessionfinish(session, exitstatus):
     config = session.config
@@ -132,20 +142,10 @@ def pytest_sessionfinish(session, exitstatus):
     if not cfg.testrail_enabled:
         return
 
+    run_id = cfg.testrail_run_id
+    if not run_id:
+        raise RuntimeError("testrail.run.id is missing in config.yaml (need run_id for direct upload)")
+
     tr = TestRailClient(cfg)
+    tr.add_results_for_cases(run_id=run_id, results=results)
 
-    # Run 이름: yaml template 사용
-    run_name = cfg.testrail_run_name_template.format(
-        date=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        marker="gelatto"
-    )
-
-    case_ids = sorted(getattr(config, "_testrail_case_ids", set()))
-
-    # project_id/suite_id는 지금은 고정값(5/16)으로 시작
-    # 필요하면 yaml로 옮기거나, cfg에 프로퍼티 추가하면 됨
-    project_id = 5
-    suite_id = 16
-
-    run = tr.add_run(project_id=project_id, suite_id=suite_id, case_ids=case_ids, name=run_name)
-    tr.add_results_for_cases(run_id=run["id"], results=results)

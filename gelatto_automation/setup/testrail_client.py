@@ -82,4 +82,6 @@ class TestRailClient:
         payload = {"results": results}
         return self.post(f"add_results_for_cases/{run_id}", payload)
     
+    def get_tests(self, run_id: int):
+        return self.get(f"get_tests/{run_id}")
 

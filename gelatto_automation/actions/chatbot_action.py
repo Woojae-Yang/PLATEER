@@ -26,7 +26,6 @@ class ChatbotAction:
         info(f"[Chatbot] after switch: title={self.driver.title}")
         time.sleep(2)
 
-
         #메세지 전송
         now = datetime.now()
         now_date = now.strftime('%Y.%m.%d')
@@ -40,3 +39,25 @@ class ChatbotAction:
         # 응답 메세지
         reply_txt = self.chatbot.get_reply_msg()
         return sent_txt, reply_txt
+
+    def get_chatbot_txt(self):
+        self.chatbot.switch_tab()
+        info(f"[Chatbot] after switch: handle={self.driver.current_window_handle}")
+        info(f"[Chatbot] after switch: url={self.driver.current_url}")
+        info(f"[Chatbot] after switch: title={self.driver.title}")
+        self.driver.refresh()
+        time.sleep(2)
+
+        # 대표 문구
+        self.wait.until(EC.presence_of_element_located(self.chatbot.welcome_h1))
+        welcome_h1_txt = self.driver.find_element(*self.chatbot.welcome_h1).text
+        
+        # 첫인사
+        welcome_hello_txt = self.driver.find_element(*self.chatbot.welcome_hello).text
+        
+        # 플레이스홀더
+        self.wait.until(EC.visibility_of_element_located(self.chatbot.text_input_elem))
+        chatbot_placeholder_txt = self.driver.find_element(*self.chatbot.text_input_elem).get_attribute("placeholder")
+            
+        return welcome_h1_txt, welcome_hello_txt, chatbot_placeholder_txt
+

@@ -27,3 +27,4 @@ testrail:
   # Run 생성 규칙
   run:
     name_template: "Gelatto UI - {date} - {marker}"
+    id: 65

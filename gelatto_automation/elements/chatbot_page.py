@@ -20,17 +20,21 @@ class ChatbotService(BaseAction):
     
     # -------------------------element 선언 영역-------------------------
     # MAIN
+    ## 대표 문구
+    welcome_h1 = (By.XPATH, "//*[contains(@class, 'ChatForm_chatWelcomeMessageTitle__cnxyk')]")
+    ## 첫인사
+    welcome_hello = (By.XPATH, "//*[contains(@class, 'ChatForm_chatWelcomeMessageDescription__6nbJ1')]")
     ## 대화 입력 창
-    text_input_elem = (By.XPATH, '//*[@id="chatTextArea"]')
+    text_input_elem = (By.XPATH, "//*[@id='chatTextArea']")
     ## 전송 버튼
     send_msg_btn = (By.XPATH, "/html/body/div[1]/div[2]/div/div[2]/div/div/form/button")
     ## 답변 영역
     bot_reply_elem = (By.XPATH, "/html/body/div[1]/div[2]/div/div[1]/div[3]")
-    
+
     # GNB
     ## 새로운 대화 버튼
     new_chat_btn = (By.XPATH, "/html/body/div[1]/div[1]/div/header/button/span[1]")
-
+    
     # -------------------------동작 선언 영역-------------------------
 
     def switch_tab(self):

@@ -125,3 +125,9 @@ class ConfigLoader:
             "name_template",
             "pytest run {date}"
         )
+    @property
+    def testrail_run_id(self) -> int | None:
+        run_id = self.config.get("testrail", {}).get("run", {}).get("id")
+        if run_id in (None, "", 0):
+            return None
+        return int(run_id)
