@@ -2,7 +2,7 @@
 """
 @author: WoojaeYang
 """
-
+import os
 
 from selenium import webdriver
 from selenium.common import exceptions
@@ -38,6 +38,18 @@ def create_driver():
     options.add_argument("--disable-dev-shm-usage")
     ##### 
 
+    remote_url = os.getenv("SELENIUM_REMOTE_URL")
+
+    # 도커(분리 구조)에서는 Remote로 붙기
+    if remote_url:
+        driver = webdriver.Remote(
+            command_executor=remote_url,
+            options=options
+        )
+        driver.set_window_size(2560, 2000)
+        wait = WebDriverWait(driver, 20)
+        return driver, wait
+    
     # 크롬드라이버 자동 업데이트
     service = Service(executable_path=ChromeDriverManager().install()) ## 일단 이건 도커에서는 사용 안함
     #service = Service()
@@ -46,7 +58,6 @@ def create_driver():
     driver = webdriver.Chrome(service = service, options = options)
     #driver.maximize_window() ## 도커에선 일단 OFF
     driver.set_window_size(2560, 2000)
-
     wait = WebDriverWait(driver, 20)
     
     return driver, wait

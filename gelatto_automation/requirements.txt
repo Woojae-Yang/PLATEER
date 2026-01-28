@@ -3,5 +3,6 @@ selenium == 4.38.0
 requests == 2.32.3
 PyYaml == 6.0.2
 webdriver_manager == 4.0.2
+pytest == 8.3.4
 
 
