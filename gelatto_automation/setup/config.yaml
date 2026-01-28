@@ -1,9 +1,9 @@
 credentials:
   username: "groobee.wjyang102"
-  password: "dnwodid7024!"
+  password: YWJ_ADMIN_PW
   
   shop_id: "testywj"
-  shop_pw: "groobeegogo34$"
+  shop_pw: YWJ_SHOP_PW
 
 urls:
   admin_page: "https://admin.groobee.io/login"
