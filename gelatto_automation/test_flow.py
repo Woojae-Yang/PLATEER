@@ -20,7 +20,6 @@ now = datetime.now()
 class MainFlow:
 
     def __init__(self, driver, wait):
-
         self.driver = driver
         self.wait = wait
         # 페이지 객체 보관용
@@ -100,7 +99,6 @@ class ChatbotFlow:
             print(f"[Chatbot] Iteration {i}/{count}")
             info(f"[Chatbot] Iteration {i}/{count}")
             self.chatbot.chatbot_circle()
-
 
 class GelattoFlow:
 

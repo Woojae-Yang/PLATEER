@@ -28,13 +28,29 @@ class GelattoProduct(BaseAction):
     lnb_report = (By.XPATH, "//*[contains(text(), '분석 리포트')]")
 
     ## DashBoard -------------------------
+    ### 대시보드 타이틀
+    dash_title = (By.XPATH, 
+                  "//*[contains(@class, 'MuiTypography-root MuiTypography-h5 css-1lfbol6')]")
+    ### AI 챗봇 서브타이틀
+    chatbot_subtitle = (By.XPATH, 
+                        "//*[contains(@class, 'MuiTypography-root MuiTypography-h6 css-u32oi6')]")
+    ### 마지막 업데이트
+    last_update = (By.XPATH, 
+                   "//*[contains(@class, MuiTypography-root MuiTypography-caption css-1guagej)]")
+    
     ### [최근 활동 내역] RNB 진입 버튼
     log_history_btn = (By.XPATH, "//button[contains(text(), '최근 활동 내역')]")
     ### [최근 활동 내역] > 1번째 내용
     recent_log = (By.XPATH, "/html/body/div[2]/div[3]/div/div/div[2]/div[1]/div[1]")
-    ### 당월 사용 크레딧
-    used_credit = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[2]/div/div[3]/div[2]/h5")
-                
+    
+    ### 당월 사용 크레딧 서브타이틀
+    credit_subtitle = (By.XPATH, "//*[contains(@class, 'MuiTypography-root MuiTypography-subtitle1 css-13bc114')]")
+    ### 사용 크레딧
+    used_credit = (By.XPATH, "//*[contains(@class, 'MuiTypography-root MuiTypography-h5 css-1fxynwj')]")
+    ### 크레딧 사용 기간
+    credit_period = (By.XPATH, "//*[contains(@class, 'MuiTypography-root MuiTypography-caption css-1iqeyid')]")
+
+
     ## 젤라또 만들기 -------------------------
     ### 기본 설정 탭
     setting_tab = (By.XPATH, "//button[contains(text(), '기본 설정')]")
@@ -111,12 +127,24 @@ class GelattoProduct(BaseAction):
     def enter_dashboard(self):
         info("대시보드 LNB")
         self.click(self.lnb_dashboard, "LNB 대시보드 진입")
-        time.sleep(3)
+        time.sleep(2.5)
+
+    def get_dashboard_text(self):
+        info("대시보드 텍스트 확인")
+        return {
+        "dashboard_title_txt": (el.text.strip() if (el := self.find(self.dash_title, "대시보드 타이틀 확인")) else None)
+        , "chatbot_subtitle_txt": (el.text.strip() if (el := self.find(self.chatbot_subtitle, "AI 챗봇 서브타이틀 확인" )) else None)
+        , "last_update_txt": (el.text.strip() if (el := self.find(self.last_update,'마지막 업데이트')) else None)
+        , "credit_subtitle_txt": (el.text.strip() if (el := self.find(self.used_credit, "당월 사용 크레딧")) else None)
+        , "used_period_txt": (el.text.strip() if (el := self.find(self.credit_period, "크레딧 사용 기간")) else None)
+        }
+
+
 
     def enter_log_rnb(self):
         info("최근 활동 RNB")
         self.wait_and_click(EC.element_to_be_clickable, self.log_history_btn, "최근 활동 RNB 호출")
-        time.sleep(3)
+        time.sleep(2.6)
 
     def get_recent_log(self):
         time.sleep(2)

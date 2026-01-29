@@ -15,6 +15,38 @@ class GelattoAction:
         self.gelatto = GelattoProduct(driver, wait, tab)
         self.config = ConfigLoader()
 
+    #### 대시보드 영역 ##################################################
+    def get_dashboard_ui(self):
+        self.gelatto.switch_tab()
+        time.sleep(2)
+        
+        info("대시보드 UI 확인")
+        info(f"[Credit] handle={self.driver.current_window_handle}")
+        info(f"[Credit] url={self.driver.current_url}")
+        info(f"[Credit] title={self.driver.title}")
+        info(f"[Credit] handles={self.driver.window_handles}")
+
+        self.gelatto.enter_dashboard()
+        time.sleep(2)
+        return self.gelatto.get_dashboard_text()
+
+
+    # 대시보드 > 당월 사용 크레딧
+    def get_credit_cnt(self):
+        self.gelatto.switch_tab()
+        self.driver.refresh()
+        time.sleep(2.5)
+
+        info("당월 사용 크레딧 확인")
+        info(f"[Credit] handle={self.driver.current_window_handle}")
+        info(f"[Credit] url={self.driver.current_url}")
+        info(f"[Credit] title={self.driver.title}")
+        info(f"[Credit] handles={self.driver.window_handles}")
+
+        self.gelatto.enter_dashboard()
+        time.sleep(2.5)
+        return self.gelatto.credit_usage()
+
     # 분석 리포트 > `봇 분석` 탭 > 수치 세개 추출
     def get_3_cnt(self):
         info("[봇 분석]탭에서 수치 추출하기")
@@ -88,19 +120,6 @@ class GelattoAction:
         print('전문 용어 등록 OK')
         time.sleep(2)
 
-    # 대시보드 > 당월 사용 크레딧
-    def get_credit_cnt(self):
-        info("당월 사용 크레딧 확인")
-        info(f"[Credit] handle={self.driver.current_window_handle}")
-        info(f"[Credit] url={self.driver.current_url}")
-        info(f"[Credit] title={self.driver.title}")
-        info(f"[Credit] handles={self.driver.window_handles}")
 
-        self.gelatto.switch_tab()
-        self.driver.refresh()
-        time.sleep(3)
-        self.gelatto.enter_dashboard()
-        time.sleep(3)
-        return self.gelatto.credit_usage()
 
         

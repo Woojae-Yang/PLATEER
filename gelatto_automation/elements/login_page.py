@@ -13,7 +13,7 @@ class LoginPage(BaseAction):
     # -------------------------element 선언 영역-------------------------
     # 로그인
     input_id = (By.XPATH, "//input[@id='outlined-id']")
-    input_pw = (By.XPATH, "//input[@id='outlined-adornment-password']")
+    input_pwd = (By.XPATH, "//input[@id='outlined-adornment-password']")
     loginBtn = (By.XPATH, "//button[contains(text(),'로그인')]")
 
     # 고객사 검색
