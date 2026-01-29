@@ -1,11 +1,12 @@
 from selenium.webdriver.common.by import By
+from utilities.BaseClass import BaseClass
 
 class SegmentPage:
 
     def __init__(self, driver):
         self.driver = driver
 
-    # -------------------------element 선언 영역-------------------------
+    # ------------------------------ element 선언 ------------------------------
     # LNB
     dashboardMenu = (By.XPATH, "//p[contains(text(),'대시보드')]")
     segmentMenu = (By.XPATH, "//a[@href='/segment']")
@@ -82,12 +83,12 @@ class SegmentPage:
     cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
     saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
 
-    # -------------------------동작 선언 영역-------------------------
+    # ------------------------------ action + wait ------------------------------
     # LNB
-    def click_dashboard_menu(self):
-        return self.driver.find_element(*SegmentPage.dashboardMenu)
-    def click_segment_menu(self):
-        return self.driver.find_element(*SegmentPage.segmentMenu)
+    def click_dashboard_menu(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.dashboardMenu, timeout).click()
+    def click_segment_menu(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.segmentMenu, timeout).click()
 
     # 만들기
     def click_create_btn(self):

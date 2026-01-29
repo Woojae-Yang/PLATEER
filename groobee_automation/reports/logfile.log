@@ -114,3 +114,22 @@
 2025-12-05 15:19:31,982 - test_campaign_delete - 삭제 완료: [QA] PC/웹-페이지반복 테스트 캠페인
 2025-12-05 15:19:44,890 - test_segment_delete - 삭제 완료: [QA] 온사이트네이티브-과거x현재-로그인+남자+수요일 테스트 세그먼트
 2025-12-05 15:19:51,675 - test_segment_delete - 삭제 완료: [QA] 온사이트웹-현재-PC접속 테스트 세그먼트
+2026-01-29 11:29:52,204 - test_aisegment_create_rfm - 생성 완료: [QA] VIP 테스트 세그먼트
+2026-01-29 11:29:56,670 - test_aisegment_create_rfm - 생성 완료: [QA] 뜸한 VIP 테스트 세그먼트
+2026-01-29 11:30:00,832 - test_aisegment_create_rfm - 생성 완료: [QA] 잠재 VIP 테스트 세그먼트
+2026-01-29 11:30:05,149 - test_aisegment_create_rfm - 생성 완료: [QA] 신규 고객 테스트 세그먼트
+2026-01-29 11:30:10,178 - test_aisegment_create_rfm - 생성 완료: [QA] 지금 잡아야 할 고객 테스트 세그먼트
+2026-01-29 11:30:14,658 - test_aisegment_create_rfm - 생성 완료: [QA] 신경써야 할 고객 테스트 세그먼트
+2026-01-29 11:30:18,949 - test_aisegment_create_rfm - 생성 완료: [QA] 이탈 우려 테스트 세그먼트
+2026-01-29 11:30:23,287 - test_aisegment_create_rfm - 생성 완료: [QA] 이탈한 VIP 테스트 세그먼트
+2026-01-29 11:30:27,585 - test_aisegment_create_rfm - 생성 완료: [QA] 이탈한 잠재 VIP 테스트 세그먼트
+2026-01-29 11:30:31,907 - test_aisegment_create_rfm - 생성 완료: [QA] 이탈한 고객 테스트 세그먼트
+2026-01-29 11:30:38,860 - test_aisegment_create_purchase - 생성 완료: [QA] 0~20% 테스트 세그먼트
+2026-01-29 11:30:43,579 - test_aisegment_create_purchase - 생성 완료: [QA] 21~40% 테스트 세그먼트
+2026-01-29 11:30:48,127 - test_aisegment_create_purchase - 생성 완료: [QA] 41~60% 테스트 세그먼트
+2026-01-29 11:30:52,696 - test_aisegment_create_purchase - 생성 완료: [QA] 61~80% 테스트 세그먼트
+2026-01-29 11:30:57,280 - test_aisegment_create_purchase - 생성 완료: [QA] 81~100% 테스트 세그먼트
+2026-01-29 11:31:03,024 - test_aisegment_create_purchase - 생성 완료: [QA] 직접 입력 테스트 세그먼트
+2026-01-29 11:31:59,645 - test_aicampaign_create - 생성 완료: [QA] 상품 추천-구매 확률-데이터 호출형 테스트 캠페인
+2026-01-29 11:32:16,795 - test_campaign_create_onsite - 세그먼트 미노출
+2026-01-29 11:32:25,136 - test_campaign_service_onsite - 캠페인 미노출

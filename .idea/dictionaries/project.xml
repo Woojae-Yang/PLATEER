@@ -18,9 +18,12 @@
       <w>makereport</w>
       <w>moveto</w>
       <w>nodeid</w>
+      <w>norecursedirs</w>
+      <w>onsiteweb</w>
       <w>pcweb</w>
       <w>poten</w>
       <w>pushnoti</w>
+      <w>regist</w>
       <w>rowindex</w>
       <w>testid</w>
       <w>testpaths</w>
