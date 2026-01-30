@@ -3,7 +3,7 @@ import os
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from PageObjects.수정필요.CampaignPage import CampaignPage
+from PageObjects.CampaignPage import CampaignPage
 from utilities.BaseClass import BaseClass
 
 class TestCampaignCreate(BaseClass):

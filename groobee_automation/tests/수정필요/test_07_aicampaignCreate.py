@@ -2,7 +2,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from PageObjects.수정필요.RecommendPage import RecommendPage
+from PageObjects.RecommendPage import RecommendPage
 from utilities.BaseClass import BaseClass
 
 class TestAiCampaignCreate(BaseClass):

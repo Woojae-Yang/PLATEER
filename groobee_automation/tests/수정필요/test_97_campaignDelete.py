@@ -1,6 +1,6 @@
 import time
 from selenium.webdriver.common.by import By
-from PageObjects.수정필요.CampaignPage import CampaignPage
+from PageObjects.CampaignPage import CampaignPage
 from utilities.BaseClass import BaseClass
 
 class TestCampaignDelete(BaseClass):

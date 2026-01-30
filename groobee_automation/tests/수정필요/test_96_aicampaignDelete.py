@@ -1,6 +1,6 @@
 import time
 from selenium.webdriver.common.by import By
-from PageObjects.수정필요.RecommendPage import RecommendPage
+from PageObjects.RecommendPage import RecommendPage
 from utilities.BaseClass import BaseClass
 
 class TestAiCampaignDelete(BaseClass):

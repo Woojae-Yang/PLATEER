@@ -98,11 +98,6 @@ def driver(request):
 
 @pytest.fixture
 def login(driver):
-    """
-    로그인 성공(대시보드 진입) 상태까지 보장하는 fixture.
-    - TestRail 업로드와 분리 (fixture에는 case_id 마커 붙이지 않음)
-    - 이후 테스트는 (driver, login)만 의존하도록 사용
-    """
     base_url = os.getenv("GROOBEE_BASE_URL")
     user_id = os.getenv("GROOBEE_ID")
     user_pw = os.getenv("GROOBEE_PW")
@@ -131,7 +126,14 @@ def login(driver):
     # 대시보드 로드 확인
     assert groobee.wait_dashboard_loaded(), "Dashboard not loaded"
 
-    return groobee  # 필요하면 이후 테스트에서 재사용 가능
+    return groobee
+
+@pytest.fixture
+def clear_campaigns():
+    def _clear(page_obj, timeout=10):
+        page_obj.move_all_running_to_pause(timeout=timeout)
+        page_obj.assert_no_running_campaigns(timeout=timeout)
+    return _clear
 
 
 # ==========================
