@@ -1,0 +1,152 @@
+Traceback (most recent call last):
+  File "/opt/anaconda3/bin/pytest", line 11, in <module>
+    sys.exit(console_main())
+             ~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/config/__init__.py", line 201, in console_main
+    code = main()
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/config/__init__.py", line 175, in main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_hooks.py", line 513, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 139, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 103, in _multicall
+    res = hook_impl.function(*args)
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/main.py", line 330, in pytest_cmdline_main
+    return wrap_session(config, _main)
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/main.py", line 318, in wrap_session
+    config.hook.pytest_sessionfinish(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        session=session, exitstatus=session.exitstatus
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_hooks.py", line 513, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 139, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/logging.py", line 868, in pytest_sessionfinish
+    return (yield)
+            ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/terminal.py", line 893, in pytest_sessionfinish
+    result = yield
+             ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/warnings.py", line 141, in pytest_sessionfinish
+    return (yield)
+            ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 103, in _multicall
+    res = hook_impl.function(*args)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py", line 150, in pytest_sessionfinish
+    run = tr.add_run(project_id=project_id, suite_id=suite_id, case_ids=case_ids, name=run_name)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 75, in add_run
+    return self.post(f"add_run/{project_id}", payload)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 39, in post
+    self._raise_if_error(r, "POST", url)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 53, in _raise_if_error
+    resp.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://plateerqa.testrail.io/index.php?/api/v2/add_run/5
+Traceback (most recent call last):
+  File "/opt/anaconda3/bin/pytest", line 11, in <module>
+    sys.exit(console_main())
+             ~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/config/__init__.py", line 201, in console_main
+    code = main()
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/config/__init__.py", line 175, in main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_hooks.py", line 513, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 139, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 103, in _multicall
+    res = hook_impl.function(*args)
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/main.py", line 330, in pytest_cmdline_main
+    return wrap_session(config, _main)
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/main.py", line 318, in wrap_session
+    config.hook.pytest_sessionfinish(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        session=session, exitstatus=session.exitstatus
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_hooks.py", line 513, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 139, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/logging.py", line 868, in pytest_sessionfinish
+    return (yield)
+            ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/terminal.py", line 893, in pytest_sessionfinish
+    result = yield
+             ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/warnings.py", line 141, in pytest_sessionfinish
+    return (yield)
+            ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 103, in _multicall
+    res = hook_impl.function(*args)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py", line 150, in pytest_sessionfinish
+    run = tr.add_run(project_id=project_id, suite_id=suite_id, case_ids=case_ids, name=run_name)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 75, in add_run
+    return self.post(f"add_run/{project_id}", payload)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 39, in post
+    self._raise_if_error(r, "POST", url)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 53, in _raise_if_error
+    resp.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://plateerqa.testrail.io/index.php?/api/v2/add_run/5
+ImportError while loading conftest '/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py'.
+conftest.py:15: in <module>
+    from test_flow import MainFlow
+../test_flow.py:12: in <module>
+    from actions.chatbot_action import ChatbotAction
+../actions/chatbot_action.py:9: in <module>
+    from elements.chatbot_page import ChatbotService
+../elements/chatbot_page.py:14: in <module>
+    class ChatbotService(BaseAction):
+../elements/chatbot_page.py:24: in ChatbotService
+    welcome_h1 = (By.Xpath, "//*[contains(@class, 'ChatForm_chatWelcomeMessageTitle__cnxyk')]")
+E   AttributeError: type object 'By' has no attribute 'Xpath'. Did you mean: 'XPATH'?

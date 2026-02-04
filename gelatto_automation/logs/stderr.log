@@ -1,0 +1,797 @@
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 108, in <module>
+    gelatto.make_gelatto()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 39, in make_gelatto
+    self.gelatto.click_save()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 155, in click_save
+    self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 926, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 458, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/errorhandler.py", line 233, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[2]/div[3]/div/div[2]/button[2]"}
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+0   chromedriver                        0x0000000100840b2c cxxbridge1$str$ptr + 3033596
+1   chromedriver                        0x0000000100838b30 cxxbridge1$str$ptr + 3000832
+2   chromedriver                        0x0000000100332b0c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74196
+3   chromedriver                        0x00000001003799c8 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364688
+4   chromedriver                        0x00000001003ba968 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630832
+5   chromedriver                        0x000000010036e16c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317492
+6   chromedriver                        0x0000000100804098 cxxbridge1$str$ptr + 2785128
+7   chromedriver                        0x0000000100807804 cxxbridge1$str$ptr + 2799316
+8   chromedriver                        0x00000001007e4850 cxxbridge1$str$ptr + 2656032
+9   chromedriver                        0x0000000100808074 cxxbridge1$str$ptr + 2801476
+10  chromedriver                        0x00000001007d51cc cxxbridge1$str$ptr + 2592924
+11  chromedriver                        0x0000000100827cb4 cxxbridge1$str$ptr + 2931588
+12  chromedriver                        0x0000000100827e34 cxxbridge1$str$ptr + 2931972
+13  chromedriver                        0x0000000100838788 cxxbridge1$str$ptr + 2999896
+14  libsystem_pthread.dylib             0x000000018c0a3c0c _pthread_start + 136
+15  libsystem_pthread.dylib             0x000000018c09eb80 thread_start + 8
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 108, in <module>
+    gelatto.make_gelatto()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 39, in make_gelatto
+    self.gelatto.click_save()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 155, in click_save
+    self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 926, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 458, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/errorhandler.py", line 233, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[2]/div[3]/div/div[2]/button[2]"}
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+0   chromedriver                        0x0000000102b20b2c cxxbridge1$str$ptr + 3033596
+1   chromedriver                        0x0000000102b18b30 cxxbridge1$str$ptr + 3000832
+2   chromedriver                        0x0000000102612b0c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74196
+3   chromedriver                        0x00000001026599c8 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364688
+4   chromedriver                        0x000000010269a968 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630832
+5   chromedriver                        0x000000010264e16c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317492
+6   chromedriver                        0x0000000102ae4098 cxxbridge1$str$ptr + 2785128
+7   chromedriver                        0x0000000102ae7804 cxxbridge1$str$ptr + 2799316
+8   chromedriver                        0x0000000102ac4850 cxxbridge1$str$ptr + 2656032
+9   chromedriver                        0x0000000102ae8074 cxxbridge1$str$ptr + 2801476
+10  chromedriver                        0x0000000102ab51cc cxxbridge1$str$ptr + 2592924
+11  chromedriver                        0x0000000102b07cb4 cxxbridge1$str$ptr + 2931588
+12  chromedriver                        0x0000000102b07e34 cxxbridge1$str$ptr + 2931972
+13  chromedriver                        0x0000000102b18788 cxxbridge1$str$ptr + 2999896
+14  libsystem_pthread.dylib             0x000000018c0a3c0c _pthread_start + 136
+15  libsystem_pthread.dylib             0x000000018c09eb80 thread_start + 8
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 108, in <module>
+    gelatto.make_gelatto()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 39, in make_gelatto
+    self.gelatto.click_save()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 155, in click_save
+    self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 926, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 458, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/errorhandler.py", line 233, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[2]/div[3]/div/div[2]/button[2]"}
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+0   chromedriver                        0x00000001026f4b2c cxxbridge1$str$ptr + 3033596
+1   chromedriver                        0x00000001026ecb30 cxxbridge1$str$ptr + 3000832
+2   chromedriver                        0x00000001021e6b0c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74196
+3   chromedriver                        0x000000010222d9c8 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364688
+4   chromedriver                        0x000000010226e968 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630832
+5   chromedriver                        0x000000010222216c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317492
+6   chromedriver                        0x00000001026b8098 cxxbridge1$str$ptr + 2785128
+7   chromedriver                        0x00000001026bb804 cxxbridge1$str$ptr + 2799316
+8   chromedriver                        0x0000000102698850 cxxbridge1$str$ptr + 2656032
+9   chromedriver                        0x00000001026bc074 cxxbridge1$str$ptr + 2801476
+10  chromedriver                        0x00000001026891cc cxxbridge1$str$ptr + 2592924
+11  chromedriver                        0x00000001026dbcb4 cxxbridge1$str$ptr + 2931588
+12  chromedriver                        0x00000001026dbe34 cxxbridge1$str$ptr + 2931972
+13  chromedriver                        0x00000001026ec788 cxxbridge1$str$ptr + 2999896
+14  libsystem_pthread.dylib             0x000000018c0a3c0c _pthread_start + 136
+15  libsystem_pthread.dylib             0x000000018c09eb80 thread_start + 8
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 110, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 44, in prepare_main
+    gelatto_handle = util.wait_new_tab(driver, before)
+                     ^^^^^^^^^^^^^^^^^
+AttributeError: module 'setup.selenium_utils' has no attribute 'wait_new_tab'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 115, in <module>
+    gelatto.make_gelatto()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 42, in make_gelatto
+    self.gelatto.click_save()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 160, in click_save
+    self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 926, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 458, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/errorhandler.py", line 233, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[2]/div[3]/div/div[2]/button[2]"}
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+0   chromedriver                        0x0000000104694b2c cxxbridge1$str$ptr + 3033596
+1   chromedriver                        0x000000010468cb30 cxxbridge1$str$ptr + 3000832
+2   chromedriver                        0x0000000104186b0c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74196
+3   chromedriver                        0x00000001041cd9c8 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364688
+4   chromedriver                        0x000000010420e968 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630832
+5   chromedriver                        0x00000001041c216c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317492
+6   chromedriver                        0x0000000104658098 cxxbridge1$str$ptr + 2785128
+7   chromedriver                        0x000000010465b804 cxxbridge1$str$ptr + 2799316
+8   chromedriver                        0x0000000104638850 cxxbridge1$str$ptr + 2656032
+9   chromedriver                        0x000000010465c074 cxxbridge1$str$ptr + 2801476
+10  chromedriver                        0x00000001046291cc cxxbridge1$str$ptr + 2592924
+11  chromedriver                        0x000000010467bcb4 cxxbridge1$str$ptr + 2931588
+12  chromedriver                        0x000000010467be34 cxxbridge1$str$ptr + 2931972
+13  chromedriver                        0x000000010468c788 cxxbridge1$str$ptr + 2999896
+14  libsystem_pthread.dylib             0x000000018c0a3c0c _pthread_start + 136
+15  libsystem_pthread.dylib             0x000000018c09eb80 thread_start + 8
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 115, in <module>
+    gelatto.make_gelatto()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 42, in make_gelatto
+    self.gelatto.click_save()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 160, in click_save
+    self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 926, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 458, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/errorhandler.py", line 233, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[2]/div[3]/div/div[2]/button[2]"}
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+0   chromedriver                        0x000000010061cb2c cxxbridge1$str$ptr + 3033596
+1   chromedriver                        0x0000000100614b30 cxxbridge1$str$ptr + 3000832
+2   chromedriver                        0x000000010010eb0c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74196
+3   chromedriver                        0x00000001001559c8 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364688
+4   chromedriver                        0x0000000100196968 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630832
+5   chromedriver                        0x000000010014a16c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317492
+6   chromedriver                        0x00000001005e0098 cxxbridge1$str$ptr + 2785128
+7   chromedriver                        0x00000001005e3804 cxxbridge1$str$ptr + 2799316
+8   chromedriver                        0x00000001005c0850 cxxbridge1$str$ptr + 2656032
+9   chromedriver                        0x00000001005e4074 cxxbridge1$str$ptr + 2801476
+10  chromedriver                        0x00000001005b11cc cxxbridge1$str$ptr + 2592924
+11  chromedriver                        0x0000000100603cb4 cxxbridge1$str$ptr + 2931588
+12  chromedriver                        0x0000000100603e34 cxxbridge1$str$ptr + 2931972
+13  chromedriver                        0x0000000100614788 cxxbridge1$str$ptr + 2999896
+14  libsystem_pthread.dylib             0x000000018c0a3c0c _pthread_start + 136
+15  libsystem_pthread.dylib             0x000000018c09eb80 thread_start + 8
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 115, in <module>
+    gelatto.make_gelatto()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 42, in make_gelatto
+    self.gelatto.click_save()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 160, in click_save
+    self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 926, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 458, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/errorhandler.py", line 233, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[2]/div[3]/div/div[2]/button[2]"}
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+0   chromedriver                        0x000000010334cb2c cxxbridge1$str$ptr + 3033596
+1   chromedriver                        0x0000000103344b30 cxxbridge1$str$ptr + 3000832
+2   chromedriver                        0x0000000102e3eb0c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74196
+3   chromedriver                        0x0000000102e859c8 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364688
+4   chromedriver                        0x0000000102ec6968 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630832
+5   chromedriver                        0x0000000102e7a16c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317492
+6   chromedriver                        0x0000000103310098 cxxbridge1$str$ptr + 2785128
+7   chromedriver                        0x0000000103313804 cxxbridge1$str$ptr + 2799316
+8   chromedriver                        0x00000001032f0850 cxxbridge1$str$ptr + 2656032
+9   chromedriver                        0x0000000103314074 cxxbridge1$str$ptr + 2801476
+10  chromedriver                        0x00000001032e11cc cxxbridge1$str$ptr + 2592924
+11  chromedriver                        0x0000000103333cb4 cxxbridge1$str$ptr + 2931588
+12  chromedriver                        0x0000000103333e34 cxxbridge1$str$ptr + 2931972
+13  chromedriver                        0x0000000103344788 cxxbridge1$str$ptr + 2999896
+14  libsystem_pthread.dylib             0x00000001841b3c0c _pthread_start + 136
+15  libsystem_pthread.dylib             0x00000001841aeb80 thread_start + 8
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 115, in <module>
+    gelatto.make_gelatto()
+    ~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 42, in make_gelatto
+    self.gelatto.click_save()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 160, in click_save
+    self.driver.find_element(By.XPATH, "/html/body/div[2]/div[3]/div/div[2]/button[2]").click()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 926, in find_element
+    return self.execute(Command.FIND_ELEMENT, {"using": by, "value": value})["value"]
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/webdriver.py", line 458, in execute
+    self.error_handler.check_response(response)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/remote/errorhandler.py", line 233, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchElementException: Message: no such element: Unable to locate element: {"method":"xpath","selector":"/html/body/div[2]/div[3]/div/div[2]/button[2]"}
+  (Session info: chrome=143.0.7499.170); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#nosuchelementexception
+Stacktrace:
+0   chromedriver                        0x0000000102ac0b2c cxxbridge1$str$ptr + 3033596
+1   chromedriver                        0x0000000102ab8b30 cxxbridge1$str$ptr + 3000832
+2   chromedriver                        0x00000001025b2b0c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 74196
+3   chromedriver                        0x00000001025f99c8 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 364688
+4   chromedriver                        0x000000010263a968 _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 630832
+5   chromedriver                        0x00000001025ee16c _RNvCsgXDX2mvAJAg_7___rustc35___rust_no_alloc_shim_is_unstable_v2 + 317492
+6   chromedriver                        0x0000000102a84098 cxxbridge1$str$ptr + 2785128
+7   chromedriver                        0x0000000102a87804 cxxbridge1$str$ptr + 2799316
+8   chromedriver                        0x0000000102a64850 cxxbridge1$str$ptr + 2656032
+9   chromedriver                        0x0000000102a88074 cxxbridge1$str$ptr + 2801476
+10  chromedriver                        0x0000000102a551cc cxxbridge1$str$ptr + 2592924
+11  chromedriver                        0x0000000102aa7cb4 cxxbridge1$str$ptr + 2931588
+12  chromedriver                        0x0000000102aa7e34 cxxbridge1$str$ptr + 2931972
+13  chromedriver                        0x0000000102ab8788 cxxbridge1$str$ptr + 2999896
+14  libsystem_pthread.dylib             0x00000001841b3c0c _pthread_start + 136
+15  libsystem_pthread.dylib             0x00000001841aeb80 thread_start + 8
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 110, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 46, in prepare_main
+    self.gelatto.wait_gelatto_dash()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 111, in wait_gelatto_dash
+    self.wait.until(
+    ~~~~~~~~~~~~~~~^
+        EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/support/wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 110, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 46, in prepare_main
+    self.gelatto.wait_gelatto_dash()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 111, in wait_gelatto_dash
+    self.wait.until(
+    ~~~~~~~~~~~~~~~^
+        EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/support/wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 118, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 47, in prepare_main
+    self.gelatto.wait_gelatto_dash()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 111, in wait_gelatto_dash
+    self.wait.until(
+    ~~~~~~~~~~~~~~~^
+        EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/support/wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 128, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 43, in prepare_main
+    self.gelatto = EnterGelatto(driver, wait, self.gelatto_tab_idx)
+                                              ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'MainFlow' object has no attribute 'gelatto_tab_idx'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 128, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 47, in prepare_main
+    self.gelatto.wait_gelatto_dash()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 111, in wait_gelatto_dash
+    self.wait.until(
+    ~~~~~~~~~~~~~~~^
+        EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/support/wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 112, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 47, in prepare_main
+    self.gelatto.wait_gelatto_dash()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 111, in wait_gelatto_dash
+    self.wait.until(
+    ~~~~~~~~~~~~~~~^
+        EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/support/wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 113, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 47, in prepare_main
+    self.gelatto.wait_gelatto_dash()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 111, in wait_gelatto_dash
+    self.wait.until(
+    ~~~~~~~~~~~~~~~^
+        EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/support/wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 115, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 47, in prepare_main
+    self.gelatto.wait_gelatto_dash()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 111, in wait_gelatto_dash
+    self.wait.until(
+    ~~~~~~~~~~~~~~~^
+        EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/support/wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 115, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 47, in prepare_main
+    self.gelatto.wait_gelatto_dash()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 111, in wait_gelatto_dash
+    self.wait.until(
+    ~~~~~~~~~~~~~~~^
+        EC.element_to_be_clickable(self.gelatto_page.lnb_dashboard)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/selenium/webdriver/support/wait.py", line 138, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 121, in <module>
+    old_credit = int(gelatto.get_credit_cnt())
+                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 95, in get_credit_cnt
+    self.gelatto.enter_dashboard()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 107, in enter_dashboard
+    self.click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: BaseAction.click() takes from 2 to 3 positional arguments but 4 were given
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 121, in <module>
+    old_credit = int(gelatto.get_credit_cnt())
+                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 95, in get_credit_cnt
+    self.gelatto.enter_dashboard()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 107, in enter_dashboard
+    self.click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: BaseAction.click() takes from 2 to 3 positional arguments but 4 were given
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 120, in <module>
+    old_credit = int(gelatto.get_credit_cnt())
+                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 95, in get_credit_cnt
+    self.gelatto.enter_dashboard()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 107, in enter_dashboard
+    self.click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: BaseAction.click() takes from 2 to 3 positional arguments but 4 were given
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 119, in <module>
+    old_credit = int(gelatto.get_credit_cnt())
+                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 95, in get_credit_cnt
+    self.gelatto.enter_dashboard()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 107, in enter_dashboard
+    self.click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: BaseAction.click() takes from 2 to 3 positional arguments but 4 were given
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 117, in <module>
+    old_credit = int(gelatto.get_credit_cnt())
+                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 95, in get_credit_cnt
+    self.gelatto.enter_dashboard()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 107, in enter_dashboard
+    self.click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: BaseAction.click() takes from 2 to 3 positional arguments but 4 were given
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 118, in <module>
+    old_credit = int(gelatto.get_credit_cnt())
+                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 100, in get_credit_cnt
+    self.gelatto.enter_dashboard()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 107, in enter_dashboard
+    self.click(EC.element_to_be_clickable, self.lnb_dashboard, "LNB 대시보드 진입")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: BaseAction.click() takes from 2 to 3 positional arguments but 4 were given
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 140, in <module>
+    if new_credit-1 == old_credit:
+       ^^^^^^^^^^
+NameError: name 'new_credit' is not defined
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 118, in <module>
+    old_credit = int(gelatto.get_credit_cnt())
+                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 102, in get_credit_cnt
+    return self.gelatto.credit_usage()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 123, in credit_usage
+    print(self.find(self.used_credit, "당월 사용 크레딧").text)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'text'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 140, in <module>
+    if new_credit-1 == old_credit:
+       ^^^^^^^^^^
+NameError: name 'new_credit' is not defined
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 118, in <module>
+    old_credit = int(gelatto.get_credit_cnt())
+                     ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 102, in get_credit_cnt
+    return self.gelatto.credit_usage()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 123, in credit_usage
+    print(self.find(self.used_credit, "당월 사용 크레딧").text)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'text'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 140, in <module>
+    if new_credit-1 == old_credit:
+       ^^^^^^^^^^
+NameError: name 'new_credit' is not defined
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 124, in <module>
+    chat_flow.repeat_chatbot_circle()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 91, in repeat_chatbot_circle
+    self.chatbot.chatbot_circle()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/chatbot_action.py", line 34, in chatbot_circle
+    sent_txt = self.chatbot.send_message(self.input_time)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/chatbot_page.py", line 55, in send_message
+    text_input_box.click()
+    ^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'click'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 140, in <module>
+    if new_credit-1 == old_credit:
+       ^^^^^^^^^^
+NameError: name 'new_credit' is not defined. Did you mean: 'old_credit'?
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 116, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 66, in prepare_main
+    time.sleep(3)
+    ~~~~~~~~~~^^^
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 128, in <module>
+    chat_flow.repeat_chatbot_circle()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 95, in repeat_chatbot_circle
+    self.chatbot.chatbot_circle()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/chatbot_action.py", line 38, in chatbot_circle
+    time.sleep(8)
+    ~~~~~~~~~~^^^
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 4, in <module>
+    cfg = ConfigLoader()
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/config_loader.py", line 16, in __init__
+    self._load_env(base_dir, env_path)
+    ^^^^^^^^^^^^^^
+AttributeError: 'ConfigLoader' object has no attribute '_load_env'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 4, in <module>
+    cfg = ConfigLoader()
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/config_loader.py", line 16, in __init__
+    self._load_env(base_dir, env_path)
+    ^^^^^^^^^^^^^^
+AttributeError: 'ConfigLoader' object has no attribute '_load_env'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 32, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 8, in main
+    cfg = ConfigLoader()
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/config_loader.py", line 16, in __init__
+    self._load_env(base_dir, env_path)
+    ^^^^^^^^^^^^^^
+AttributeError: 'ConfigLoader' object has no attribute '_load_env'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 32, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 15, in main
+    print("[temp] api_key loaded =", bool(getattr(cfg, "testrail_api_key", "")))
+                                          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/config_loader.py", line 118, in testrail_api_key
+    raise RuntimeError(f"TestRail API key env var is empty: {env_name}")
+RuntimeError: TestRail API key env var is empty: TESTRAIL_API_KEY
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 32, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 15, in main
+    print("[temp] api_key loaded =", bool(getattr(cfg, "testrail_api_key", "")))
+                                          ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/config_loader.py", line 118, in testrail_api_key
+    raise RuntimeError(f"TestRail API key env var is empty: {env_name}")
+RuntimeError: TestRail API key env var is empty: TESTRAIL_API_KEY
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 32, in <module>
+    main()
+    ~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/temp.py", line 8, in main
+    cfg = ConfigLoader()
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/config_loader.py", line 16, in __init__
+    self._load_env(base_dir, env_path)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/config_loader.py", line 36, in _load_env
+    print(f"[ConfigLoader] loading env from: {candidate}")
+                                              ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'candidate' where it is not associated with a value
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 5, in <module>
+    from setup import create_driver, ConfigLoader
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/__init__.py", line 6, in <module>
+    from .testrail_client import TestRailClient
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 6, in <module>
+    class TestRailClient:
+    ...<75 lines>...
+            return self.post(f"add_results_for_cases/{run_id}", payload)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 12, in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+                            ^^^^^^^^^^^^
+NameError: name 'ConfigLoader' is not defined. Did you mean: 'config_loader'?
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 5, in <module>
+    from setup import create_driver, ConfigLoader
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/__init__.py", line 6, in <module>
+    from .testrail_client import TestRailClient
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 6, in <module>
+    class TestRailClient:
+    ...<75 lines>...
+            return self.post(f"add_results_for_cases/{run_id}", payload)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 12, in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+                            ^^^^^^^^^^^^
+NameError: name 'ConfigLoader' is not defined. Did you mean: 'config_loader'?
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 5, in <module>
+    from setup import create_driver, ConfigLoader
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/__init__.py", line 6, in <module>
+    from .testrail_client import TestRailClient
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 6, in <module>
+    class TestRailClient:
+    ...<75 lines>...
+            return self.post(f"add_results_for_cases/{run_id}", payload)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 12, in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+                            ^^^^^^^^^^^^
+NameError: name 'ConfigLoader' is not defined. Did you mean: 'config_loader'?
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 5, in <module>
+    from setup import create_driver, ConfigLoader
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/__init__.py", line 6, in <module>
+    from .testrail_client import TestRailClient
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 6, in <module>
+    class TestRailClient:
+    ...<75 lines>...
+            return self.post(f"add_results_for_cases/{run_id}", payload)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 12, in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+                            ^^^^^^^^^^^^
+NameError: name 'ConfigLoader' is not defined. Did you mean: 'config_loader'?
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import runpy; runpy.run_path('test_flow.py')
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "test_flow.py", line 5, in <module>
+    from setup import create_driver, ConfigLoader
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/__init__.py", line 6, in <module>
+    from .testrail_client import TestRailClient
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 6, in <module>
+    class TestRailClient:
+    ...<75 lines>...
+            return self.post(f"add_results_for_cases/{run_id}", payload)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 12, in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+                            ^^^^^^^^^^^^
+NameError: name 'ConfigLoader' is not defined. Did you mean: 'config_loader'?
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 123, in <module>
+    main_flow.prepare_main()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 40, in prepare_main
+    admin_login.enter_shop()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/login_action.py", line 60, in enter_shop
+    self.login_page.click_shop_login_btn().click()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'click'
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 148, in <module>
+    if new_credit-2 == old_credit:
+       ^^^^^^^^^^
+NameError: name 'new_credit' is not defined
+Traceback (most recent call last):
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/test_flow.py", line 128, in <module>
+    gelatto.make_gelatto(f'[AUTO]대표문구_{now}', f'[AUTO]첫인사_{now}', f'[AUTO]Placeholder_{now}')
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/actions/gelatto_action.py", line 40, in make_gelatto
+    self.gelatto.input_values(headline_parse_txt, greeting_txt, placeholder_txt)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/elements/gelatto_page.py", line 152, in input_values
+    self.input(self.represnt_txt_box, headline_parse, "대표 문구")
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/base_action.py", line 31, in input
+    status = clear_input(elem, name)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/selenium_utils.py", line 25, in clear_input
+    time.sleep(1.7)
+    ~~~~~~~~~~^^^^^
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/opt/anaconda3/bin/pytest", line 11, in <module>
+    sys.exit(console_main())
+             ~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/config/__init__.py", line 201, in console_main
+    code = main()
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/config/__init__.py", line 175, in main
+    ret: ExitCode | int = config.hook.pytest_cmdline_main(config=config)
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_hooks.py", line 513, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 139, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 103, in _multicall
+    res = hook_impl.function(*args)
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/main.py", line 330, in pytest_cmdline_main
+    return wrap_session(config, _main)
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/main.py", line 318, in wrap_session
+    config.hook.pytest_sessionfinish(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        session=session, exitstatus=session.exitstatus
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_hooks.py", line 513, in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_manager.py", line 120, in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 139, in _multicall
+    raise exception.with_traceback(exception.__traceback__)
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/logging.py", line 868, in pytest_sessionfinish
+    return (yield)
+            ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/terminal.py", line 893, in pytest_sessionfinish
+    result = yield
+             ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 122, in _multicall
+    teardown.throw(exception)  # type: ignore[union-attr]
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/_pytest/warnings.py", line 141, in pytest_sessionfinish
+    return (yield)
+            ^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/pluggy/_callers.py", line 103, in _multicall
+    res = hook_impl.function(*args)
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py", line 141, in pytest_sessionfinish
+    tr.add_results_for_cases(run_id=run_id, results=results)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 83, in add_results_for_cases
+    return self.post(f"add_results_for_cases/{run_id}", payload)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 39, in post
+    self._raise_if_error(r, "POST", url)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/setup/testrail_client.py", line 53, in _raise_if_error
+    resp.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/requests/models.py", line 1024, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://plateerqa.testrail.io/index.php?/api/v2/add_results_for_cases/65

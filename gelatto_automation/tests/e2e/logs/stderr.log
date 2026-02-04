@@ -1,0 +1,60 @@
+ImportError while loading conftest '/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py'.
+../conftest.py:13: in <module>
+    from setup import create_driver
+../../setup/__init__.py:6: in <module>
+    from .testrail_client import TestRailClient
+../../setup/testrail_client.py:6: in <module>
+    class TestRailClient:
+../../setup/testrail_client.py:12: in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+E   NameError: name 'ConfigLoader' is not defined
+ImportError while loading conftest '/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py'.
+../conftest.py:13: in <module>
+    from setup import create_driver
+../../setup/__init__.py:6: in <module>
+    from .testrail_client import TestRailClient
+../../setup/testrail_client.py:6: in <module>
+    class TestRailClient:
+../../setup/testrail_client.py:12: in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+E   NameError: name 'ConfigLoader' is not defined
+ImportError while loading conftest '/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py'.
+../conftest.py:13: in <module>
+    from setup import create_driver
+../../setup/__init__.py:6: in <module>
+    from .testrail_client import TestRailClient
+../../setup/testrail_client.py:6: in <module>
+    class TestRailClient:
+../../setup/testrail_client.py:12: in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+E   NameError: name 'ConfigLoader' is not defined
+ImportError while loading conftest '/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py'.
+../conftest.py:13: in <module>
+    from setup import create_driver
+../../setup/__init__.py:6: in <module>
+    from .testrail_client import TestRailClient
+../../setup/testrail_client.py:6: in <module>
+    class TestRailClient:
+../../setup/testrail_client.py:12: in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+E   NameError: name 'ConfigLoader' is not defined
+ImportError while loading conftest '/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py'.
+../conftest.py:13: in <module>
+    from setup import create_driver
+../../setup/__init__.py:6: in <module>
+    from .testrail_client import TestRailClient
+../../setup/testrail_client.py:6: in <module>
+    class TestRailClient:
+../../setup/testrail_client.py:12: in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+E   NameError: name 'ConfigLoader' is not defined
+ImportError while loading conftest '/Users/ywj/Documents/GitHub/PLATEER/gelatto_automation/tests/conftest.py'.
+../conftest.py:13: in <module>
+    from setup import create_driver
+../../setup/__init__.py:6: in <module>
+    from .testrail_client import TestRailClient
+../../setup/testrail_client.py:6: in <module>
+    class TestRailClient:
+../../setup/testrail_client.py:12: in TestRailClient
+    def __init__(self, cfg: ConfigLoader):
+E   NameError: name 'ConfigLoader' is not defined

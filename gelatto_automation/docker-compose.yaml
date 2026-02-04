@@ -1,0 +1,17 @@
+services:
+  selenium:
+    image: selenium/standalone-chrome:latest
+    platform: linux/amd64
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    shm_size: "2gb"
+
+  tests:
+    build: .
+    platform: linux/amd64
+    depends_on:
+      - selenium
+    environment:
+      - SELENIUM_REMOTE_URL=http://selenium:4444/wd/hub
+    command: ["pytest", "-q"]
