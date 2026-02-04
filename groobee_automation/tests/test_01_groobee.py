@@ -23,3 +23,15 @@ class TestGroobee:
 
         groobee.click_recommend_menu()
         clear_campaigns(groobee)
+
+        groobee.click_pushnoti_menu()
+        clear_campaigns(groobee)
+
+        groobee.click_kakaobrand_menu()
+        clear_campaigns(groobee)
+
+        groobee.click_kakaoalim_menu()
+        clear_campaigns(groobee)
+
+        groobee.click_sms_menu()
+        clear_campaigns(groobee)

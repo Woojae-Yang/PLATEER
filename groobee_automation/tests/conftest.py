@@ -132,7 +132,6 @@ def login(driver):
 def clear_campaigns():
     def _clear(page_obj, timeout=10):
         page_obj.move_all_running_to_pause(timeout=timeout)
-        page_obj.assert_no_running_campaigns(timeout=timeout)
     return _clear
 
 

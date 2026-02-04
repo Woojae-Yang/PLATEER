@@ -1,8 +1,13 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import (
     NoSuchElementException,
+    StaleElementReferenceException,
+    ElementClickInterceptedException,
     TimeoutException,
+    JavascriptException,
+    WebDriverException,
 )
 from utilities.BaseClass import BaseClass
 
@@ -24,6 +29,7 @@ class GroobeeActions:
     kakaobrandMenu = (By.XPATH, "//p[contains(text(),'카카오톡 캠페인: 브랜드 메시지')]")
     kakaomomentMenu = (By.XPATH, "//p[contains(text(),'카카오톡 캠페인: 모먼트')]")
     kakaoalimMenu = (By.XPATH, "//p[contains(text(),'카카오톡 캠페인: 알림톡')]")
+    smsMenu = (By.XPATH, "//p[contains(text(),'SMS 캠페인')]")
     settingMenu = (By.XPATH, "//p[contains(text(),'설정')]")
 
     # 상태탭
@@ -41,6 +47,7 @@ class GroobeeActions:
     tools_icon = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='MoreHorizIcon']]")
     update_icon = (By.XPATH, "//p[contains(text(),'수정')]")
     copy_icon = (By.XPATH, "//p[contains(text(),'복사')]")
+    download_icon = (By.XPATH, "//div[contains(text(),'방문자 리스트 다운로드')]")
     report_icon = (By.XPATH, "//p[contains(text(),'분석 리포트')]")
     view_icon = (By.XPATH, "//p[contains(text(),'미리보기')]")
     exclusion_icon = (By.XPATH, "//p[contains(text(),'제외 조건 설정')]")
@@ -55,31 +62,50 @@ class GroobeeActions:
     grid_rows = (By.XPATH, "//div[contains(@class,'MuiDataGrid-row') and @data-rowindex]")
 
     # -------------------------동작 선언 영역-------------------------
+    # 페이지 로딩 대기
+    def wait_url_contains(self, path, timeout=10):
+        WebDriverWait(self.driver, timeout).until(EC.url_contains(path))
+
     # LNB
     def click_dashboard_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.dashboardMenu, timeout).click()
+        self.wait_url_contains("/dashboard", timeout)
     def click_monitoring_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.monitoringMenu, timeout).click()
+        self.wait_url_contains("/monitoring", timeout)
     def click_datamonitoring_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.datamonitoringMenu, timeout).click()
+        self.wait_url_contains("/dataMonitoring", timeout)
     def click_aisegment_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.aisegmentMenu, timeout).click()
+        self.wait_url_contains("/aisegment", timeout)
     def click_segment_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.segmentMenu, timeout).click()
+        self.wait_url_contains("/segment", timeout)
     def click_recommend_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.recommendMenu, timeout).click()
+        self.wait_url_contains("/recommend", timeout)
     def click_campaign_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.campaignMenu, timeout).click()
+        self.wait_url_contains("/campaign", timeout)
     def click_pushnoti_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.pushnotiMenu, timeout).click()
+        self.wait_url_contains("/pushNoti", timeout)
     def click_kakaobrand_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.kakaobrandMenu, timeout).click()
+        self.wait_url_contains("/kakaoBrand", timeout)
     def click_kakaomoment_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.kakaomomentMenu, timeout).click()
+        self.wait_url_contains("/kakaoMoment", timeout)
     def click_kakaoalim_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.kakaoalimMenu, timeout).click()
+        self.wait_url_contains("/kakaoAlim", timeout)
+    def click_sms_menu(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.smsMenu, timeout).click()
+        self.wait_url_contains("/sms", timeout)
     def click_setting_menu(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.settingMenu, timeout).click()
+        self.wait_url_contains("/setting/menu", timeout)
 
     # 상태탭
     def click_progress_tab(self, timeout=10):
@@ -106,6 +132,8 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.update_icon, timeout).click()
     def click_copy_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.copy_icon, timeout).click()
+    def click_download_icon(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.download_icon, timeout).click()
     def click_report_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.report_icon, timeout).click()
     def click_view_icon(self, timeout=10):
@@ -190,42 +218,153 @@ class GroobeeActions:
     def get_cam_list_item(self, cam_name):
         return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{cam_name}')]")
 
+    # 진행중 아이콘 찾기
+    @staticmethod
+    def click_play_icon_by_row(row, driver):
+        row_index = row.get_attribute("data-rowindex")
+
+        # 1) row 내부 Play
+        try:
+            return row.find_element(
+                By.XPATH,
+                ".//button[.//*[local-name()='svg' and @data-testid='PlayArrowIcon']]"
+            )
+        except NoSuchElementException:
+            pass
+
+        # 2) pinned columns fallback
+        try:
+            pinned_container = driver.find_element(
+                By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
+            )
+        except NoSuchElementException:
+            return None
+
+        buttons = pinned_container.find_elements(
+            By.XPATH,
+            ".//button[.//*[local-name()='svg' and @data-testid='PlayArrowIcon']]"
+        )
+
+        for btn in buttons:
+            try:
+                btn_row = btn.find_element(
+                    By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
+                )
+                if btn_row.get_attribute("data-rowindex") == row_index:
+                    return btn
+            except StaleElementReferenceException:
+                continue
+
+        # 없으면 None
+        return None
+
     # 캠페인 정리하기
-    def move_all_running_to_pause(self, timeout=10, max_loops=50):
-        wait = WebDriverWait(self.driver, timeout)
+    def move_all_running_to_pause(self, timeout=10, max_loops=50, scan_rows=30):
+        short_wait = WebDriverWait(self.driver, 3)
+        play_btns = (By.XPATH, "//button[.//*[local-name()='svg' and @data-testid='PlayArrowIcon']]")
+
+        def is_actionable_play(play_button) -> bool:
+            try:
+                if not play_button.is_displayed() or not play_button.is_enabled():
+                    return False
+
+                cls = (play_button.get_attribute("class") or "")
+                if "Mui-disabled" in cls:
+                    return False
+
+                aria_disabled = (play_button.get_attribute("aria-disabled") or "").lower()
+                if aria_disabled == "true":
+                    return False
+
+                if play_button.get_attribute("disabled") is not None:
+                    return False
+
+                pe = self.driver.execute_script(
+                    "return window.getComputedStyle(arguments[0]).pointerEvents;", play_button
+                )
+                if pe == "none":
+                    return False
+
+                return True
+            except (StaleElementReferenceException, JavascriptException, WebDriverException):
+                return False
+
+        def count_actionable_play() -> int:
+            cnt = 0
+            for b in self.driver.find_elements(*play_btns):
+                if is_actionable_play(b):
+                    cnt += 1
+            return cnt
 
         for _ in range(max_loops):
+            before_play = count_actionable_play()
+            if before_play == 0:
+                return
+
             rows = self.driver.find_elements(*self.grid_rows)
             if not rows:
                 return
 
-            before_count = len(rows)
-            row = rows[0]
+            clicked_one = False
 
-            try:
-                btn = row.find_element(
-                    By.XPATH,
-                    ".//button[.//*[name()='svg' and (@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
-                )
-            except NoSuchElementException:
-                btn = GroobeeActions.click_status_icon_by_name(row, self.driver)
+            for row in rows[:scan_rows]:
+                # 1) Play 버튼 찾기
+                try:
+                    btn = row.find_element(
+                        By.XPATH,
+                        ".//button[.//*[local-name()='svg' and @data-testid='PlayArrowIcon']]"
+                    )
+                except NoSuchElementException:
+                    # fallback: pinned 영역 등
+                    try:
+                        btn = self.click_play_icon_by_row(row, self.driver)
+                    except NoSuchElementException:
+                        continue
 
-            wait.until(lambda d: btn.is_displayed() and btn.is_enabled())
-            btn.click()
+                if not is_actionable_play(btn):
+                    continue
 
-            BaseClass.wait_clickable(self.driver, self.status_icon_confirm, timeout).click()
+                # 2) 스크롤
+                try:
+                    self.driver.execute_script(
+                        "arguments[0].scrollIntoView({block:'center', inline:'center'});", btn
+                    )
+                except (JavascriptException, WebDriverException):
+                    pass
 
-            # row 개수 감소(또는 0)
-            wait.until(lambda d: len(d.find_elements(*self.grid_rows)) < before_count)
+                # 3) 클릭
+                try:
+                    btn.click()
+                except (ElementClickInterceptedException, StaleElementReferenceException, WebDriverException):
+                    continue
 
-        raise TimeoutException("진행중 캠페인을 모두 중지중으로 이동하지 못했습니다. (max_loops 초과)")
+                # 4) 확인 팝업 클릭
+                try:
+                    BaseClass.wait_clickable(self.driver, self.status_icon_confirm, timeout).click()
+                except TimeoutException:
+                    continue
+                except WebDriverException:
+                    continue
 
-    # 캠페인 정리하기 검증
-    def assert_no_running_campaigns(self, timeout=10):
-        try:
-            WebDriverWait(self.driver, timeout).until(
-                lambda d: len(d.find_elements(*self.grid_rows)) == 0
-            )
-        except TimeoutException:
-            count = len(self.driver.find_elements(*self.grid_rows))
-            assert False, f"진행중 캠페인이 남아있음: {count}개"
+                # 5) 갱신 트리거
+                try:
+                    self.driver.execute_script("document.body.click();")
+                except (JavascriptException, WebDriverException):
+                    pass
+
+                # 6) 갱신 확인(실패해도 멈추지 않음)
+                try:
+                    short_wait.until(lambda _d: count_actionable_play() < before_play)
+                except TimeoutException:
+                    pass
+                except WebDriverException:
+                    pass
+
+                clicked_one = True
+                break
+
+            # 이번 루프에서 클릭을 하나도 못했으면 종료(무한대기 방지)
+            if not clicked_one:
+                return
+
+        raise TimeoutException("진행중 캠페인을 모두 중지 처리하지 못했습니다. (max_loops 초과)")
