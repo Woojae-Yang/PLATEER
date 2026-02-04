@@ -58,6 +58,11 @@ class GroobeeActions:
     delete_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
     delete_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
 
+    # 파일 업로드 RNB
+    file_uploadBtn = (By.XPATH, "//button[contains(text(),'파일 업로드')]")
+    file_input = (By.XPATH, "//input[@type='file']")
+    doneBtn = (By.XPATH, "//button[contains(text(),'확인')]")
+
     # 캠페인 리스트 읽기
     grid_rows = (By.XPATH, "//div[contains(@class,'MuiDataGrid-row') and @data-rowindex]")
 
@@ -152,6 +157,18 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.delete_icon_cancel, timeout).click()
     def click_delete_icon_confirm(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.delete_icon_confirm, timeout).click()
+
+    # 파일 업로드 RNB
+    def click_file_upload_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.file_uploadBtn, timeout).click()
+
+    def send_file_input(self, file, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.file_input, timeout)
+        el.clear()
+        el.send_keys(file)
+
+    def click_done_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
 
     # 관리 도구(…) 아이콘 찾기
     @staticmethod

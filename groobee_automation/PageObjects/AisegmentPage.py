@@ -1,29 +1,21 @@
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from PageObjects.GroobeeActions import GroobeeActions
+from utilities.BaseClass import BaseClass
 
-class AisegmentPage:
+class AisegmentPage(GroobeeActions):
 
     def __init__(self, driver):
+        super().__init__(driver)
         self.driver = driver
 
     # -------------------------element 선언 영역-------------------------
-    # AI 세그먼트 타겟팅 메뉴
-    aisegmentMenu = (By.XPATH, "//a[@href='/aisegment']")
-
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
     rfm_seg = (By.XPATH, "//li[contains(text(),'RFM 세그먼트')]")
     purchase_seg = (By.XPATH, "//li[contains(text(),'구매 확률 세그먼트')]")
     tastes_seg = (By.XPATH, "//li[contains(text(),'취향 분석 세그먼트')]")
-
-    # 관리 도구
-    tools_icon = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[@type='button']")
-    update_icon = (By.XPATH, "//p[contains(text(),'수정')]")
-    copy_icon = (By.XPATH, "//p[contains(text(),'복사')]")
-    delete_icon = (By.XPATH, "//p[contains(text(),'삭제')]")
-    delete_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
-    delete_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
 
     # RFM 세그먼트
     rfm_seg_title = (By.XPATH, "//h1[contains(text(),'새로운 RFM 세그먼트 만들기')]")
@@ -74,63 +66,25 @@ class AisegmentPage:
     saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
 
     # -------------------------동작 선언 영역-------------------------
-    # AI 세그먼트 타겟팅 메뉴
-    def click_aisegment_menu(self):
-        return self.driver.find_element(*AisegmentPage.aisegmentMenu)
-
     # 만들기
-    def click_create_btn(self):
-        return self.driver.find_element(*AisegmentPage.createBtn)
-    def click_rfm_seg(self):
-        return self.driver.find_element(*AisegmentPage.rfm_seg)
-    def click_purchase_seg(self):
-        return self.driver.find_element(*AisegmentPage.purchase_seg)
-    def click_tastes_seg(self):
-        return self.driver.find_element(*AisegmentPage.tastes_seg)
-
-    # 관리 도구
-    def click_tools_icon(self):
-        return self.driver.find_element(*AisegmentPage.tools_icon)
-    def click_update_icon(self):
-        return self.driver.find_element(*AisegmentPage.update_icon)
-    def click_copy_icon(self):
-        return self.driver.find_element(*AisegmentPage.copy_icon)
-    def click_delete_icon(self):
-        return self.driver.find_element(*AisegmentPage.delete_icon)
-    def click_delete_icon_cancel(self):
-        return self.driver.find_element(*AisegmentPage.delete_icon_cancel)
-    def click_delete_icon_confirm(self):
-        return self.driver.find_element(*AisegmentPage.delete_icon_confirm)
-
-    # 삭제할 세그먼트 찾기
-    @staticmethod
-    def click_tools_icon_by_name(seg_element, driver):
-        # row 찾기
-        row = seg_element.find_element(By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]")
-
-        # row index 저장
-        row_index = row.get_attribute("data-rowindex")
-
-        # 버튼 찾기
-        pinned_container = driver.find_element(By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]")
-        buttons = pinned_container.find_elements(By.XPATH, ".//button[contains(@class,'MuiIconButton-root')]")
-
-        # 버튼과 row index 매칭
-        target_btn = None
-        for btn in buttons:
-            btn_row = btn.find_element(By.XPATH, "./ancestor::div[contains(@class,'MuiDataGrid-row')]")
-            btn_row_index = btn_row.get_attribute("data-rowindex")
-            if btn_row_index == row_index:
-                target_btn = btn
-                break
-
-        return target_btn
+    def click_create_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
+    def click_rfm_seg(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rfm_seg, timeout).click()
+    def click_purchase_seg(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.purchase_seg, timeout).click()
+    def click_tastes_seg(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tastes_seg, timeout).click()
 
     # RFM 세그먼트 입력
-    def send_rfm_seg_name(self):
-        return self.driver.find_element(*AisegmentPage.rfm_seg_name)
-    def send_rfm_seg_des(self):
-        return self.driver.find_element(*AisegmentPage.rfm_seg_des)
+    def send_rfm_seg_name(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.rfm_seg_name, timeout)
+        el.clear()
+        el.send_keys(text)
+    def send_rfm_seg_des(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.rfm_seg_des, timeout)
+        el.clear()
+        el.send_keys(text)
 
     # RFM 세그먼트 선택 옵션을 dict 형태로 반환
     def get_rfm_options(self):
@@ -148,28 +102,32 @@ class AisegmentPage:
         }
 
     # 구매 확률 세그먼트 입력
-    def send_purchase_seg_name(self):
-        return self.driver.find_element(*AisegmentPage.purchase_seg_name)
-    def send_purchase_seg_des(self):
-        return self.driver.find_element(*AisegmentPage.purchase_seg_des)
-    def send_purchase_seg_min(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(AisegmentPage.purchase_min)
-        )
-    def send_purchase_seg_max(self):
-        return WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable(AisegmentPage.purchase_max)
-        )
-    def click_check_btn(self):
-        return self.driver.find_element(*AisegmentPage.checkBtn)
+    def send_purchase_seg_name(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.purchase_seg_name, timeout)
+        el.clear()
+        el.send_keys(text)
+    def send_purchase_seg_des(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.purchase_seg_des, timeout)
+        el.clear()
+        el.send_keys(text)
+    def send_purchase_seg_min(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.purchase_min, timeout)
+        el.clear()
+        el.send_keys(text)
+    def send_purchase_seg_max(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.purchase_max, timeout)
+        el.clear()
+        el.send_keys(text)
+    def click_check_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.checkBtn, timeout).click()
 
     # 구매 확률 세그먼트 선택
-    def click_purchase_combo(self):
-        return self.driver.find_element(*AisegmentPage.purchase_combo)
+    def click_purchase_combo(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.purchase_combo, timeout).click()
 
     # 구매 확률 세그먼트 선택 옵션을 dict 형태로 반환
     def get_purchase_options(self):
-        self.click_purchase_combo().click()
+        self.click_purchase_combo()
 
         WebDriverWait(self.driver, 5).until(
             EC.visibility_of_element_located(AisegmentPage.purchase_20)
@@ -193,24 +151,28 @@ class AisegmentPage:
         return options
 
     # 취향 분석 세그먼트 입력
-    def send_tastes_seg_name(self):
-        return self.driver.find_element(*AisegmentPage.tastes_seg_name)
-    def send_tastes_seg_des(self):
-        return self.driver.find_element(*AisegmentPage.tastes_seg_des)
+    def send_tastes_seg_name(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.tastes_seg_name, timeout)
+        el.clear()
+        el.send_keys(text)
+    def send_tastes_seg_des(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.tastes_seg_des, timeout)
+        el.clear()
+        el.send_keys(text)
 
     # 취향 분석 세그먼트 선택
-    def click_tastes_seg_main(self):
-        return self.driver.find_element(*AisegmentPage.tastes_seg_main)
-    def click_tastes_seg_view(self):
-        return self.driver.find_element(*AisegmentPage.tastes_seg_view)
-    def click_tastes_handmade(self):
-        return self.driver.find_element(*AisegmentPage.tastes_handmade)
+    def click_tastes_seg_main(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tastes_seg_main, timeout).click()
+    def click_tastes_seg_view(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tastes_seg_view, timeout).click()
+    def click_tastes_handmade(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tastes_handmade, timeout).click()
 
     # 완료
-    def click_cancel_btn(self):
-        return self.driver.find_element(*AisegmentPage.cancelBtn)
-    def click_save_btn(self):
-        return self.driver.find_element(*AisegmentPage.saveBtn)
+    def click_cancel_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
+    def click_save_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.saveBtn, timeout).click()
 
     # 생성된 세그먼트 리스트
     def get_seg_list_item(self, seg_name):

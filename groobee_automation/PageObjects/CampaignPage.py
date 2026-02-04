@@ -50,11 +50,6 @@ class CampaignPage(GroobeeActions):
     design_sticky_default = (By.XPATH, "//input[@value='STICKY_DEFAULT']")
     design_sticky_btn = (By.XPATH, "//input[@value='STICKY_BUTTON']")
 
-    # 파일 업로드 RNB
-    file_uploadBtn = (By.XPATH, "//button[contains(text(),'파일 업로드')]")
-    file_input = (By.XPATH, "//input[@type='file']")
-    doneBtn = (By.XPATH, "//button[contains(text(),'확인')]")
-
     # URL 입력
     input_url = (By.XPATH, "//textarea[@placeholder='http:// 또는 https://를 포함한 URL']")
     image_map = (By.XPATH, "//input[@value='image-map']")
@@ -201,16 +196,6 @@ class CampaignPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.design_sticky_default, timeout).click()
     def click_design_sticky_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.design_sticky_btn, timeout).click()
-
-    # 파일 업로드 RNB
-    def click_file_upload_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.file_uploadBtn, timeout).click()
-    def send_file_input(self, text, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.file_input, timeout)
-        el.clear()
-        el.send_keys(text)
-    def click_done_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
 
     # URL 입력
     def send_input_url(self, text, timeout=10):

@@ -18,18 +18,29 @@ class BaseClass:
         sel = Select(locator)
         sel.select_by_visible_text(text)
 
-    # 웹 요소 대기 유틸 함수
+    # 웹 요소 대기 유틸 함수(노출)
     @staticmethod
     def wait_visible(driver, locator, timeout=10):
         return WebDriverWait(driver, timeout).until(
             EC.presence_of_element_located(locator)
         )
 
+    # 웹 요소 대기 유틸 함수(클릭)
     @staticmethod
     def wait_clickable(driver, locator, timeout=10):
         return WebDriverWait(driver, timeout).until(
             EC.element_to_be_clickable(locator)
         )
+
+    # 프로젝트 루트 경로 찾기
+    @staticmethod
+    def project_root() -> str:
+        return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+
+    # 파일 넘기기
+    @staticmethod
+    def testdata_file(filename: str) -> str:
+        return os.path.join(BaseClass.project_root(), "TestData", filename)
 
     # 리프레시 안정화 유틸 함수
     @staticmethod

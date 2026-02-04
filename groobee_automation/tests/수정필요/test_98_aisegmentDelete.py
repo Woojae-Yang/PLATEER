@@ -1,6 +1,6 @@
 import time
 from selenium.webdriver.common.by import By
-from PageObjects.수정필요.AisegmentPage import AisegmentPage
+from PageObjects.AisegmentPage import AisegmentPage
 from utilities.BaseClass import BaseClass
 
 class TestAisegmentDelete(BaseClass):

@@ -77,12 +77,9 @@ class TestCampaignCreate(BaseClass):
         groobee.click_file_upload_btn().click()
         time.sleep(1)
 
-        # 업로드할 파일 경로 찾기
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.abspath(os.path.join(current_dir, ".."))
-        testdata_path = os.path.join(project_root, "TestData")
-        file_path = os.path.join(testdata_path, "TestImage.jpg")
-        groobee.send_file_input().send_keys(file_path)
+        # 파일 업로드
+        file_path = BaseClass.testdata_file("TestImage.jpg")
+        groobee.send_file_input(file_path)
         time.sleep(1)
 
         # 파일 업로드 RNB 닫기

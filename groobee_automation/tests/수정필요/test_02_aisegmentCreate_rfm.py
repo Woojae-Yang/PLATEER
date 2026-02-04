@@ -2,7 +2,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from PageObjects.수정필요.AisegmentPage import AisegmentPage
+from PageObjects.AisegmentPage import AisegmentPage
 from utilities.BaseClass import BaseClass
 
 class TestAisegmentCreate(BaseClass):
