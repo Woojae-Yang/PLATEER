@@ -11,6 +11,10 @@ class SegmentPage(GroobeeActions):
         self.driver = driver
 
     # ------------------------------ element 선언 ------------------------------
+    
+    # 세그먼트 타겟팅 페이지
+    target_title_elem = (By.XPATH, "//h1[contains(text(),'세그먼트 타겟팅')]")
+    
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
 
@@ -20,21 +24,21 @@ class SegmentPage(GroobeeActions):
     seg_des = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 400자']")
 
     # 타겟 설정
-    range_onsite_web = (By.XPATH, "//input[@value='ON']")
-    range_onsite_native = (By.XPATH, "//input[@value='IN']")
-    range_offsite = (By.XPATH, "//input[@value='OF']")
-    time_past = (By.XPATH, "//input[@value='PA']")
-    time_now = (By.XPATH, "//input[@value='PR']")
-    time_cross = (By.XPATH, "//input[@value='PP']")
-    mix_andor = (By.XPATH, "//input[@value='AO']")
-    mix_strong = (By.XPATH, "//input[@value='S1']")
-    mix_weak = (By.XPATH, "//input[@value='S2']")
+    range_onsite_web = (By.XPATH, "//label[contains(., '온사이트(웹/하이브리드)')]//span[1]")
+    range_onsite_native = (By.XPATH, "//label[contains(., '온사이트(네이티브)')]//span[1]")
+    range_offsite = (By.XPATH, "//label[contains(., '오프사이트')]//span[1]")
+    time_past = (By.XPATH, "//label[contains(., '과거')]//span[1]")
+    time_now = (By.XPATH, "//label[contains(., '현재')]//span[1]")
+    time_cross = (By.XPATH, "//label[contains(., '과거 x 현재')]//span[1]")
+    mix_andor = (By.XPATH, "//label[contains(., 'AND/OR')]//span[1]")
+    mix_strong = (By.XPATH, "//label[contains(., '시퀀스(강)')]//span[1]")
+    mix_weak = (By.XPATH, "//label[contains(., '시퀀스(약)')]//span[1]")
 
     # 세그먼트 변수 추가 버튼
     add_seg_btn = (By.XPATH, "//button[contains(text(), '세그먼트 변수')]")
-    
 
     # 세그먼트 변수 RNB
+    rnb_title_elem = (By.XPATH, "//h2[contains(., '세그먼트 변수')]")
     add_seg1 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[1]")
     add_seg2 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[2]")
     and_Btn = (By.XPATH, "//button[normalize-space()='AND']")

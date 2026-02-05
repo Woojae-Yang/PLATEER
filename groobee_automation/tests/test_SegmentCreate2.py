@@ -13,10 +13,10 @@ class TestSegCreate(BaseClass):
 
     # (범위, 시점, 조건, 변수명, 값1, 값2)
     DECISION_TABLE = [
-    ("온사이트(웹/하이브리드)", "과거", "AND/OR", "브라우저", "Chrome", "일 때"),
+    ("온사이트(웹/하이브리드)", "과거", None, "브라우저", "Chrome", "일 때"),
     ("온사이트(웹/하이브리드)", "현재", "AND/OR", "브라우저", "Chrome", "일 때"),
-    ("온사이트(웹/하이브리드)", "과거 x 현재", "AND/OR", "브라우저", "Chrome", "일 때"),
-    ("온사이트(네이티브)", "과거", "AND/OR", "첫 방문", None, None)
+    ("온사이트(네이티브)", "과거", "AND/OR", "첫 방문", None, None),
+    ("온사이트(네이티브)", "현재", "AND/OR", "첫 방문", None, None)
     # ... 나머지 케이스 복사/붙여넣기
     ]
 
@@ -48,10 +48,9 @@ class TestSegCreate(BaseClass):
             "브라우저": [self.groobee.click_rnb_system, self.groobee.click_rnb_system_browser],
             "첫 방문": [self.groobee.click_rnb_visit_rec, self.groobee.click_rnb_visit_rec_first]
         }
- 
-    # 동적 실행 함수 1 
+
+    # target_map에서 category와 value에 맞는 함수를 찾아 실행하는 함수
     def select_target_radio(self, category, value):
-        ## target_map에서 category와 value에 맞는 함수를 찾아 실행
         if value:
             try:
                 print(f"[DEBUG] Clicking {category}: {value}")
@@ -60,16 +59,13 @@ class TestSegCreate(BaseClass):
             except KeyError:
                 pytest.fail(f"매핑 테이블에 '{value}' 키가 없습니다.")
     
-    # 동적 실행 함수 2    
+    # rnb_map에서 var_name에 맞는 시퀀스를 찾아 실행하는 실행 함수 
     def navigate_rnb(self, var_name):
-        ## rnb_map에서 var_name에 맞는 시퀀스를 찾아 실행
         if var_name in self.rnb_map:
             for func in self.rnb_map[var_name]:
                 func()
 
-
     login_expect_title = "대시보드 :: GROOBEE"
-    
     seg_description = 'Automation Testing'
 
     @pytest.mark.login
@@ -82,10 +78,9 @@ class TestSegCreate(BaseClass):
     def test_seg_create_flow(self, driver, range_v, time_v, cond_v, var_name, v1, v2):
         seg_title = f"[AUTO]seg_{datetime.now().strftime('%H%M%S')}_{var_name}"
         
-        ## 세그먼트 페이지 진입
+        ## LNB 세그먼트 페이지 진입
         self.groobee.click_segment_menu()
-        target_title_elem = (By.XPATH, "//h1[contains(text(),'세그먼트 타겟팅')]")
-        assert BaseClass.wait_visible(driver, target_title_elem).is_displayed()
+        assert BaseClass.wait_visible(driver, self.groobee.target_title_elem).is_displayed()
 
         # 만들기 진입
         self.groobee.click_create_btn()
@@ -105,8 +100,7 @@ class TestSegCreate(BaseClass):
         # 세그먼트 변수 btn 클릭
         self.groobee.click_add_seg_btn()
         time.sleep(2)
-        rnb_title_elem = (By.XPATH, "//h2[contains(., '세그먼트 변수')]")
-        assert BaseClass.wait_visible(driver, rnb_title_elem).is_displayed()
+        assert BaseClass.wait_visible(driver, self.groobee.rnb_title_elem).is_displayed()
 
         # 세그먼트 변수 RNB
         self.navigate_rnb(var_name)
@@ -121,7 +115,7 @@ class TestSegCreate(BaseClass):
         time.sleep(1)
 
         ######################################################
-        # ✅ [검증 영역] 매 케이스마다 즉시 확인 
+        # [검증 영역] 매 케이스마다 즉시 확인 
         ######################################################
         seg_info = self.groobee.get_seg_info()
 
