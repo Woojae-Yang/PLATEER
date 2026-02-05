@@ -28,6 +28,10 @@ class SegmentPage(GroobeeActions):
     mix_strong = (By.XPATH, "//input[@value='S1']")
     mix_weak = (By.XPATH, "//input[@value='S2']")
 
+    # 세그먼트 변수 추가 버튼
+    add_seg_btn = (By.XPATH, "//button[contains(text(), '세그먼트 변수')]")
+    
+
     # 세그먼트 변수 RNB
     add_seg1 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[1]")
     add_seg2 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[2]")
@@ -78,10 +82,16 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
 
     # 세그먼트 입력
-    def send_seg_name(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_name, timeout).click()
-    def send_seg_des(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_des, timeout).click()
+    def send_seg_name(self, text, timeout=10):
+        elem = BaseClass.wait_clickable(self.driver, self.seg_name, timeout)
+        elem.click()
+        elem.clear()
+        elem.send_keys(text)
+    def send_seg_des(self, text, timeout=10):
+        elem = BaseClass.wait_clickable(self.driver, self.seg_des, timeout)
+        elem.click()
+        elem.clear()
+        elem.send_keys(text)
 
     # 타겟 설정
     def click_range_onsite_web(self, timeout=10):
@@ -102,6 +112,10 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.mix_strong, timeout).click()
     def click_mix_weak(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.mix_weak, timeout).click()
+
+    # 세그먼트 변수 RNB 열기
+    def click_add_seg_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.add_seg_btn, timeout).click()
 
     # 세그먼트 변수 RNB
     def click_add_seg1(self, timeout=10):
@@ -188,3 +202,15 @@ class SegmentPage(GroobeeActions):
     # 생성된 세그먼트 리스트
     def get_seg_list_item(self, seg_name):
         return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{seg_name}')]")
+    
+    # 생성된 세그먼트 맨 위 row에 대한 정보 가져오기
+    def get_seg_info(self):
+        seg_elem = "//div[@data-rowindex='0']"
+        return {
+            "name": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='segmentNm']").text,
+            "used": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='used']").text,
+            "range": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='range']").text,
+            "segmentTime": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='segmentTime']").text,
+            "segmentCheckCd": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='segmentCheckCd']").text,
+            "reg_date": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='regDtm']").text
+    }
