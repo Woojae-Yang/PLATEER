@@ -11,7 +11,7 @@ from selenium.webdriver.common.by import By
 @pytest.mark.usefixtures("driver", "login")
 class TestSegCreate(BaseClass):
 
-    # (범위, 시점, 조건, 변수명, 값1, 값2)
+    # (범위, 시점, 조합, 세그먼트 변수명, 값1, 값2)
     DECISION_TABLE = [
     ("온사이트(웹/하이브리드)", "과거", None, "브라우저", "Chrome", "일 때"),
     ("온사이트(웹/하이브리드)", "현재", "AND/OR", "브라우저", "Chrome", "일 때"),
