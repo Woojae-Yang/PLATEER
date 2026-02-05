@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.common.by import By
 from PageObjects.GroobeeActions import GroobeeActions
 from utilities.BaseClass import BaseClass
@@ -43,6 +45,7 @@ class SegmentPage(GroobeeActions):
     rnb_system_browser = (By.XPATH, "//h6[contains(text(),'브라우저 유형')]")
     rnb_system_language = (By.XPATH, "//h6[contains(text(),'브라우저 언어')]")
     rnb_visit_rec = (By.XPATH, "//h6[contains(text(), '방문 이력')]")
+    rnb_visit_freq = (By.XPATH, "//h6[contains(text(), '방문 횟수')]")
     rnb_visit_rec_first = (By.XPATH, "//h6[contains(text(),'첫 방문')]")
     rnb_visit_rec_week = (By.XPATH, "//h6[contains(text(),'방문 요일')]")
     rnb_visit_rec_time = (By.XPATH, "//h6[contains(text(),'방문 시간대')]")
@@ -138,6 +141,8 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_system_language, timeout).click()
     def click_rnb_visit_rec(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_visit_rec, timeout).click()
+    def click_rnb_visit_freq(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_visit_freq, timeout).click()
     def click_rnb_visit_rec_first(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_visit_rec_first, timeout).click()
     def click_rnb_visit_rec_week(self, timeout=10):
@@ -203,7 +208,28 @@ class SegmentPage(GroobeeActions):
     def get_seg_list_item(self, seg_name):
         return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{seg_name}')]")
     
-    # 생성된 세그먼트 맨 위 row에 대한 정보 가져오기
+
+    # 선택한 세그먼트 유형의 세부 설정
+    def select_seg_details(self, v1, v2):
+        """
+        세그먼트 변수의 상세 옵션을 선택
+        하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
+        """
+        # 1. 첫 번째 상세 설정 (v1)
+        if v1:
+            self.click_seg_setting1()
+            # 텍스트가 나타날 때까지 기다린 후 클릭 (안정성 강화)
+            v1_xpath = f"//li[contains(., '{v1}')]"
+            BaseClass.wait_clickable(self.driver, (By.XPATH, v1_xpath)).click()
+            time.sleep(1)
+        # 2. 두 번째 상세 설정 (v2)
+        if v2:
+            self.click_seg_setting2()
+            v2_xpath = f"//li[contains(., '{v2}')]"
+            BaseClass.wait_clickable(self.driver, (By.XPATH, v2_xpath)).click()
+            time.sleep(1)
+
+    # 생성된 세그먼트 데이터테이블의 맨 위 row에 대한 정보 가져오기
     def get_seg_info(self):
         seg_elem = "//div[@data-rowindex='0']"
         return {
