@@ -16,6 +16,12 @@ class SegmentPage(GroobeeActions):
     
     # 세그먼트 타겟팅 페이지
     target_title_elem = (By.XPATH, "//h1[contains(text(),'세그먼트 타겟팅')]")
+
+    #서치바
+    seg_search_bar = (By.XPATH, "//div[@id=':ro:']")
+
+    # 도구모음 버튼
+    top_tools_btn = (By.XPATH, "//div[@data-rowindex='0']//button[.//*[@data-testid='MoreHorizIcon']]")
     
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
@@ -92,7 +98,20 @@ class SegmentPage(GroobeeActions):
     def click_create_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
 
-    # 세그먼트 입력
+    # 서치바 입력하기
+    def sned_search_word(self, text, timeout=10):
+        search_bar = BaseClass.wait_visible(self.driver, self.seg_search_bar)
+        search_bar.click()
+        search_bar.send_keys(text)
+        time.sleep(0.5)
+        search_bar.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+    # 맨 처음 도구모음 버튼 클릭
+    def click_top_tools_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.top_tools_btn, timeout).click()
+
+    # 세그먼트 기본 정보 입력
     def send_seg_name(self, text, timeout=10):
         elem = BaseClass.wait_clickable(self.driver, self.seg_name, timeout)
         elem.click()
