@@ -28,17 +28,23 @@ class SegmentPage(GroobeeActions):
     seg_des = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 400자']")
 
     # 타겟 설정
-    range_onsite_web = (By.XPATH, "//input[@value='ON']")
-    range_onsite_native = (By.XPATH, "//input[@value='IN']")
-    range_offsite = (By.XPATH, "//input[@value='OF']")
-    time_past = (By.XPATH, "//input[@value='PA']")
-    time_now = (By.XPATH, "//input[@value='PR']")
-    time_cross = (By.XPATH, "//input[@value='PP']")
-    mix_andor = (By.XPATH, "//input[@value='AO']")
-    mix_strong = (By.XPATH, "//input[@value='S1']")
-    mix_weak = (By.XPATH, "//input[@value='S2']")
+    range_onsite_web = (By.XPATH, "//label[contains(., '온사이트(웹/하이브리드)')]//span[contains(@class, 'MuiRadio-root')]")
+    range_onsite_native = (By.XPATH, "//label[contains(., '온사이트(네이티브)')]//span[contains(@class, 'MuiRadio-root')]")
+    range_offsite = (By.XPATH, "//label[contains(., '오프사이트')]//span[contains(@class, 'MuiRadio-root')]")
+    
+    time_now = (By.XPATH, "//label[contains(., '현재')]//span[contains(@class, 'MuiRadio-root')]")
+    time_past = (By.XPATH, "//label[contains(., '과거')]//span[contains(@class, 'MuiRadio-root')]")
+    time_cross = (By.XPATH, "//label[contains(., '과거+현재')]//span[contains(@class, 'MuiRadio-root')]")
+    
+    mix_andor = (By.XPATH, "//label[contains(., 'AND/OR')]//span[contains(@class, 'MuiRadio-root')]")
+    mix_strong = (By.XPATH, "//label[contains(., '시퀀스(강)')]//span[contains(@class, 'MuiRadio-root')]")
+    mix_weak = (By.XPATH, "//label[contains(., '시퀀스(약)')]//span[contains(@class, 'MuiRadio-root')]")
+
+    # 세그먼트 변수 추가 버튼
+    add_seg_btn = (By.XPATH, "//button[contains(., '세그먼트 변수')]")
 
     # 세그먼트 변수 RNB
+    rnb_title_elem = (By.XPATH, "//h2[contains(text(), '세그먼트 변수')]")
     add_seg1 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[1]")
     add_seg2 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[2]")
     and_Btn = (By.XPATH, "//button[normalize-space()='AND']")
@@ -110,6 +116,10 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.mix_strong, timeout).click()
     def click_mix_weak(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.mix_weak, timeout).click()
+
+    # 세그먼트 변수 RNB 열기
+    def click_add_seg_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.add_seg_btn, timeout).click()
 
     # 세그먼트 변수 RNB
     def click_add_seg1(self, timeout=10):
