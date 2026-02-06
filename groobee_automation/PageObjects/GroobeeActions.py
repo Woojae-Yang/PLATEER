@@ -80,7 +80,11 @@ class GroobeeActions:
     seg_search_icon = (By.XPATH, "//span[normalize-space()='search_filled']")
     aiseg_tab = (By.XPATH, "//button[@id='basic-tab-0']")
     seg_tab = (By.XPATH, "//button[@id='basic-tab-1']")
-    selectBtn = (By.XPATH, "//button[contains(text(),'선택')]")
+    selectBtn = (By.XPATH, "//div[contains(@class,'MuiDialog')]//button[normalize-space()='선택']")
+
+    # 예상 타겟 수
+    target_numBtn = (By.XPATH, "//button[contains(text(),'확인하기')]")
+    target_result = (By.XPATH, "//p[contains(., '타겟 수는 변동될 수 있습니다')]")
 
     # 파일 업로드 RNB
     file_uploadBtn = (By.XPATH, "//button[contains(text(),'파일 업로드')]")
@@ -223,7 +227,7 @@ class GroobeeActions:
     def click_seg_load(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_load, timeout).click()
     def send_seg_input(self, text, timeout=10):
-        el = BaseClass.wait_clickable(self.driver, self.seg_input, timeout).click()
+        el = BaseClass.wait_clickable(self.driver, self.seg_input, timeout)
         el.clear()
         el.send_keys(text)
     def click_seg_search_icon(self, timeout=10):
@@ -235,23 +239,39 @@ class GroobeeActions:
     def click_select_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.selectBtn, timeout).click()
 
+    # 예상 타겟 수
+    def click_target_num_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout).click()
+        BaseClass.wait_visible(self.driver, self.target_result, 20)
+
     # 파일 업로드 RNB
     def click_file_upload_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.file_uploadBtn, timeout).click()
     def send_file_input(self, file, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.file_input, timeout)
-        el.clear()
         el.send_keys(file)
     def click_done_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
 
     # 완료
     def click_cancel_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
+        el = BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout)
+        try:
+            el.click()
+        except (ElementClickInterceptedException, WebDriverException):
+            self.driver.execute_script("arguments[0].click();", el)
     def click_next_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.nextBtn, timeout).click()
+        el = BaseClass.wait_clickable(self.driver, self.nextBtn, timeout)
+        try:
+            el.click()
+        except (ElementClickInterceptedException, WebDriverException):
+            self.driver.execute_script("arguments[0].click();", el)
     def click_save_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.saveBtn, timeout).click()
+        el = BaseClass.wait_clickable(self.driver, self.saveBtn, timeout)
+        try:
+            el.click()
+        except (ElementClickInterceptedException, WebDriverException):
+            self.driver.execute_script("arguments[0].click();", el)
 
     # 관리 도구(…) 아이콘 찾기
     @staticmethod
