@@ -78,7 +78,7 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
 
         # 파일 업로드
-        file_path = BaseClass.testdata_file("TestImage.jpg")
+        file_path = BaseClass.getdata_file("TestImage.jpg")
         groobee.send_file_input(file_path)
         time.sleep(1)
 

@@ -12,7 +12,6 @@ class AisegmentPage(GroobeeActions):
 
     # -------------------------element 선언 영역-------------------------
     # 만들기
-    createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
     rfm_seg = (By.XPATH, "//li[contains(text(),'RFM 세그먼트')]")
     purchase_seg = (By.XPATH, "//li[contains(text(),'구매 확률 세그먼트')]")
     tastes_seg = (By.XPATH, "//li[contains(text(),'취향 분석 세그먼트')]")
@@ -61,14 +60,8 @@ class AisegmentPage(GroobeeActions):
     tastes_seg_view = (By.XPATH, "//button[contains(text(),'많이 조회한 상품')]")
     tastes_handmade = (By.XPATH, "//h6[contains(text(),'핸드메이드 코트')]")
 
-    # 완료
-    cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
-    saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
-
     # -------------------------동작 선언 영역-------------------------
     # 만들기
-    def click_create_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
     def click_rfm_seg(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rfm_seg, timeout).click()
     def click_purchase_seg(self, timeout=10):
@@ -167,13 +160,3 @@ class AisegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.tastes_seg_view, timeout).click()
     def click_tastes_handmade(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tastes_handmade, timeout).click()
-
-    # 완료
-    def click_cancel_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
-    def click_save_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.saveBtn, timeout).click()
-
-    # 생성된 세그먼트 리스트
-    def get_seg_list_item(self, seg_name):
-        return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{seg_name}')]")

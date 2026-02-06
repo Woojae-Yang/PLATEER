@@ -37,9 +37,9 @@ class BaseClass:
     def project_root() -> str:
         return os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-    # 파일 넘기기
+    # 파일 전달
     @staticmethod
-    def get_testdata(filename: str) -> str:
+    def getdata_file(filename: str) -> str:
         return os.path.join(BaseClass.project_root(), "TestData", filename)
 
     # 리프레시 안정화 유틸 함수

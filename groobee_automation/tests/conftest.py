@@ -32,21 +32,20 @@ def pytest_addoption(parser):
 
     # TestRail 연동 옵션
     parser.addoption("--testrail-run-id", action="store", default=None)
-    parser.addoption("--testrail-upload", action="store", default="false")  # true/false
+    parser.addoption("--testrail-upload", action="store", default="true")  # true/false
 
 
 # ==========================
 # Fixtures
 # ==========================
-@pytest.fixture
+@pytest.fixture(scope="session")
 def testrail_run_id(request):
-    """우선순위: CLI 옵션 > ENV"""
-    v = request.config.getoption("--testrail-run-id")
-    if v:
-        return int(str(v).strip())
+    cli = request.config.getoption("--testrail-run-id")
+    if cli:
+        return int(cli)
 
     env = os.getenv("TESTRAIL_RUN_ID")
-    return int(env.strip()) if env else None
+    return int(env) if env else None
 
 ## 범위를 session -> class 변경 260204
 @pytest.fixture(scope="class")

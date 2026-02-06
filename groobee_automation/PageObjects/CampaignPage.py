@@ -10,15 +10,13 @@ class CampaignPage(GroobeeActions):
         self.driver = driver
 
     # -------------------------element 선언 영역-------------------------
-    # 만들기
-    createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
+    # 만들기 버튼
     createBtn_onsite = (By.XPATH, "//li[contains(text(),'온사이트 캠페인')]")
     createBtn_inapp = (By.XPATH, "//li[contains(text(),'인앱 메시지 캠페인')]")
 
-    # 캠페인 입력
-    cam_title = (By.XPATH, "//h1[contains(text(),'새로운 온사이트 캠페인 만들기')]")
-    cam_name = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 40자']")
-    cam_des = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 400자']")
+    # 타이틀
+    onsite_cam_title = (By.XPATH, "//h1[contains(text(),'새로운 온사이트 캠페인 만들기')]")
+    inapp_cam_title = (By.XPATH, "//h1[contains(text(),'새로운 인앱 메시지 캠페인 만들기')]")
 
     # 접속 유형
     type_pcweb = (By.XPATH, "//input[@value='PC']")
@@ -26,15 +24,9 @@ class CampaignPage(GroobeeActions):
     type_mobile_web = (By.XPATH, "//input[@value='MW']")
     type_mobile_app = (By.XPATH, "//input[@value='MA']")
 
-    # 타겟 설정
-    seg_load = (By.XPATH, "//button[contains(text(),'세그먼트 불러오기')]")
-
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
-    aiseg_tab = (By.XPATH, "//button[@id='basic-tab-0']")
-    seg_tab = (By.XPATH, "//button[@id='basic-tab-1']")
     now_pc_seg = (By.XPATH, "//h6[contains(text(),'[QA] 온사이트웹-현재-PC접속 테스트 세그먼트')]")
     now_os_seg = (By.XPATH, "//h6[contains(text(),'[QA] 온사이트네이티브-현재-접속OS 테스트 세그먼트')]")
-    selectBtn = (By.XPATH, "//button[contains(text(),'선택')]")
 
     # 추가
     addBtn = (By.XPATH, "//button[contains(text(),'추가')]")
@@ -109,11 +101,6 @@ class CampaignPage(GroobeeActions):
     freq_etc = (By.XPATH, "//li[contains(text(),'기타')]")
     priority_cb = (By.XPATH, "(//input[@type='checkbox'])[7]")
 
-    # 완료
-    cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
-    nextBtn = (By.XPATH, "//button[contains(text(),'다음 단계')]")
-    saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
-
     # 몰 바로가기
     admin_icon = (By.XPATH, "/html[1]/body[1]/header[1]/div[1]/div[2]/button[2]")
     goto_mall = (By.XPATH, "//p[contains(text(),'몰 바로가기')]")
@@ -129,23 +116,11 @@ class CampaignPage(GroobeeActions):
     dashboard_onsite_clicks_tab = (By.XPATH, "(//button[@role='tab'][contains(text(),'클릭 수')])[1]")
 
     # -------------------------동작 선언 영역-------------------------
-    # 만들기
-    def click_create_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
+    # 만들기 버튼
     def click_create_btn_onsite(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn_onsite, timeout).click()
     def click_create_btn_inapp(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn_inapp, timeout).click()
-
-    # 캠페인 입력
-    def send_cam_name(self, text, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
-        el.clear()
-        el.send_keys(text)
-    def send_cam_des(self, text, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
-        el.clear()
-        el.send_keys(text)
 
     # 접속 유형
     def click_type_pcweb(self, timeout=10):
@@ -157,21 +132,11 @@ class CampaignPage(GroobeeActions):
     def click_type_mobile_app(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.type_mobile_app, timeout).click()
 
-    # 타겟 설정
-    def click_seg_load(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_load, timeout).click()
-
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
-    def click_aiseg_tab(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.aiseg_tab, timeout).click()
-    def click_seg_tab(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_tab, timeout).click()
     def click_now_pc_seg(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.now_pc_seg, timeout).click()
     def click_now_os_seg(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.now_os_seg, timeout).click()
-    def click_select_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.selectBtn, timeout).click()
 
     # 추가
     def click_add_btn(self, timeout=10):
@@ -310,14 +275,6 @@ class CampaignPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.freq_etc, timeout).click()
     def click_priority_cb(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.priority_cb, timeout).click()
-
-    # 완료
-    def click_cancel_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
-    def click_next_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.nextBtn, timeout).click()
-    def click_save_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.saveBtn, timeout).click()
 
     # 몰 바로가기
     def click_admin_icon(self, timeout=10):
