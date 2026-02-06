@@ -59,7 +59,9 @@ class SegmentPage(GroobeeActions):
     rnb_visitors_login = (By.XPATH, "//h6[contains(text(),'로그인 방문자')]")
     rnb_visitors_gender = (By.XPATH, "//h6[contains(text(),'회원 성별')]")
     rnb_visit_act = (By.XPATH, "//h6[contains(text(), '방문 행동')]")
+    rnb_visit_page = (By.XPATH, "//h6[contains(text(), '방문 페이지 URL)]")
     rnb_cart_act = (By.XPATH, "//h6[contains(text(), '장바구니 행동')]")
+    rnb_cart_prod_nm = By.XPATH, "//h6[contains(text(), '담은 상품명')]"
     rnb_order_act = (By.XPATH, "//h6[contains(text(), '주문 행동')]")
     rnb_custom = (By.XPATH, "//h6[contains(text(), '커스텀')]")
     rnb_choose = (By.XPATH, "//button[contains(text(),'선택')]")
@@ -150,6 +152,8 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_visitors_gender, timeout).click()
     def click_rnb_visit_act(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_visit_act, timeout).click()
+    def click_rnb_visit_page(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_visit_page, timeout).click()
     def click_rnb_cart_act(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_cart_act, timeout).click()
     def click_rnb_order_act(self, timeout=10):
@@ -158,6 +162,9 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_custom, timeout).click()
     def click_rnb_choose(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_choose, timeout).click()
+    def click_rnb_cart_prod_nm(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_cart_prod_nm, timeout).click()
+
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     def click_seg_setting1(self, timeout=10):
@@ -183,7 +190,6 @@ class SegmentPage(GroobeeActions):
     def click_seg_setting_or(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_setting_or, timeout).click()
     def click_seg_setting_and(self, timeout=10):
-
         BaseClass.wait_clickable(self.driver, self.seg_setting_and, timeout).click()
 
     # 완료
