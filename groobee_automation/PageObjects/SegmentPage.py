@@ -168,9 +168,13 @@ class SegmentPage(GroobeeActions):
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     def click_seg_setting1(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_setting1, timeout).click()
+        elem = BaseClass.wait_clickable(self.driver, self.seg_setting1, timeout)
+        elem.click()
+        return elem
     def click_seg_setting1_pc(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_setting1_pc, timeout).click()
+        elem = BaseClass.wait_clickable(self.driver, self.seg_setting1_pc, timeout)
+        elem.click()
+        return elem
     def click_seg_setting1_wed(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_setting1_wed, timeout).click()
     def click_seg_setting1_android(self, timeout=10):
