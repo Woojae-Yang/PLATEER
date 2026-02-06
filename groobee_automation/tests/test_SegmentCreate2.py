@@ -53,7 +53,7 @@ class TestSegCreate:
             "브라우저": [self.groobee.click_rnb_system, self.groobee.click_rnb_system_browser],
             "첫 방문": [self.groobee.click_rnb_visit_rec, self.groobee.click_rnb_visit_rec_first],
             "방문 페이지": [self.groobee.click_rnb_visit_act, self.groobee.click_rnb_visit_page],
-            "담은 상품명": [self.groobee.click_rnb_cart_act, self.groobee.clikc_rnb_cart_prod_nm],
+            "담은 상품명": [self.groobee.click_rnb_cart_act, self.groobee.click_rnb_cart_prod_nm],
             "로그인 방문자": [self.groobee.click_rnb_visitors, self.groobee.click_rnb_visitors_login]
         }
 
