@@ -9,9 +9,6 @@ class SegmentPage(GroobeeActions):
         self.driver = driver
 
     # ------------------------------ element 선언 ------------------------------
-    # 만들기
-    createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
-
     # 세그먼트
     seg_title = (By.XPATH, "//h1[contains(text(),'새로운 세그먼트 만들기')]")
     seg_name = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 40자']")
@@ -68,20 +65,16 @@ class SegmentPage(GroobeeActions):
     seg_setting_or = (By.XPATH, "//button[normalize-space()='OR']")
     seg_setting_and = (By.XPATH, "//button[normalize-space()='AND']")
 
-    # 완료
-    cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
-    saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
-
     # ------------------------------ action + wait ------------------------------
-    # 만들기
-    def click_create_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
-
     # 세그먼트 입력
-    def send_seg_name(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_name, timeout).click()
-    def send_seg_des(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_des, timeout).click()
+    def send_seg_name(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.seg_name, timeout)
+        el.clear()
+        el.send_keys(text)
+    def send_seg_des(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.seg_des, timeout)
+        el.clear()
+        el.send_keys(text)
 
     # 타겟 설정
     def click_range_onsite_web(self, timeout=10):
@@ -178,13 +171,3 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.seg_setting_or, timeout).click()
     def click_seg_setting_and(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_setting_and, timeout).click()
-
-    # 완료
-    def click_cancel_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
-    def click_save_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.saveBtn, timeout).click()
-
-    # 생성된 세그먼트 리스트
-    def get_seg_list_item(self, seg_name):
-        return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{seg_name}')]")

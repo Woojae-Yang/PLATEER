@@ -32,6 +32,21 @@ class GroobeeActions:
     smsMenu = (By.XPATH, "//p[contains(text(),'SMS 캠페인')]")
     settingMenu = (By.XPATH, "//p[contains(text(),'설정')]")
 
+    # 만들기 버튼
+    createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
+
+    # 캠페인 생성
+    cam_name = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 40자']")
+    cam_des = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 400자']")
+
+    # 태그 추가
+    addtagBtn = (By.XPATH, "//button[contains(text(),'태그 추가')]")
+    tag_input = (By.XPATH, "//textarea[@id='downshift-multiple-input']")
+    order_frequency_tab = (By.XPATH, "//button[@id='basic-tab-0']")
+    order_ganada_tab = (By.XPATH, "//button[@id='basic-tab-1']")
+    tag_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
+    tag_add = (By.XPATH, "//button[contains(text(),'추가')]")
+
     # 상태탭
     progress_tab = (By.XPATH, "//button[contains(text(),'진행중')]")
     pause_tab = (By.XPATH, "//button[contains(text(),'중지중')]")
@@ -58,10 +73,24 @@ class GroobeeActions:
     delete_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
     delete_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
 
+    # 세그먼트 불러오기 RNB
+    target_set = (By.XPATH, "//h6[contains(text(),'타겟 설정')]")
+    seg_load = (By.XPATH, "//button[contains(text(),'세그먼트 불러오기')]")
+    seg_input = (By.XPATH, "//input[@placeholder='세그먼트명 검색']")
+    seg_search_icon = (By.XPATH, "//span[normalize-space()='search_filled']")
+    aiseg_tab = (By.XPATH, "//button[@id='basic-tab-0']")
+    seg_tab = (By.XPATH, "//button[@id='basic-tab-1']")
+    selectBtn = (By.XPATH, "//button[contains(text(),'선택')]")
+
     # 파일 업로드 RNB
     file_uploadBtn = (By.XPATH, "//button[contains(text(),'파일 업로드')]")
     file_input = (By.XPATH, "//input[@type='file']")
     doneBtn = (By.XPATH, "//button[contains(text(),'확인')]")
+
+    # 완료
+    cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
+    nextBtn = (By.XPATH, "//button[contains(text(),'다음 단계')]")
+    saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
 
     # 캠페인 리스트 읽기
     grid_rows = (By.XPATH, "//div[contains(@class,'MuiDataGrid-row') and @data-rowindex]")
@@ -112,6 +141,36 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.settingMenu, timeout).click()
         self.wait_url_contains("/setting/menu", timeout)
 
+    # 만들기 버튼
+    def click_create_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
+
+    # 캠페인 생성
+    def send_cam_name(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
+        el.clear()
+        el.send_keys(text)
+    def send_cam_des(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
+        el.clear()
+        el.send_keys(text)
+
+    # 태그 추가
+    def click_addtag_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.addtagBtn, timeout).click()
+    def send_tag_input(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.tag_input, timeout)
+        el.clear()
+        el.send_keys(text)
+    def click_order_frequency_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.order_frequency_tab, timeout).click()
+    def click_order_ganada_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.order_ganada_tab, timeout).click()
+    def click_tag_cancel(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tag_cancel, timeout).click()
+    def click_tag_add(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tag_add, timeout).click()
+
     # 상태탭
     def click_progress_tab(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.progress_tab, timeout).click()
@@ -158,17 +217,41 @@ class GroobeeActions:
     def click_delete_icon_confirm(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.delete_icon_confirm, timeout).click()
 
+    # 세그먼트 불러오기 RNB
+    def click_target_set(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.target_set, timeout).click()
+    def click_seg_load(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.seg_load, timeout).click()
+    def send_seg_input(self, text, timeout=10):
+        el = BaseClass.wait_clickable(self.driver, self.seg_input, timeout).click()
+        el.clear()
+        el.send_keys(text)
+    def click_seg_search_icon(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.seg_search_icon, timeout).click()
+    def click_aiseg_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.aiseg_tab, timeout).click()
+    def click_seg_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.seg_tab, timeout).click()
+    def click_select_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.selectBtn, timeout).click()
+
     # 파일 업로드 RNB
     def click_file_upload_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.file_uploadBtn, timeout).click()
-
     def send_file_input(self, file, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.file_input, timeout)
         el.clear()
         el.send_keys(file)
-
     def click_done_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
+
+    # 완료
+    def click_cancel_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
+    def click_next_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.nextBtn, timeout).click()
+    def click_save_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.saveBtn, timeout).click()
 
     # 관리 도구(…) 아이콘 찾기
     @staticmethod

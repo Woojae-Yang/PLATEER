@@ -10,13 +10,8 @@ class RecommendPage(GroobeeActions):
         self.driver = driver
 
     # -------------------------element 선언 영역-------------------------
-    # 만들기
-    createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
-
-    # 캠페인 입력
-    cam_title = (By.XPATH, "//h1[contains(text(),'새로운 AI 상품 추천 캠페인 만들기')]")
-    cam_name = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 40자']")
-    cam_des = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 400자']")
+    # 타이틀
+    ai_cam_title = (By.XPATH, "//h1[contains(text(),'새로운 AI 상품 추천 캠페인 만들기')]")
 
     # 접속 유형
     type_pcweb = (By.XPATH, "//input[@value='PC']")
@@ -46,15 +41,8 @@ class RecommendPage(GroobeeActions):
     target_click = (By.XPATH, "//input[@value='CL']")
     target_order = (By.XPATH, "//input[@value='OR']")
 
-    # 타겟 설정
-    target_set = (By.XPATH, "//h6[contains(text(),'타겟 설정')]")
-    seg_load = (By.XPATH, "//button[contains(text(),'세그먼트 불러오기')]")
-
-    # 세그먼트 불러오기
-    aiseg_tab = (By.XPATH, "//button[@id='basic-tab-0']")
-    seg_tab = (By.XPATH, "//button[@id='basic-tab-1']")
+    # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     purchase_self_seg = (By.XPATH, "//h6[contains(text(),'[QA] 직접 입력 테스트 세그먼트')]")
-    selectBtn = (By.XPATH, "//button[contains(text(),'선택')]")
 
     # 디자인 유형
     design_script = (By.XPATH, "//input[@value='JS']")
@@ -68,22 +56,7 @@ class RecommendPage(GroobeeActions):
     schedule_self = (By.XPATH, "//input[@value='MA']")
     schedule_enter = (By.XPATH, "//input[@value='ET']")
 
-    # 완료
-    cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
-    nextBtn = (By.XPATH, "//button[contains(text(),'다음 단계')]")
-    saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
-
     # -------------------------동작 선언 영역-------------------------
-    # 만들기
-    def click_create_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
-
-    # 캠페인 입력
-    def send_cam_name(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.cam_name, timeout).click()
-    def send_cam_des(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.cam_des, timeout).click()
-
     # 접속 유형
     def click_type_pcweb(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.type_pcweb, timeout).click()
@@ -132,21 +105,9 @@ class RecommendPage(GroobeeActions):
     def click_target_order(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.target_order, timeout).click()
 
-    # 타겟 설정
-    def click_target_set(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.target_set, timeout).click()
-    def click_seg_load(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_load, timeout).click()
-
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
-    def click_aiseg_tab(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.aiseg_tab, timeout).click()
-    def click_seg_tab(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_tab, timeout).click()
     def click_purchase_self_seg(self, timeout=10):
-        return self.driver.find_elements(*RecommendPage.purchase_self_seg, timeout).click()
-    def click_select_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.selectBtn, timeout).click()
+        BaseClass.wait_clickable(self.driver, self.purchase_self_seg, timeout).click()
 
     # 디자인 유형
     def click_design_script(self, timeout=10):
@@ -165,11 +126,3 @@ class RecommendPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.schedule_self, timeout).click()
     def click_schedule_enter(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.schedule_enter, timeout).click()
-
-    # 완료
-    def click_cancel_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
-    def click_next_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.nextBtn, timeout).click()
-    def click_save_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.saveBtn, timeout).click()
