@@ -39,7 +39,7 @@ class BaseClass:
 
     # 파일 넘기기
     @staticmethod
-    def testdata_file(filename: str) -> str:
+    def get_testdata(filename: str) -> str:
         return os.path.join(BaseClass.project_root(), "TestData", filename)
 
     # 리프레시 안정화 유틸 함수

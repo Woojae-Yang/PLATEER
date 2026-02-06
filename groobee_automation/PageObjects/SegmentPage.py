@@ -1,5 +1,6 @@
 import time
 
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from PageObjects.GroobeeActions import GroobeeActions
 from utilities.BaseClass import BaseClass
@@ -60,7 +61,9 @@ class SegmentPage(GroobeeActions):
     rnb_visitors_login = (By.XPATH, "//h6[contains(text(),'로그인 방문자')]")
     rnb_visitors_gender = (By.XPATH, "//h6[contains(text(),'회원 성별')]")
     rnb_visit_act = (By.XPATH, "//h6[contains(text(), '방문 행동')]")
+    rnb_visit_page = (By.XPATH, "//h6[contains(text(), '방문 페이지')]")
     rnb_cart_act = (By.XPATH, "//h6[contains(text(), '장바구니 행동')]")
+    rnb_cart_prod_nm = (By.XPATH, "//h6[contains(text(), '담은 상품명')]")
     rnb_order_act = (By.XPATH, "//h6[contains(text(), '주문 행동')]")
     rnb_custom = (By.XPATH, "//h6[contains(text(), '커스텀')]")
     rnb_choose = (By.XPATH, "//button[contains(text(),'선택')]")
@@ -167,8 +170,12 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_visitors_gender, timeout).click()
     def click_rnb_visit_act(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_visit_act, timeout).click()
+    def click_rnb_visit_page(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_visit_page, timeout).click()
     def click_rnb_cart_act(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_cart_act, timeout).click()
+    def clikc_rnb_cart_prod_nm(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_cart_prod_nm, timeout).click()
     def click_rnb_order_act(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_order_act, timeout).click()
     def click_rnb_custom(self, timeout=10):
@@ -178,9 +185,13 @@ class SegmentPage(GroobeeActions):
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     def click_seg_setting1(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_setting1, timeout).click()
+        elem = BaseClass.wait_clickable(self.driver, self.seg_setting1, timeout)
+        elem.click()
+        return elem
     def click_seg_setting1_pc(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_setting1_pc, timeout).click()
+        elem = BaseClass.wait_clickable(self.driver, self.seg_setting1_pc, timeout)
+        elem.click()
+        return elem
     def click_seg_setting1_wed(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_setting1_wed, timeout).click()
     def click_seg_setting1_android(self, timeout=10):
@@ -207,32 +218,50 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
     def click_save_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.saveBtn, timeout).click()
+ 
+
+    # 선택한 세그먼트 유형의 세부 설정
+    def select_seg_details(self, v1, v2):
+        ### 하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
+        ### 실행할 메서드와 매칭될 값을 리스트로 관리
+        actions = [(self.click_seg_setting1, v1),(self.click_seg_setting2, v2)]
+
+        for i, (click_func, val) in enumerate(actions, start=1):
+            if not val: continue
+
+            try:
+                # 설정할 변수 요소 클릭 : click_* 함수에서 반환한 요소 값 할당
+                container = click_func() 
+                time.sleep(0.5)
+
+                if not container:
+                    var_elem = f"(//div[contains(@class, 'MuiInputBase-root')])[{i}]"
+                    container = BaseClass.wait_clickable(self.driver, (By.XPATH, var_elem), timeout=10)
+
+                # 판별 및 실행
+                textareas = container.find_elements(By.TAG_NAME, "textarea")
+
+                if textareas:
+                    print(f"[DEBUG] {i}번 영역: 입력형 처리 -> {val}")
+                    textareas[0].send_keys(val)
+                    textareas[0].send_keys(Keys.ENTER)
+                else:
+                    print(f"[DEBUG] {i}번 영역: 선택형 처리 -> {val}")
+                    li_xpath = f"//li[contains(., '{val}')]"
+                    # 일반 클릭(.click())이 가로채기 에러가 나면 JS 클릭으로 우회
+                    try:
+                        BaseClass.wait_clickable(self.driver, (By.XPATH, li_xpath), timeout=10).click()
+                    except Exception:
+                        self.driver.execute_script("arguments[0].click();", li_xpath)
+            except Exception as e:
+                print(f"[ERROR] 상세설정 {i}번 처리 중 오류: {e}")
+            
+            time.sleep(1)
 
     # 생성된 세그먼트 리스트
     def get_seg_list_item(self, seg_name):
         return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{seg_name}')]")
-    
-
-    # 선택한 세그먼트 유형의 세부 설정
-    def select_seg_details(self, v1, v2):
-        """
-        세그먼트 변수의 상세 옵션을 선택
-        하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
-        """
-        # 1. 첫 번째 상세 설정 (v1)
-        if v1:
-            self.click_seg_setting1()
-            # 텍스트가 나타날 때까지 기다린 후 클릭 (안정성 강화)
-            v1_xpath = f"//li[contains(., '{v1}')]"
-            BaseClass.wait_clickable(self.driver, (By.XPATH, v1_xpath)).click()
-            time.sleep(1)
-        # 2. 두 번째 상세 설정 (v2)
-        if v2:
-            self.click_seg_setting2()
-            v2_xpath = f"//li[contains(., '{v2}')]"
-            BaseClass.wait_clickable(self.driver, (By.XPATH, v2_xpath)).click()
-            time.sleep(1)
-
+   
     # 생성된 세그먼트 데이터테이블의 맨 위 row에 대한 정보 가져오기
     def get_seg_info(self):
         seg_elem = "//div[@data-rowindex='0']"

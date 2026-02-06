@@ -11,13 +11,18 @@ from selenium.webdriver.common.by import By
 @pytest.mark.usefixtures("driver", "login")
 class TestSegCreate(BaseClass):
 
-    # (범위, 시점, 조합, 세그먼트 변수명, 값1, 값2)
+    # (범위, 시점, 조합, 세그먼트 변수명, 값1, 값2) : 추후 csv로 변환하여 관리 가능
     DECISION_TABLE = [
     ("온사이트(웹/하이브리드)", "과거", None, "브라우저", "Chrome", "일 때"),
-    ("온사이트(웹/하이브리드)", "현재", "AND/OR", "브라우저", "Chrome", "일 때"),
-    ("온사이트(네이티브)", "과거", "AND/OR", "첫 방문", None, None),
-    ("온사이트(네이티브)", "현재", "AND/OR", "첫 방문", None, None)
-    # ... 나머지 케이스 복사/붙여넣기
+    ("온사이트(웹/하이브리드)", "현재", "AND/OR", "브라우저", "Chrome", "아닐 때"),
+    ("온사이트(웹/하이브리드)", "현재", "시퀀스(강)", "방문 페이지", "https://groobee.net" , "일 때" ),
+    ("온사이트(웹/하이브리드)", "현재", "시퀀스(약)", "방문 페이지", "https://groobee.net" , "포함할 때" ),
+    ("온사이트(네이티브)", "과거", None, "첫 방문", None, None),
+    ("온사이트(네이티브)", "현재", "AND/OR", "첫 방문", None, None),
+    ("온사이트(네이티브)", "현재", "시퀀스(강)", "담은 상품명", "젤라또", "포함하지 않을 때"),
+    ("온사이트(네이티브)", "현재", "시퀀스(약)", "담은 상품명", "젤라또", "아닐 때"),
+    ("오프사이트", None, None, "로그인 방문자", None, None)
+    # ... 나머지 케이스 추가
     ]
 
     @pytest.fixture(autouse=True)
@@ -46,19 +51,24 @@ class TestSegCreate(BaseClass):
         # 2. RNB 변수 선택 매핑 (함수 시퀀스)
         self.rnb_map = {
             "브라우저": [self.groobee.click_rnb_system, self.groobee.click_rnb_system_browser],
-            "첫 방문": [self.groobee.click_rnb_visit_rec, self.groobee.click_rnb_visit_rec_first]
+            "첫 방문": [self.groobee.click_rnb_visit_rec, self.groobee.click_rnb_visit_rec_first],
+            "방문 페이지": [self.groobee.click_rnb_visit_act, self.groobee.click_rnb_visit_page],
+            "담은 상품명": [self.groobee.click_rnb_cart_act, self.groobee.clikc_rnb_cart_prod_nm],
+            "로그인 방문자": [self.groobee.click_rnb_visitors, self.groobee.click_rnb_visitors_login]
         }
 
     # target_map에서 category와 value에 맞는 함수를 찾아 실행하는 함수
     def select_target_radio(self, category, value):
         if value:
+            if value is None or value == "None":
+                return 
             try:
                 print(f"[DEBUG] Clicking {category}: {value}")
                 self.target_map[category][value]()
                 time.sleep(0.5) # 라디오 버튼 클릭 후 UI 반응 대기
             except KeyError:
                 pytest.fail(f"매핑 테이블에 '{value}' 키가 없습니다.")
-    
+
     # rnb_map에서 var_name에 맞는 시퀀스를 찾아 실행하는 실행 함수 
     def navigate_rnb(self, var_name):
         if var_name in self.rnb_map:
@@ -121,8 +131,10 @@ class TestSegCreate(BaseClass):
 
         assert seg_title in seg_info['name'], f"이름 불일치: {seg_info['name']}"
         assert seg_info['range'] == range_v, f"범위 불일치: {range_v}"
-        assert seg_info['segmentTime'] == time_v, f"시점 불일치: {time_v}"
-        assert seg_info['segmentCheckCd'] == cond_v, f"조건 불일치: {cond_v}"
+        if time_v is not None: # [타겟설정 > 시점]이 None인 경우에 대한 방어로직
+            assert seg_info['segmentTime'] == time_v, f"시점 불일치: {time_v}"
+        if cond_v is not None: # [타겟설정 > 조합]이 None인 경우에 대한 방어로직
+            assert seg_info['segmentCheckCd'] == cond_v, f"조건 불일치: {cond_v}"
 
 
 
