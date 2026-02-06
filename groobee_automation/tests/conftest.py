@@ -47,8 +47,8 @@ def testrail_run_id(request):
     env = os.getenv("TESTRAIL_RUN_ID")
     return int(env) if env else None
 
-
-@pytest.fixture(scope="session")
+## 범위를 session -> class 변경 260204
+@pytest.fixture(scope="class")
 def driver(request):
     # Docker 환경 여부 판단
     in_docker = os.path.exists("/.dockerenv")
@@ -94,8 +94,8 @@ def driver(request):
     yield driver
     driver.quit()
 
-
-@pytest.fixture
+## 범위를 session -> class 변경 260204
+@pytest.fixture(scope="class")
 def login(driver):
     base_url = os.getenv("GROOBEE_BASE_URL")
     user_id = os.getenv("GROOBEE_ID")
