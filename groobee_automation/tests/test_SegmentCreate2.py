@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 
 @pytest.mark.usefixtures("driver", "login")
-class TestSegCreate(BaseClass):
+class TestSegCreate(SegmentPage):
 
     # (범위, 시점, 조합, 세그먼트 변수명, 값1, 값2) : 추후 csv로 변환하여 관리 가능
     DECISION_TABLE = [
