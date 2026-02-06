@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 import time
 import pytest
 
 from selenium.webdriver.common.keys import Keys
-=======
->>>>>>> 6a76bbd50a29be6a212e7d723bcff31cfe75357e
 from selenium.webdriver.common.by import By
 from PageObjects.GroobeeActions import GroobeeActions
 from utilities.BaseClass import BaseClass
@@ -24,7 +21,7 @@ class SegmentPage(GroobeeActions):
     
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
-    
+
     # 세그먼트
     seg_title = (By.XPATH, "//h1[contains(text(),'새로운 세그먼트 만들기')]")
     seg_name = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 40자']")
@@ -186,7 +183,7 @@ class SegmentPage(GroobeeActions):
     def click_seg_setting_or(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_setting_or, timeout).click()
     def click_seg_setting_and(self, timeout=10):
-<<<<<<< HEAD
+
         BaseClass.wait_clickable(self.driver, self.seg_setting_and, timeout).click()
 
     # 완료
@@ -271,8 +268,3 @@ class SegmentPage(GroobeeActions):
             "segmentCheckCd": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='segmentCheckCd']").text,
             "reg_date": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='regDtm']").text
     }
-
-
-=======
-        BaseClass.wait_clickable(self.driver, self.seg_setting_and, timeout).click()
->>>>>>> 6a76bbd50a29be6a212e7d723bcff31cfe75357e
