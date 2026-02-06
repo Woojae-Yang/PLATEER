@@ -11,11 +11,9 @@ class SegmentPage(GroobeeActions):
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
-        target_map = {}
-        rnb_map = {}
 
     # ------------------------------ element 선언 ------------------------------
-        
+    
     # 세그먼트 타겟팅 페이지
     target_title_elem = (By.XPATH, "//h1[contains(text(),'세그먼트 타겟팅')]")
     
@@ -28,23 +26,21 @@ class SegmentPage(GroobeeActions):
     seg_des = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 400자']")
 
     # 타겟 설정
-    range_onsite_web = (By.XPATH, "//label[contains(., '온사이트(웹/하이브리드)')]//span[contains(@class, 'MuiRadio-root')]")
-    range_onsite_native = (By.XPATH, "//label[contains(., '온사이트(네이티브)')]//span[contains(@class, 'MuiRadio-root')]")
-    range_offsite = (By.XPATH, "//label[contains(., '오프사이트')]//span[contains(@class, 'MuiRadio-root')]")
-    
-    time_now = (By.XPATH, "//label[contains(., '현재')]//span[contains(@class, 'MuiRadio-root')]")
-    time_past = (By.XPATH, "//label[contains(., '과거')]//span[contains(@class, 'MuiRadio-root')]")
-    time_cross = (By.XPATH, "//label[contains(., '과거+현재')]//span[contains(@class, 'MuiRadio-root')]")
-    
-    mix_andor = (By.XPATH, "//label[contains(., 'AND/OR')]//span[contains(@class, 'MuiRadio-root')]")
-    mix_strong = (By.XPATH, "//label[contains(., '시퀀스(강)')]//span[contains(@class, 'MuiRadio-root')]")
-    mix_weak = (By.XPATH, "//label[contains(., '시퀀스(약)')]//span[contains(@class, 'MuiRadio-root')]")
+    range_onsite_web = (By.XPATH, "//label[contains(., '온사이트(웹/하이브리드)')]//span[1]")
+    range_onsite_native = (By.XPATH, "//label[contains(., '온사이트(네이티브)')]//span[1]")
+    range_offsite = (By.XPATH, "//label[contains(., '오프사이트')]//span[1]")
+    time_past = (By.XPATH, "//label[contains(., '과거')]//span[1]")
+    time_now = (By.XPATH, "//label[contains(., '현재')]//span[1]")
+    time_cross = (By.XPATH, "//label[contains(., '과거 x 현재')]//span[1]")
+    mix_andor = (By.XPATH, "//label[contains(., 'AND/OR')]//span[1]")
+    mix_strong = (By.XPATH, "//label[contains(., '시퀀스(강)')]//span[1]")
+    mix_weak = (By.XPATH, "//label[contains(., '시퀀스(약)')]//span[1]")
 
     # 세그먼트 변수 추가 버튼
-    add_seg_btn = (By.XPATH, "//button[contains(., '세그먼트 변수')]")
+    add_seg_btn = (By.XPATH, "//button[contains(text(), '세그먼트 변수')]")
 
     # 세그먼트 변수 RNB
-    rnb_title_elem = (By.XPATH, "//h2[contains(text(), '세그먼트 변수')]")
+    rnb_title_elem = (By.XPATH, "//h2[contains(., '세그먼트 변수')]")
     add_seg1 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[1]")
     add_seg2 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[2]")
     and_Btn = (By.XPATH, "//button[normalize-space()='AND']")
@@ -55,6 +51,7 @@ class SegmentPage(GroobeeActions):
     rnb_system_browser = (By.XPATH, "//h6[contains(text(),'브라우저 유형')]")
     rnb_system_language = (By.XPATH, "//h6[contains(text(),'브라우저 언어')]")
     rnb_visit_rec = (By.XPATH, "//h6[contains(text(), '방문 이력')]")
+    rnb_visit_freq = (By.XPATH, "//h6[contains(text(), '방문 횟수')]")
     rnb_visit_rec_first = (By.XPATH, "//h6[contains(text(),'첫 방문')]")
     rnb_visit_rec_week = (By.XPATH, "//h6[contains(text(),'방문 요일')]")
     rnb_visit_rec_time = (By.XPATH, "//h6[contains(text(),'방문 시간대')]")
@@ -65,9 +62,9 @@ class SegmentPage(GroobeeActions):
     rnb_visitors_login = (By.XPATH, "//h6[contains(text(),'로그인 방문자')]")
     rnb_visitors_gender = (By.XPATH, "//h6[contains(text(),'회원 성별')]")
     rnb_visit_act = (By.XPATH, "//h6[contains(text(), '방문 행동')]")
-    rnb_visit_page = (By.XPATH, "//h6[contains(text(), '방문 페이지 URL)]")
+    rnb_visit_page = (By.XPATH, "//h6[contains(text(), '방문 페이지')]")
     rnb_cart_act = (By.XPATH, "//h6[contains(text(), '장바구니 행동')]")
-    rnb_cart_prod_nm = By.XPATH, "//h6[contains(text(), '담은 상품명')]"
+    rnb_cart_prod_nm = (By.XPATH, "//h6[contains(text(), '담은 상품명')]")
     rnb_order_act = (By.XPATH, "//h6[contains(text(), '주문 행동')]")
     rnb_custom = (By.XPATH, "//h6[contains(text(), '커스텀')]")
     rnb_choose = (By.XPATH, "//button[contains(text(),'선택')]")
@@ -86,16 +83,26 @@ class SegmentPage(GroobeeActions):
     seg_setting_or = (By.XPATH, "//button[normalize-space()='OR']")
     seg_setting_and = (By.XPATH, "//button[normalize-space()='AND']")
 
+    # 완료
+    cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
+    saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
+
     # ------------------------------ action + wait ------------------------------
+    # 만들기
+    def click_create_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
+
     # 세그먼트 입력
     def send_seg_name(self, text, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.seg_name, timeout)
-        el.clear()
-        el.send_keys(text)
+        elem = BaseClass.wait_clickable(self.driver, self.seg_name, timeout)
+        elem.click()
+        elem.clear()
+        elem.send_keys(text)
     def send_seg_des(self, text, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.seg_des, timeout)
-        el.clear()
-        el.send_keys(text)
+        elem = BaseClass.wait_clickable(self.driver, self.seg_des, timeout)
+        elem.click()
+        elem.clear()
+        elem.send_keys(text)
 
     # 타겟 설정
     def click_range_onsite_web(self, timeout=10):
@@ -142,6 +149,8 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_system_language, timeout).click()
     def click_rnb_visit_rec(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_visit_rec, timeout).click()
+    def click_rnb_visit_freq(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_visit_freq, timeout).click()
     def click_rnb_visit_rec_first(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_visit_rec_first, timeout).click()
     def click_rnb_visit_rec_week(self, timeout=10):
@@ -166,15 +175,14 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_visit_page, timeout).click()
     def click_rnb_cart_act(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_cart_act, timeout).click()
+    def click_rnb_cart_prod_nm(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_cart_prod_nm, timeout).click()
     def click_rnb_order_act(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_order_act, timeout).click()
     def click_rnb_custom(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_custom, timeout).click()
     def click_rnb_choose(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_choose, timeout).click()
-    def click_rnb_cart_prod_nm(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.rnb_cart_prod_nm, timeout).click()
-
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     def click_seg_setting1(self, timeout=10):
