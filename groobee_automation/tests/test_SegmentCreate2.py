@@ -9,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 
 @pytest.mark.usefixtures("driver", "login")
-class TestSegCreate(SegmentPage):
+class TestSegCreate:
 
     # (범위, 시점, 조합, 세그먼트 변수명, 값1, 값2) : 추후 csv로 변환하여 관리 가능
     DECISION_TABLE = [
@@ -53,27 +53,9 @@ class TestSegCreate(SegmentPage):
             "브라우저": [self.groobee.click_rnb_system, self.groobee.click_rnb_system_browser],
             "첫 방문": [self.groobee.click_rnb_visit_rec, self.groobee.click_rnb_visit_rec_first],
             "방문 페이지": [self.groobee.click_rnb_visit_act, self.groobee.click_rnb_visit_page],
-            "담은 상품명": [self.groobee.click_rnb_cart_act, self.groobee.clikc_rnb_cart_prod_nm],
+            "담은 상품명": [self.groobee.click_rnb_cart_act, self.groobee.click_rnb_cart_prod_nm],
             "로그인 방문자": [self.groobee.click_rnb_visitors, self.groobee.click_rnb_visitors_login]
         }
-
-    # target_map에서 category와 value에 맞는 함수를 찾아 실행하는 함수
-    def select_target_radio(self, category, value):
-        if value:
-            if value is None or value == "None":
-                return 
-            try:
-                print(f"[DEBUG] Clicking {category}: {value}")
-                self.target_map[category][value]()
-                time.sleep(0.5) # 라디오 버튼 클릭 후 UI 반응 대기
-            except KeyError:
-                pytest.fail(f"매핑 테이블에 '{value}' 키가 없습니다.")
-
-    # rnb_map에서 var_name에 맞는 시퀀스를 찾아 실행하는 실행 함수 
-    def navigate_rnb(self, var_name):
-        if var_name in self.rnb_map:
-            for func in self.rnb_map[var_name]:
-                func()
 
     login_expect_title = "대시보드 :: GROOBEE"
     seg_description = 'Automation Testing'
@@ -103,9 +85,9 @@ class TestSegCreate(SegmentPage):
         time.sleep(1.5)
 
         # 타겟 설정
-        self.select_target_radio("range", range_v)
-        self.select_target_radio("time", time_v)
-        self.select_target_radio("condition", cond_v)
+        self.groobee.select_target_radio("range", range_v, self.target_map)
+        self.groobee.select_target_radio("time", time_v, self.target_map)
+        self.groobee.select_target_radio("condition", cond_v, self.target_map)
         
         # 세그먼트 변수 btn 클릭
         self.groobee.click_add_seg_btn()
@@ -113,7 +95,7 @@ class TestSegCreate(SegmentPage):
         assert BaseClass.wait_visible(driver, self.groobee.rnb_title_elem).is_displayed()
 
         # 세그먼트 변수 RNB
-        self.navigate_rnb(var_name)
+        self.groobee.navigate_rnb(var_name, self.rnb_map)
         self.groobee.click_rnb_choose()
         time.sleep(1)
 
