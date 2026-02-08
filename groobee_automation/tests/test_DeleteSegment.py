@@ -24,4 +24,7 @@ class TestSegDel:
     
     @pytest.mark.del_seg
     def test_delete_seg(self, driver):
+        self.groobee.click_segment_menu()
+        assert BaseClass.wait_visible(driver, self.groobee.target_title_elem).is_displayed()
+
         self.groobee.send_search_word(text='[AUTO]')
