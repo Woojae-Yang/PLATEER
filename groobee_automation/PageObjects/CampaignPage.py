@@ -47,7 +47,7 @@ class CampaignPage(GroobeeActions):
     image_map = (By.XPATH, "//input[@value='image-map']")
 
     # 내용 입력
-    desBtn = (By.XPATH, "(//input[@type='checkbox'])[5]")
+    desBtn = (By.XPATH, "//div[h6[contains(text(),'내용')]]//span[not(contains(@class, 'Mui-checked'))]")
     input_des = (By.XPATH, "//textarea[@placeholder='한글 공백 포함 최대 80자']")
     sort_des = (By.XPATH, "(//button[@value='center'])[2]")
     input_txt20 = (By.XPATH, "//textarea[@placeholder='한글 공백 포함 최대 20자']")
