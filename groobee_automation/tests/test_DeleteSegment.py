@@ -31,5 +31,7 @@ class TestSegDel:
 
         self.groobee.send_search_word(text='[AUTO]')
         
+        self.groobee.click_top_tools_btn()
+        self.groobee.click_tools_del_btn()
         assert self.modal_title == self.groobee.cehck_modal_title()
         self.groobee.click_modal_ok_btn()

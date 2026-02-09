@@ -15,14 +15,14 @@ class SegmentPage(GroobeeActions):
     # ------------------------------ element 선언 ------------------------------
     
     #서치바
-    seg_search_bar = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[1]/div[2]/div/div/div")
+    seg_search_bar = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[1]/div[2]/div/div/div/input")
 
     # 도구모음
     top_tools_btn = (By.XPATH, "//div[@data-rowindex='0']//button[.//*[@data-testid='MoreHorizIcon']]")
-    tools_del_btn = (By.XPATH, "//li[contains(text(), '삭제']")
+    tools_del_btn = (By.XPATH, "//li[contains(normalize-space(.), '삭제')]")
     modal_title = (By.XPATH, "//h2[contains(text(), '세그먼트 삭제')]")
-    modal_ok_btn = (By.XPATH, "//button[contains(text(), '확인')]")
-    modal_cancel_btn = (By.XPATH, "//button[contains(text(), '취소']")
+    modal_ok_btn = (By.XPATH, "//button[contains(normalize-space(.), '확인')]")
+    modal_cancel_btn = (By.XPATH, "//button[contains(normalize-space(.), '취소']")
 
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
@@ -103,16 +103,18 @@ class SegmentPage(GroobeeActions):
     def send_search_word(self, text, timeout=10):
         search_bar = BaseClass.wait_clickable(self.driver, self.seg_search_bar, timeout)
         search_bar.click()
+        time.sleep(1)
         search_bar.send_keys(text)
-        time.sleep(0.5)
         search_bar.send_keys(Keys.ENTER)
         time.sleep(1)
 
     # 도구모음
     def click_top_tools_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.top_tools_btn, timeout).click()
+        time.sleep(1)
     def click_tools_del_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_del_btn, timeout).click()
+        time.sleep(1)
     def cehck_modal_title(self, timeout=10):
         return BaseClass.wait_visible(self.driver, self.modal_title, timeout).text
     def click_modal_ok_btn(self, timeout=10):
