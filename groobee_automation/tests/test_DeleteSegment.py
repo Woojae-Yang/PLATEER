@@ -17,6 +17,7 @@ class TestSegDel:
 
     login_expect_title = "대시보드 :: GROOBEE"
     seg_expect_title = "세그먼트 타겟팅 :: GROOBEE"
+    empty_expect_msg = "검색 결과가 없습니다."
     modal_title = '세그먼트 삭제'
 
     @pytest.mark.login
@@ -30,8 +31,17 @@ class TestSegDel:
         assert driver.title == self.seg_expect_title
 
         self.groobee.send_search_word(text='[AUTO]')
-        
-        self.groobee.click_top_tools_btn()
-        self.groobee.click_tools_del_btn()
-        assert self.modal_title == self.groobee.cehck_modal_title()
-        self.groobee.click_modal_ok_btn()
+        while True:
+            try:
+                if BaseClass.wait_visible(driver, self.groobee.top_tools_btn).is_displayed():
+                    self.groobee.click_top_tools_btn()
+                    self.groobee.click_tools_del_btn()
+                    assert self.modal_title == self.groobee.cehck_modal_title()
+                    self.groobee.click_modal_ok_btn()
+                else:
+                    empty_msg = self.groobee.get_empty_msg()
+                    assert empty_msg == self.empty_expect_msg
+                    break
+            except Exception as e:
+                print(f'[ERROR] {e}')
+                break

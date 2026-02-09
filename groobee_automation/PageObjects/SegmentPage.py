@@ -14,15 +14,16 @@ class SegmentPage(GroobeeActions):
 
     # ------------------------------ element 선언 ------------------------------
     
-    #서치바
+    # 데이터 테이블 영역 : 참조할 항목이 없어서 어쩔 수 없이 절대경로 입력
     seg_search_bar = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[1]/div[2]/div/div/div/input")
+    empty_msg = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[2]/div[1]/div[2]/div[1]/div/div/div")
 
     # 도구모음
     top_tools_btn = (By.XPATH, "//div[@data-rowindex='0']//button[.//*[@data-testid='MoreHorizIcon']]")
     tools_del_btn = (By.XPATH, "//li[contains(normalize-space(.), '삭제')]")
-    modal_title = (By.XPATH, "//h2[contains(text(), '세그먼트 삭제')]")
-    modal_ok_btn = (By.XPATH, "//button[contains(normalize-space(.), '확인')]")
-    modal_cancel_btn = (By.XPATH, "//button[contains(normalize-space(.), '취소']")
+    modal_title = (By.XPATH, "//div[@role='dialog']//h2[contains(text(), '세그먼트 삭제')]")
+    modal_ok_btn = (By.XPATH, "(//div[@role='dialog']//button[contains(normalize-space(.), '확인')])[last()]")
+    modal_cancel_btn = (By.XPATH, "//div[@role='dialog']//button[contains(normalize-space(.), '취소']")
 
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
@@ -107,6 +108,10 @@ class SegmentPage(GroobeeActions):
         search_bar.send_keys(text)
         search_bar.send_keys(Keys.ENTER)
         time.sleep(1)
+    
+    # 검색 결과 없음 안내 문구
+    def get_empty_msg(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.empty_msg, timeout)
 
     # 도구모음
     def click_top_tools_btn(self, timeout=10):
