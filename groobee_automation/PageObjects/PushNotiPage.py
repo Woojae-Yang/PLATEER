@@ -48,15 +48,25 @@ class PushNotiPage(GroobeeActions):
 
 
     #기본 이미지 - 설정 값 사용
-    img_setting =  (By.XPATH, "//span[normalize-space(.)='설정 값 사용']"
+    default_img_setting =  (By.XPATH, "//span[normalize-space(.)='설정 값 사용']"
     "/preceding-sibling::span//input[@type='checkbox']")
 
     #본문 이미지는 파일 업로드 RNB 공용 사용
 
+    #수신 거부 표기
+    unsubscribe_notice = (By.XPATH, "//input[@placeholder='설정 > 푸시 알림 설정에서 설정 가능']")
+
     #클릭 동작
-    launch_app_ = (By.XPATH, "//input[@value='앱 실행']")
+    launch_app = (By.XPATH, "//input[@value='앱 실행']")
     deepLink = (By.XPATH, "//input[@value='딥 링크']")
     launch_webBrowser_ = (By.XPATH, "//input[@value='웹 브라우저 실행']")
+
+    #클릭 동작 텍스트 박스
+    deepLink_textArea_AOS =(By.XPATH,"//label[normalize-space(.)='Android*']"
+    "/following::textarea[not(@aria-hidden)][1]")
+    deepLink_textArea_iOS = (By.XPATH,
+    "//label[normalize-space(.)='iOS*']"
+    "/following::textarea[not(@aria-hidden)][1]")
 
     #고급 옵션
     advanced_options = (By.XPATH, "//button[contains(text(),'옵션 추가')]")
@@ -119,8 +129,13 @@ class PushNotiPage(GroobeeActions):
         el = BaseClass.wait_visible(self.driver, self.message_contents, timeout)
         el.clear()
         el.send_keys(text)
-    def click_img_setting(self, text, timeout=10):
-        BaseClass.wait_clickable(self.driver,self.img_setting,timeout).click()
+    def click_default_img_setting(self, text, timeout=10):
+        BaseClass.wait_clickable(self.driver,self.default_img_setting,timeout).click()
+    def send_unsubscribe_notice(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.unsubscribe_notice, timeout)
+        el.clear()
+        el.send_keys(text)
+
 
     #클릭 동작
     def click_launch_app(self, text, timeout=10):
@@ -129,6 +144,16 @@ class PushNotiPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver,self.deepLink,timeout).click()
     def click_launch_webBrowser(self, text, timeout=10):
         BaseClass.wait_clickable(self.driver,self.launch_webBrowser, timeout).click()
+    #클릭 동작 텍스트 박스
+    def send_deepLink_testArea_AOS(self,text, timeout=10):
+        el = BaseClass.wait_visible(self.driver,self.deepLink_textArea_AOS,timeout).click()
+        el.clear()
+        el.send_keys(text)
+    def send_deepLink_testArea_iOS(self,text, timeout=10):
+        el = BaseClass.wait_visible(self.driver,self.deepLink_textArea_iOS,timeout).click()
+        el.clear()
+        el.send_keys(text)
+
 
     #고급 옵션
     def click_advanced_options(self, text, timeout=10):

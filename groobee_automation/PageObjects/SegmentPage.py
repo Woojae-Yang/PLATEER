@@ -220,6 +220,8 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_order_act, timeout).click()
     def click_rnb_custom(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_custom, timeout).click()
+    def click_rnb_member_id(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_member_id, timeout).click()
     def click_rnb_choose(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_choose, timeout).click()
 
