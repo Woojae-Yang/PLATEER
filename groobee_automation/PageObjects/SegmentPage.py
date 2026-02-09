@@ -124,6 +124,7 @@ class SegmentPage(GroobeeActions):
         return BaseClass.wait_visible(self.driver, self.modal_title, timeout).text
     def click_modal_ok_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.modal_ok_btn, timeout).click()
+        time.sleep(0.5)
 
 
     # 세그먼트 기본 정보 입력
@@ -313,7 +314,7 @@ class SegmentPage(GroobeeActions):
             except Exception as e:
                 print(f"[ERROR] 상세설정 {i}번 처리 중 오류: {e}")
             
-            time.sleep(1)
+            time.sleep(0.5)
 
     # 생성된 세그먼트 리스트
     def get_seg_list_item(self, seg_name):
