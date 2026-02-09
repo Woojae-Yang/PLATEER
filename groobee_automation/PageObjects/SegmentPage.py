@@ -15,7 +15,7 @@ class SegmentPage(GroobeeActions):
     # ------------------------------ element 선언 ------------------------------
     
     #서치바
-    seg_search_bar = (By.XPATH, "//div[@id=':ro:']")
+    seg_search_bar = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[1]/div[2]/div/div/div")
 
     # 도구모음
     top_tools_btn = (By.XPATH, "//div[@data-rowindex='0']//button[.//*[@data-testid='MoreHorizIcon']]")
