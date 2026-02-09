@@ -16,7 +16,9 @@ class TestSegDel:
         self.groobee = SegmentPage(driver)
 
     login_expect_title = "대시보드 :: GROOBEE"
-    seg_description = 'Automation Testing'
+    seg_expect_title = "세그먼트 타겟팅 :: GROOBEE"
+    modal_title = '세그먼트 삭제'
+
     @pytest.mark.login
     def test_login(self, driver, login):
         ## 로그인 확인
@@ -25,6 +27,11 @@ class TestSegDel:
     @pytest.mark.del_seg
     def test_delete_seg(self, driver):
         self.groobee.click_segment_menu()
-        assert BaseClass.wait_visible(driver, self.groobee.target_title_elem).is_displayed()
+        assert driver.title == self.seg_expect_title
 
         self.groobee.send_search_word(text='[AUTO]')
+        
+        self.groobee.click_top_tools_btn()
+        self.groobee.click_tools_del_btn()
+        assert self.modal_title == self.groobee.cehck_modal_title()
+        self.groobee.click_modal_ok_btn()
