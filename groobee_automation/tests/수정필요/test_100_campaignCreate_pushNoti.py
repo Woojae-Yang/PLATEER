@@ -35,5 +35,6 @@ class TestCampaignCreate(BaseClass):
 
         #타이틀 노출까지 대기
         WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located(PushNotiPage.cam_title)
+            EC.presence_of_element_located(PushNotiPage.schedule_cam_title)
         )
+        assert driver.title ==self.campaign_expect_title, f"현재 페이지: {driver.title}, 기대 페이지: {self.campaign_expect_title}"
