@@ -58,6 +58,7 @@ class TestSegCreate:
         }
 
     login_expect_title = "대시보드 :: GROOBEE"
+    seg_expect_title = "세그먼트 타겟팅 :: GROOBEE"
     seg_description = 'Automation Testing'
 
     @pytest.mark.login
@@ -72,7 +73,7 @@ class TestSegCreate:
         
         ## LNB 세그먼트 페이지 진입
         self.groobee.click_segment_menu()
-        assert BaseClass.wait_visible(driver, self.groobee.target_title_elem).is_displayed()
+        assert driver.title == self.seg_expect_title
 
         # 만들기 진입
         self.groobee.click_create_btn()

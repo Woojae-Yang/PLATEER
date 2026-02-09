@@ -158,6 +158,12 @@ class GroobeeActions:
         el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
         el.clear()
         el.send_keys(text)
+    def get_cam_name(self, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
+        return el.get_attribute("value")
+    def get_cam_des(self, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
+        return el.get_attribute("value")
 
     # 태그 추가
     def click_addtag_btn(self, timeout=10):
@@ -248,8 +254,9 @@ class GroobeeActions:
     def click_file_upload_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.file_uploadBtn, timeout).click()
     def send_file_input(self, file, timeout=10):
+        file_path = BaseClass.getdata_file(file)
         el = BaseClass.wait_visible(self.driver, self.file_input, timeout)
-        el.send_keys(file)
+        el.send_keys(file_path)
     def click_done_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
 

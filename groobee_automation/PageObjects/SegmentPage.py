@@ -14,9 +14,17 @@ class SegmentPage(GroobeeActions):
 
     # ------------------------------ element 선언 ------------------------------
     
-    # 세그먼트 타겟팅 페이지
-    target_title_elem = (By.XPATH, "//h1[contains(text(),'세그먼트 타겟팅')]")
-    
+    # 데이터 테이블 영역 : 참조할 항목이 없어서 어쩔 수 없이 절대경로 입력
+    seg_search_bar = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[1]/div[2]/div/div/div/input")
+    empty_msg = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[2]/div[1]/div[2]/div[1]/div/div/div")
+
+    # 도구모음
+    top_tools_btn = (By.XPATH, "//div[@data-rowindex='0']//button[.//*[@data-testid='MoreHorizIcon']]")
+    tools_del_btn = (By.XPATH, "//li[contains(normalize-space(.), '삭제')]")
+    modal_title = (By.XPATH, "//div[@role='dialog']//h2[contains(text(), '세그먼트 삭제')]")
+    modal_ok_btn = (By.XPATH, "(//div[@role='dialog']//button[contains(normalize-space(.), '확인')])[last()]")
+    modal_cancel_btn = (By.XPATH, "//div[@role='dialog']//button[contains(normalize-space(.), '취소']")
+
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
 
@@ -96,7 +104,34 @@ class SegmentPage(GroobeeActions):
     def click_create_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
 
-    # 세그먼트 입력
+    # 서치바 입력하기
+    def send_search_word(self, text, timeout=10):
+        search_bar = BaseClass.wait_clickable(self.driver, self.seg_search_bar, timeout)
+        search_bar.click()
+        time.sleep(1)
+        search_bar.send_keys(text)
+        search_bar.send_keys(Keys.ENTER)
+        time.sleep(1)
+    
+    # 검색 결과 없음 안내 문구
+    def get_empty_msg(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.empty_msg, timeout)
+
+    # 도구모음
+    def click_top_tools_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.top_tools_btn, timeout).click()
+        time.sleep(1)
+    def click_tools_del_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tools_del_btn, timeout).click()
+        time.sleep(1)
+    def cehck_modal_title(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.modal_title, timeout).text
+    def click_modal_ok_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.modal_ok_btn, timeout).click()
+        time.sleep(0.5)
+
+
+    # 세그먼트 기본 정보 입력
     def send_seg_name(self, text, timeout=10):
         elem = BaseClass.wait_clickable(self.driver, self.seg_name, timeout)
         elem.click()
@@ -283,7 +318,7 @@ class SegmentPage(GroobeeActions):
             except Exception as e:
                 print(f"[ERROR] 상세설정 {i}번 처리 중 오류: {e}")
             
-            time.sleep(1)
+            time.sleep(0.5)
 
     # 생성된 세그먼트 리스트
     def get_seg_list_item(self, seg_name):
