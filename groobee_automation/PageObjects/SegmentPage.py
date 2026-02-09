@@ -14,9 +14,6 @@ class SegmentPage(GroobeeActions):
 
     # ------------------------------ element 선언 ------------------------------
     
-    # 세그먼트 타겟팅 페이지
-    target_title_elem = (By.XPATH, "//h1[contains(text(),'세그먼트 타겟팅')]")
-
     #서치바
     seg_search_bar = (By.XPATH, "//div[@id=':ro:']")
 
@@ -104,7 +101,7 @@ class SegmentPage(GroobeeActions):
 
     # 서치바 입력하기
     def send_search_word(self, text, timeout=10):
-        search_bar = BaseClass.wait_visible(self.driver, self.seg_search_bar)
+        search_bar = BaseClass.wait_clickable(self.driver, self.seg_search_bar, timeout)
         search_bar.click()
         search_bar.send_keys(text)
         time.sleep(0.5)
@@ -117,9 +114,9 @@ class SegmentPage(GroobeeActions):
     def click_tools_del_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_del_btn, timeout).click()
     def cehck_modal_title(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.modal_title, timeout).click()
+        return BaseClass.wait_visible(self.driver, self.modal_title, timeout).text
     def click_modal_ok_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.click_modal_ok_btn, timeout).click()
+        BaseClass.wait_clickable(self.driver, self.modal_ok_btn, timeout).click()
 
 
     # 세그먼트 기본 정보 입력
