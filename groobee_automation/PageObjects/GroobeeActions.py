@@ -158,6 +158,12 @@ class GroobeeActions:
         el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
         el.clear()
         el.send_keys(text)
+    def get_cam_name(self, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
+        return el.get_attribute("value")
+    def get_cam_des(self, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
+        return el.get_attribute("value")
 
     # 태그 추가
     def click_addtag_btn(self, timeout=10):
