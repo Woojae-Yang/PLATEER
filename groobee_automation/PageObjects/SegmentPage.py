@@ -68,6 +68,7 @@ class SegmentPage(GroobeeActions):
     rnb_order_act = (By.XPATH, "//h6[contains(text(), '주문 행동')]")
     rnb_custom = (By.XPATH, "//h6[contains(text(), '커스텀')]")
     rnb_choose = (By.XPATH, "//button[contains(text(),'선택')]")
+    rnb_member_id = (By.XPATH, "//h6[contains(text(), '회원 번호(ID)')]")
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     seg_setting1 = (By.XPATH, "(//div[contains(@role,'combobox')])[1]")
@@ -82,6 +83,9 @@ class SegmentPage(GroobeeActions):
     seg_setting4_yes = (By.XPATH, "//li[contains(text(),'일 때')]")
     seg_setting_or = (By.XPATH, "//button[normalize-space()='OR']")
     seg_setting_and = (By.XPATH, "//button[normalize-space()='AND']")
+    #seg_setting5_memberId = (By.XPATH, "//input[@placeholder='엔터로 복수 입력 가능']")
+    seg_setting5_memberId = (By.XPATH, "//input[@placeholder='엔터로 복수 입력 가능' and contains(@aria-labelledby,'segment')]")
+
 
     # 완료
     cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
