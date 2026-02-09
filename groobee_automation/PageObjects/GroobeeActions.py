@@ -248,8 +248,9 @@ class GroobeeActions:
     def click_file_upload_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.file_uploadBtn, timeout).click()
     def send_file_input(self, file, timeout=10):
+        file_path = BaseClass.getdata_file(file)
         el = BaseClass.wait_visible(self.driver, self.file_input, timeout)
-        el.send_keys(file)
+        el.send_keys(file_path)
     def click_done_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
 
