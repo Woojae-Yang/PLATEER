@@ -91,11 +91,11 @@ class SmsPage(GroobeeActions):
         return el.text.strip()
 
     # 미리보기
-    def wait_preview_img_visible(self, timeout=10):
-        return BaseClass.wait_visible(self.driver, self.preview_img, timeout)
     def is_preview_text_contains(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.preview_area, timeout)
         return text in el.text
+    def is_preview_img_visible(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.preview_img, timeout)
     def get_preview_url(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.preview_url, timeout)
         return el.get_attribute("href").strip()
