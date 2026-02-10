@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import (
@@ -45,7 +46,7 @@ class GroobeeActions:
     order_frequency_tab = (By.XPATH, "//button[@id='basic-tab-0']")
     order_ganada_tab = (By.XPATH, "//button[@id='basic-tab-1']")
     tag_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
-    tag_add = (By.XPATH, "//button[contains(text(),'추가')]")
+    tag_add = (By.XPATH, "//div[@role='dialog']//button[normalize-space()='추가']")
 
     # 상태탭
     progress_tab = (By.XPATH, "//button[contains(text(),'진행중')]")
@@ -84,6 +85,7 @@ class GroobeeActions:
 
     # 예상 타겟 수
     target_numBtn = (By.XPATH, "//button[contains(text(),'확인하기')]")
+    target_num_reBtn = (By.XPATH, "//button[contains(text(),'다시 확인하기')]")
     target_result = (By.XPATH, "//p[contains(., '타겟 수는 변동될 수 있습니다')]")
 
     # 파일 업로드 RNB
@@ -148,6 +150,7 @@ class GroobeeActions:
     # 만들기 버튼
     def click_create_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
+        self.wait_url_contains("/regist", timeout)
 
     # 캠페인 생성
     def send_cam_name(self, text, timeout=10):
@@ -172,6 +175,7 @@ class GroobeeActions:
         el = BaseClass.wait_visible(self.driver, self.tag_input, timeout)
         el.clear()
         el.send_keys(text)
+        el.send_keys(Keys.ENTER)
     def click_order_frequency_tab(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.order_frequency_tab, timeout).click()
     def click_order_ganada_tab(self, timeout=10):
@@ -246,8 +250,15 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.selectBtn, timeout).click()
 
     # 예상 타겟 수
+    def wait_target_num_btn_clickable(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout)
     def click_target_num_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout).click()
+        BaseClass.wait_visible(self.driver, self.target_result, 20)
+    def wait_target_num_re_btn_visible(self, timeout=10):
+        BaseClass.wait_visible(self.driver, self.target_numBtn, timeout)
+    def click_target_num_re_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.target_num_reBtn, timeout).click()
         BaseClass.wait_visible(self.driver, self.target_result, 20)
 
     # 파일 업로드 RNB
