@@ -51,13 +51,12 @@ class TestSegCreateCross:
         assert driver.title == self.login_expect_title
     
     @pytest.mark.seg
-    @pytest.mark.parametrize("range_v, time_v, cond_v, p_var, p_v1, p_v2, n_var, n_v1, n_v2", DECISION_TABLE)
-    def test_seg_create_flow(self, driver, range_v, time_v, cond_v, p_var, p_v1, p_v2, n_var, n_v1, n_v2):
-        seg_title = f"[AUTO]seg_{datetime.now().strftime('%H%M%S')}_{var_name}"
+    @pytest.mark.parametrize("range_v, time_v, cond_v, past_var, past_v1, past_v2, n_var, n_v1, n_v2", DECISION_TABLE)
+    def test_seg_create_flow(self, driver, range_v, time_v, cond_v, past_var, past_v1, past_v2, n_var, n_v1, n_v2):
+        seg_title = f"[AUTO]seg_{datetime.now().strftime('%H%M%S')}Cross"
         
         ## LNB 세그먼트 페이지 진입
         self.groobee.click_segment_menu()
-        assert driver.title == self.seg_expect_title
 
         # 만들기 진입
         self.groobee.click_create_btn()
@@ -78,11 +77,10 @@ class TestSegCreateCross:
         self.groobee.click_var_btn_in_scope(self.groobee.past_div)
         assert BaseClass.wait_visible(driver, self.groobee.rnb_title_elem).is_displayed()
         ### 세그먼트 변수 RNB
-        self.groobee.navigate_rnb(p_var, self.rnb_map)
+        self.groobee.navigate_rnb(past_var, self.rnb_map)
         self.groobee.click_rnb_choose()
         ### 선택한 세그먼트 변수 상세 설정
-        self.groobee.click_var_btn_in_scope(self.groobee.past_div)
-        self.groobee.select_seg_details(p_v1, p_v2)
+        self.groobee.select_seg_details(past_v1, past_v2)
 
         # 현재 세그먼트 변수 설정
         self.groobee.click_var_btn_in_scope(self.groobee.present_div)
@@ -91,7 +89,6 @@ class TestSegCreateCross:
         self.groobee.navigate_rnb(n_var, self.rnb_map)
         self.groobee.click_rnb_choose()
         ### 선택한 세그먼트 변수 상세 설정
-        self.groobee.click_var_btn_in_scope(self.groobee.past_div)
         self.groobee.select_seg_details(n_v1, n_v2)
         
         # 저장 버튼 클릭
