@@ -20,22 +20,12 @@ class OnsitePage(GroobeeActions):
     # 온사이트 캠페인 만들기
     title = (By.XPATH, "//h1[contains(text(),'새로운 온사이트 캠페인 만들기')]")
     # stepper_step1
-    camp_name_sub = (
-        By.XPATH,
-        "//strong[contains(@class, 'MuiTypography-subtitle2') and contains(text(), '캠페인명')]",
-    )
-    camp_des_sub = (
-        By.XPATH,
-        "//strong[contains(@class, 'MuiTypography-subtitle2') and contains(text(), '상세 설명')]",
-    )
-    tag_sub = (
-        By.XPATH,
-        "//strong[contains(@class, 'MuiTypography-subtitle2') and contains(text(), '태그')]",
-    )
+    camp_name_sub = (By.XPATH, "//strong[contains(@class, 'MuiTypography-subtitle2') and contains(text(), '캠페인명')]")
+    camp_des_sub = (By.XPATH, "//strong[contains(@class, 'MuiTypography-subtitle2') and contains(text(), '상세 설명')]")
+    tag_sub = (By.XPATH, "//strong[contains(@class, 'MuiTypography-subtitle2') and contains(text(), '태그')]")
     campaign_name_input = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 40자']")
     campaign_des_input = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 400자']")
     tag_btn = (By.XPATH, "//button[contains(text(),'태그 추가')]")
-    # tag_btn_default = (By.XPATH, "//span[@class='MuiChip-label MuiChip-labelMedium css-iqx6nm' and text()='작성: 그루비샵']")
     plaform_sub = (By.XPATH, "//strong[contains(text(),'플랫폼')]")
     plaform_webhybrid = (By.XPATH, "//p[contains(text(),'웹/하이브리드')]")
     msg_type_sub = (By.XPATH, "//strong[contains(text(),'메시지 유형')]")
@@ -47,33 +37,18 @@ class OnsitePage(GroobeeActions):
     access_type_mo_app = (By.XPATH, "//*[contains(text(),'모바일 앱')]")
 
     # common
-    com_tag_title = (
-        By.XPATH,
-        "//h2[@id='customized-dialog-title' and text()='태그 추가']",
-    )
+    com_tag_title = (By.XPATH, "//h2[@id='customized-dialog-title' and text()='태그 추가']")
     com_tag_input = (By.XPATH, "//textarea[@placeholder='엔터로 복수 입력 가능']")
     com_tag_frequency = (By.XPATH, "//button[@id='basic-tab-0' and text()='빈도 순']")
     com_tag_alphabet = (By.XPATH, "//button[@id='basic-tab-1' and text()='가나다 순']")
     com_tag_def = (By.XPATH, "//span[contains(text(), '작성: 그루비샵')]")
-    com_tag_cancel_btn = (
-        By.XPATH,
-        "//div[@class='MuiStack-root css-1e8kor0']//button[contains(text(),'취소')]",
-    )
-    com_tag_add_btn = (
-        By.XPATH,
-        "//div[@class='MuiStack-root css-1e8kor0']//button[contains(text(),'추가')]",
-    )
-    com_added_tag = (
-        By.XPATH,
-        "//span[contains(@class, 'MuiChip') and contains(text(),'자동화태그')]",
-    )
+    com_tag_cancel_btn = (By.XPATH,"//div[@class='MuiStack-root css-1e8kor0']//button[contains(text(),'취소')]")
+    com_tag_add_btn = (By.XPATH,"//div[@class='MuiStack-root css-1e8kor0']//button[contains(text(),'추가')]")
+    com_added_tag = (By.XPATH,"//span[contains(@class, 'MuiChip') and contains(text(),'자동화태그')]")
 
     # 세그먼트
     com_segment = (By.XPATH, "//h6[contains(text(),'[QA][JE] 자동화 세그먼트')]")
-    setting_segment = (
-        By.XPATH,
-        "//div[contains(@class,'MuiAccordionSummary-content')]/p",
-    )
+    setting_segment = (By.XPATH,"//div[contains(@class,'MuiAccordionSummary-content')]/p")
 
     # 메시지 설정
     add_btn = (By.XPATH, "//button[contains(text(),'추가')]")
@@ -82,108 +57,48 @@ class OnsitePage(GroobeeActions):
     width_size_list_px = (By.XPATH, "//*[normalize-space()='px']")
     width_size_list_percent = (By.XPATH, "//*[normalize-space()='%']")
 
-    img_link_tgl_on = (
-        By.XPATH,
-        "//div[h6[contains(text(),'이미지 링크')]]//span[contains(@class, 'Mui-checked')]",
-    )
-    img_link_tgl_off = (
-        By.XPATH,
-        "//div[h6[contains(text(),'이미지 링크')]]//span[not(contains(@class, 'Mui-checked'))]",
-    )
+    img_link_tgl_on = (By.XPATH,"//div[h6[contains(text(),'이미지 링크')]]//span[contains(@class, 'Mui-checked')]")
+    img_link_tgl_off = (By.XPATH,"//div[h6[contains(text(),'이미지 링크')]]//span[not(contains(@class, 'Mui-checked'))]")
     img_link_entire = (By.XPATH, "//span[contains(text(),'이미지 전체')]")
     img_link_map = (By.XPATH, "//span[contains(text(),'이미지 맵 설정')]")
     clk_area_setting_btn = (By.XPATH, "//button[contains(text(),'클릭 영역 설정')]")
     clk_area_setting_title = (By.XPATH, "//div[contains(text(),'클릭 영역 설정')]")
-    clk_area_setting_name = (
-        By.XPATH,
-        "//input[@placeholder='한글 공백 포함 최대 20자']",
-    )
-    clk_area_setting_url = (
-        By.XPATH,
-        "//textarea[@placeholder='http:// 또는 https://를 포함한 URL']",
-    )
-    preview_area = (
-        By.XPATH,
-        "//div[@class='MuiBox-root css-1sphhkp']//a[@id='view-area1']",
-    )
+    clk_area_setting_name = (By.XPATH,"//input[@placeholder='한글 공백 포함 최대 20자']")
+    clk_area_setting_url = (By.XPATH,"//textarea[@placeholder='http:// 또는 https://를 포함한 URL']")
+    preview_area = (By.XPATH,"//div[@class='MuiBox-root css-1sphhkp']//a[@id='view-area1']")
     save_btn = (By.XPATH, "//button[contains(text(),'저장')]")
     act_same = (By.XPATH, "//*[contains(text(),'현재 창으로 열기')]")
     act_new = (By.XPATH, "//*[contains(text(),'새 창으로 열기')]")
-    ling_link_textfield = (
-        By.XPATH,
-        "//textarea[@id=':r3d:' and @placeholder='http:// 또는 https://를 포함한 URL']",
-    )
-    title_tgl_off = (
-        By.XPATH,
-        "//div[h6[contains(text(),'타이틀')]]//span[not(contains(@class, 'Mui-checked'))]",
-    )
-    title_tgl_on = (
-        By.XPATH,
-        "//div[h6[contains(text(),'타이틀')]]//span[contains(@class, 'Mui-checked')]",
-    )
+    ling_link_textfield = (By.XPATH,"//textarea[@id=':r3d:' and @placeholder='http:// 또는 https://를 포함한 URL']")
+    title_tgl_off = (By.XPATH,"//div[h6[contains(text(),'타이틀')]]//span[not(contains(@class, 'Mui-checked'))]")
+    title_tgl_on = (By.XPATH,"//div[h6[contains(text(),'타이틀')]]//span[contains(@class, 'Mui-checked')]")
     title_txt_tf = (By.XPATH, "//textarea[@placeholder='한글 공백 포함 최대 40자']")
     blank_font_inherit = (By.XPATH, "//ul[@id=':r40:']//li[@data-value='inherit']")
     blank_font_gothic = (By.XPATH, "//ul[@id=':r40:']//li[@data-value='Malgun Gothic']")
-    title_array_left = (
-        By.XPATH,
-        "//div[contains(@class, 'MuiToggleButtonGroup')]//button[@value='left']",
-    )
-    title_array_center = (
-        By.XPATH,
-        "//div[contains(@class, 'MuiToggleButtonGroup')]//button[@value='center']",
-    )
-    title_array_right = (
-        By.XPATH,
-        "//div[contains(@class, 'MuiToggleButtonGroup')]//button[@value='right']",
-    )
+    title_array_left = (By.XPATH,"//div[contains(@class, 'MuiToggleButtonGroup')]//button[@value='left']")
+    title_array_center = (By.XPATH,"//div[contains(@class, 'MuiToggleButtonGroup')]//button[@value='center']")
+    title_array_right = (By.XPATH,"//div[contains(@class, 'MuiToggleButtonGroup')]//button[@value='right']")
     title_display = (By.XPATH, "//strong[@class='tit_999999']")
 
-    blank_tgl_off = (
-        By.XPATH,
-        "//div[h6[contains(text(),'내용')]]//span[not(contains(@class, 'Mui-checked'))]",
-    )
-    blank_tgl_on = (
-        By.XPATH,
-        "//div[h6[contains(text(),'내용')]]//span[contains(@class, 'Mui-checked')]",
-    )
+    blank_tgl_off = (By.XPATH,"//div[h6[contains(text(),'내용')]]//span[not(contains(@class, 'Mui-checked'))]")
+    blank_tgl_on = (By.XPATH,"//div[h6[contains(text(),'내용')]]//span[contains(@class, 'Mui-checked')]")
     blank_txt_tf = (By.XPATH, "@placeholder='한글 공백 포함 최대 80자']")
     blank_font_inherit = (By.XPATH, "//ul[@id=':r43:']//li[@data-value='inherit']")
     blank_font_gothic = (By.XPATH, "//ul[@id=':r43:']//li[@data-value='Malgun Gothic']")
     blank_display = (By.XPATH, "//p[@class='description_999999']")
 
-    btn_tgl_off = (
-        By.XPATH,
-        "//div[h6[contains(text(),'버튼')]]//span[not(contains(@class, 'Mui-checked'))]",
-    )
-    btn_tgl_on = (
-        By.XPATH,
-        "//div[h6[contains(text(),'버튼')]]//span[contains(@class, 'Mui-checked')]",
-    )
+    btn_tgl_off = (By.XPATH,"//div[h6[contains(text(),'버튼')]]//span[not(contains(@class, 'Mui-checked'))]")
+    btn_tgl_on = (By.XPATH,"//div[h6[contains(text(),'버튼')]]//span[contains(@class, 'Mui-checked')]")
     btn_txt_tf = (By.XPATH, "//input[@placeholder='한글 공백 포함 최대 10자']")
     btn_font_inherit = (By.XPATH, "//ul[@id=':r46:']//li[@data-value='inherit']")
     btn_font_gothic = (By.XPATH, "//ul[@id=':r46:']//li[@data-value='Malgun Gothic']")
-    btn_url_blank = (
-        By.XPATH,
-        "//textarea[@placeholder='http:// 또는 https:// 또는 {scheme}://를 포함한 URL']",
-    )
+    btn_url_blank = (By.XPATH,"//textarea[@placeholder='http:// 또는 https:// 또는 {scheme}://를 포함한 URL']")
     btn_display = (By.XPATH, "//a[@id='btn-popup999999']")
 
-    close_tgl_off = (
-        By.XPATH,
-        "//div[h6[contains(text(),'닫기')]]//span[not(contains(@class, 'Mui-checked'))]",
-    )
-    close_tgl_on = (
-        By.XPATH,
-        "//div[h6[contains(text(),'닫기')]]//span[contains(@class, 'Mui-checked')]",
-    )
-    do_not_tgl_on = (
-        By.XPATH,
-        "//div[h6[contains(text(),'다시 보지 않기')]]//span[contains(@class, 'Mui-checked')]",
-    )
-    do_not_tgl_off = (
-        By.XPATH,
-        "//div[h6[contains(text(),'다시 보지 않기')]]//span[not(contains(@class, 'Mui-checked'))]",
-    )
+    close_tgl_off = (By.XPATH,"//div[h6[contains(text(),'닫기')]]//span[not(contains(@class, 'Mui-checked'))]")
+    close_tgl_on = (By.XPATH,"//div[h6[contains(text(),'닫기')]]//span[contains(@class, 'Mui-checked')]")
+    do_not_tgl_on = (By.XPATH,"//div[h6[contains(text(),'다시 보지 않기')]]//span[contains(@class, 'Mui-checked')]")
+    do_not_tgl_off = (By.XPATH,"//div[h6[contains(text(),'다시 보지 않기')]]//span[not(contains(@class, 'Mui-checked'))]")
     do_not_1day = (By.XPATH, "//*[contains(text(),'1일')]")
     do_not_2day = (By.XPATH, "//*[contains(text(),'2일')]")
     do_not_3day = (By.XPATH, "//*[contains(text(),'3일')]")
@@ -215,26 +130,12 @@ class OnsitePage(GroobeeActions):
     abn_ai = (By.XPATH, "//span[contains(text(),'AI 자동화')]")
 
     # 옵션 설정
-    trigger_page_tgl_on = (
-        By.XPATH,
-        "//div[h6[contains(text(),'노출 페이지')]]//span[contains(@class, 'Mui-checked')]",
-    )
-    trigger_page_tgl_off = (
-        By.XPATH,
-        "(//div[h6[contains(text(),'노출 페이지')]]//span[not(contains(@class, 'Mui-checked'))])[1]",
-    )
-    trigger_page_url_tf = (
-        By.XPATH,
-        "(//div[strong[text()='URL']]/following-sibling::div//textarea)[1]",
-    )
-    trigger_page_time_tf = (
-        By.XPATH,
-        "//div[p[contains(text(), '초 이상 봤을 때')]]/preceding-sibling::input[@placeholder='숫자만 입력 가능']",
-    )
-    trigger_page_scroll_tf = (
-        By.XPATH,
-        "//div[p[contains(text(), '% 이상 봤을 때')]]/preceding-sibling::input[@placeholder='숫자만 입력 가능']",
-    )
+    trigger_page_tgl_on = (By.XPATH,"//div[h6[contains(text(),'노출 페이지')]]//span[contains(@class, 'Mui-checked')]")
+    trigger_page_tgl_off = (By.XPATH,"(//div[h6[contains(text(),'노출 페이지')]]//span[not(contains(@class, 'Mui-checked'))])[1]")
+    trigger_page_url_tf = (By.XPATH,"(//div[strong[text()='URL']]/following-sibling::div//textarea)[1]")
+    trigger_page_time_tf = (By.XPATH,"//div[p[contains(text(), '초 이상 봤을 때')]]/preceding-sibling::input[@placeholder='숫자만 입력 가능']")
+    trigger_page_scroll_tf = (By.XPATH,"//div[p[contains(text(), '% 이상 봤을 때')]]/preceding-sibling::input[@placeholder='숫자만 입력 가능']")
+    tlg_chip = (By.XPATH, "//span[contains(@class,'MuiChip-label')]")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -423,3 +324,7 @@ class OnsitePage(GroobeeActions):
     def scroll_to_top(self):
         self.driver.execute_script("window.scrollTo(0, 0);")
         time.sleep(0.5)
+
+    def get_text(self, loc, timeout=10):
+        el = BaseClass.wait_visible(self.driver, loc, timeout)
+        return el.get_attribute("value")

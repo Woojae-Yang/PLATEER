@@ -35,9 +35,7 @@ class TestCreateCampaign(BaseClass):
         oncam = OnsitePage(driver)
 
         oncam.input_text(oncam.campaign_name_input, self.TEST_TITLE_DATA)
-        result = (
-            oncam.is_campaign_reg_name().get_attribute("value") == self.TEST_TITLE_DATA
-        )
+        result = (oncam.is_campaign_reg_name().get_attribute("value") == self.TEST_TITLE_DATA)
         assert result, "[Fail] 캠페인명 입력 실패"
 
     @pytest.mark.case_id(16657)
@@ -45,9 +43,7 @@ class TestCreateCampaign(BaseClass):
         oncam = OnsitePage(driver)
 
         oncam.input_text(oncam.campaign_des_input, self.TEST_DES_DATA)
-        result = (
-            oncam.is_campaign_reg_des().get_attribute("value") == self.TEST_DES_DATA
-        )
+        result = (oncam.is_campaign_reg_des().get_attribute("value") == self.TEST_DES_DATA)        
         assert result, "[Fail] 상세설명 입력 실패"
 
     @pytest.mark.case_id(16657)
@@ -81,9 +77,7 @@ class TestCreateCampaign(BaseClass):
         oncam.click_tab(oncam.seg_tab)
         oncam.click_segment(self.TEST_SEG_DATA)
         oncam.click_button(oncam.selectBtn)
-        assert (
-            oncam.is_segment_display().text == self.TEST_SEG_DATA
-        ), "[Fail] 세그먼트 추가 실패"
+        assert (oncam.is_segment_display().text == self.TEST_SEG_DATA), "[Fail] 세그먼트 추가 실패"
 
     @pytest.mark.case_id(16657)
     def test8(self, driver):
@@ -113,13 +107,13 @@ class TestCreateCampaign(BaseClass):
 
         oncam.click_radio_button(oncam.img_link_map)
         oncam.click_button(oncam.clk_area_setting_btn)
-        assert oncam.is_click_setting_area_display, "[Fail] 클릭 영역 설정 미노출"
+        assert oncam.is_click_setting_area_display, "[Fail] 클릭 영역 설정 RNB 미노출"
 
     @pytest.mark.case_id(16657)
     def test12(self, driver):
         oncam = OnsitePage(driver)
 
-        oncam.input_text(oncam.clk_area_setting_name, "테스트")
+        oncam.input_text(oncam.clk_area_setting_name, self.TEST_AREA1_NAME_TXT)
         oncam.input_url(oncam.clk_area_setting_url, self.TEST_URL)
         oncam.click_button(oncam.save_btn)
         assert oncam.is_preview_display, "[Fail] 클릭 영역 설정 실패"
@@ -131,7 +125,7 @@ class TestCreateCampaign(BaseClass):
 
         oncam.click_toggle(oncam.title_tgl_off)
         oncam.input_textarea(oncam.title_txt_tf, self.TEST_TITLE_TXT)
-        assert oncam.is_title_display().text == self.TEST_TITLE_TXT
+        assert oncam.get_text(oncam.title_txt_tf) == self.TEST_TITLE_TXT, "[Fail] 타이틀 입력 실패"
 
     @pytest.mark.case_id(16657)
     def test14(self, driver):
@@ -140,7 +134,7 @@ class TestCreateCampaign(BaseClass):
 
         oncam.click_toggle(camp.desBtn)
         oncam.input_textarea(camp.input_des, self.TEST_TXT)
-        assert oncam.is_blank_display().text == self.TEST_TXT
+        assert oncam.get_text(camp.input_des) == self.TEST_TXT, "[Fail] 내용 입력 실패"
 
     @pytest.mark.case_id(16657)
     def test15(self, driver):
@@ -148,12 +142,11 @@ class TestCreateCampaign(BaseClass):
         oncam.click_toggle(oncam.btn_tgl_off)
         oncam.input_text(oncam.btn_txt_tf, self.TEST_BTN_TXT)
         oncam.input_textarea(oncam.btn_url_blank, self.TEST_URL)
-        assert oncam.is_btn_display().text == self.TEST_BTN_TXT
+        assert oncam.is_btn_display().text == self.TEST_BTN_TXT, "[Fail] 버튼 입력 실패"
 
     @pytest.mark.case_id(16657)
     def test16(self, driver):
         oncam = OnsitePage(driver)
-        camp = CampaignPage(driver)
 
         oncam.click_button(oncam.nextBtn)
         time.sleep(2)
@@ -163,7 +156,17 @@ class TestCreateCampaign(BaseClass):
         oncam.input_chip(oncam.trigger_page_url_tf, self.TEST_URL)
         oncam.input_text(oncam.trigger_page_time_tf, self.TEST_TIME_NUM)
         oncam.input_text(oncam.trigger_page_scroll_tf, self.TEST_PER_NUM)
+        assert ( oncam.get_text(oncam.tlg_chip) == self.TEST_URL 
+                and oncam.get_text(oncam.trigger_page_time_tf) == self.TEST_TIME_NUM 
+                and oncam.get_text(oncam.trigger_page_scroll_tf) == self.TEST_PER_NUM, 
+                "[Fail] 노출 페이지 설정 실패"
+                )
 
+    @pytest.mark.case_id(16657)
+    def test17(self, driver):
+        oncam = OnsitePage(driver)
+        camp = CampaignPage(driver)
+        
         oncam.click_listbox(camp.freq_combx)
         oncam.click_listbox(camp.freq_page)
         time.sleep(1)
