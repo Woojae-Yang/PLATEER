@@ -295,16 +295,15 @@ class SegmentPage(GroobeeActions):
 
     # 선택한 세그먼트 유형의 세부 설정
     def select_seg_details(self, v1, v2):
-        ### 하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
-        ### 실행할 메서드와 매칭될 값을 리스트로 관리
+    ### 하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
+    ### 실행할 메서드와 매칭될 값을 리스트로 관리
         actions = [(self.click_seg_setting1, v1),(self.click_seg_setting2, v2)]
-
         for i, (click_func, val) in enumerate(actions, start=1):
             if not val: continue
 
             try:
-                # 설정할 변수 요소 클릭 : click_* 함수에서 반환한 요소 값 할당
-                container = click_func() 
+            # 설정할 변수 요소 클릭 : click_* 함수에서 반환한 요소 값 할당
+                container = click_func()
                 time.sleep(0.8)
 
                 if not container:
@@ -318,6 +317,7 @@ class SegmentPage(GroobeeActions):
                     print(f"[DEBUG] {i}번 영역: 입력형 처리 -> {val}")
                     textareas[0].send_keys(val)
                     textareas[0].send_keys(Keys.ENTER)
+
                 else:
                     print(f"[DEBUG] {i}번 영역: 선택형 처리 -> {val}")
                     li_xpath = f"//li[contains(., '{val}')]"
@@ -325,11 +325,12 @@ class SegmentPage(GroobeeActions):
                     try:
                         BaseClass.wait_clickable(self.driver, (By.XPATH, li_xpath), timeout=10).click()
                     except Exception:
-                        self.driver.execute_script("arguments[0].click();", li_xpath)
+                        li_elem = BaseClass.wait_clickable(self.driver, (By.XPATH, li_xpath), timeout=10)
+                        self.driver.execute_script("arguments[0].click();", li_elem)
             except Exception as e:
                 print(f"[ERROR] 상세설정 {i}번 처리 중 오류: {e}")
-            
             time.sleep(0.5)
+
 
     # 생성된 세그먼트 리스트
     def get_seg_list_item(self, seg_name):
