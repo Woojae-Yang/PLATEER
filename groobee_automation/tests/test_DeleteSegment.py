@@ -1,3 +1,4 @@
+## 세그먼트 삭제
 import pytest
 import time
 from datetime import datetime
@@ -36,7 +37,7 @@ class TestSegDel:
                 if BaseClass.wait_visible(driver, self.groobee.top_tools_btn).is_displayed():
                     self.groobee.click_top_tools_btn()
                     self.groobee.click_tools_del_btn()
-                    assert self.modal_title == self.groobee.cehck_modal_title()
+                    assert self.modal_title == self.groobee.check_modal_title()
                     self.groobee.click_modal_ok_btn()
                 else:
                     empty_msg = self.groobee.get_empty_msg()

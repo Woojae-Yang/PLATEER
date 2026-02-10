@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import (
@@ -45,7 +46,7 @@ class GroobeeActions:
     order_frequency_tab = (By.XPATH, "//button[@id='basic-tab-0']")
     order_ganada_tab = (By.XPATH, "//button[@id='basic-tab-1']")
     tag_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
-    tag_add = (By.XPATH, "//button[contains(text(),'추가')]")
+    tag_add = (By.XPATH, "//div[@role='dialog']//button[normalize-space()='추가']")
 
     # 상태탭
     progress_tab = (By.XPATH, "//button[contains(text(),'진행중')]")
@@ -60,7 +61,7 @@ class GroobeeActions:
 
     # 관리 도구
     tools_icon = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='MoreHorizIcon']]")
-    update_icon = (By.XPATH, "//p[contains(text(),'수정')]")
+    modify_icon = (By.XPATH, "//p[contains(text(),'수정')]")
     copy_icon = (By.XPATH, "//p[contains(text(),'복사')]")
     download_icon = (By.XPATH, "//div[contains(text(),'방문자 리스트 다운로드')]")
     report_icon = (By.XPATH, "//p[contains(text(),'분석 리포트')]")
@@ -84,6 +85,7 @@ class GroobeeActions:
 
     # 예상 타겟 수
     target_numBtn = (By.XPATH, "//button[contains(text(),'확인하기')]")
+    target_num_reBtn = (By.XPATH, "//button[contains(text(),'다시 확인하기')]")
     target_result = (By.XPATH, "//p[contains(., '타겟 수는 변동될 수 있습니다')]")
     target_result_pushNoti = (By.XPATH, "//p[contains(., '예상 타겟 수는')]")
 
@@ -150,15 +152,20 @@ class GroobeeActions:
     # 만들기 버튼
     def click_create_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
+        self.wait_url_contains("/regist", timeout)
 
     # 캠페인 생성
     def send_cam_name(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
-        el.clear()
+        el.click()
+        el.send_keys(Keys.CONTROL, "a")
+        el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
     def send_cam_des(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
-        el.clear()
+        el.click()
+        el.send_keys(Keys.CONTROL, "a")
+        el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
     def get_cam_name(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
@@ -174,6 +181,7 @@ class GroobeeActions:
         el = BaseClass.wait_visible(self.driver, self.tag_input, timeout)
         el.clear()
         el.send_keys(text)
+        el.send_keys(Keys.ENTER)
     def click_order_frequency_tab(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.order_frequency_tab, timeout).click()
     def click_order_ganada_tab(self, timeout=10):
@@ -182,6 +190,9 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.tag_cancel, timeout).click()
     def click_tag_add(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tag_add, timeout).click()
+    def wait_tag_visible(self, tag_text, timeout=10):
+        locator = (By.XPATH, f"//span[contains(normalize-space(.), '{tag_text}')]")
+        return BaseClass.wait_visible(self.driver, locator, timeout)
 
     # 상태탭
     def click_progress_tab(self, timeout=10):
@@ -204,10 +215,12 @@ class GroobeeActions:
     # 관리 도구
     def click_tools_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_icon, timeout).click()
-    def click_update_icon(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.update_icon, timeout).click()
+    def click_modify_icon(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.modify_icon, timeout).click()
+        self.wait_url_contains("/regist", timeout)
     def click_copy_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.copy_icon, timeout).click()
+        self.wait_url_contains("/regist", timeout)
     def click_download_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.download_icon, timeout).click()
     def click_report_icon(self, timeout=10):
@@ -248,8 +261,15 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.selectBtn, timeout).click()
 
     # 예상 타겟 수
+    def wait_target_num_btn_clickable(self, timeout=10):
+        return BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout)
     def click_target_num_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout).click()
+        BaseClass.wait_visible(self.driver, self.target_result, 20)
+    def wait_target_num_re_btn_visible(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.target_numBtn, timeout)
+    def click_target_num_re_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.target_num_reBtn, timeout).click()
         BaseClass.wait_visible(self.driver, self.target_result, 20)
 
     def click_target_pushNoti_num_btn(self, timeout=10):
@@ -288,15 +308,16 @@ class GroobeeActions:
         except (ElementClickInterceptedException, WebDriverException):
             self.driver.execute_script("arguments[0].click();", el)
 
-    # 관리 도구(…) 아이콘 찾기
-    @staticmethod
-    def click_tools_icon_by_name(cam_element, driver):
+    # 관리 도구 클릭
+    def click_tools_icon_by_name(self, cam_name):
+        cam_element = self.get_cam_list_item(cam_name)
+
         row = cam_element.find_element(
             By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
         )
         row_index = row.get_attribute("data-rowindex")
 
-        pinned_container = driver.find_element(
+        pinned_container = self.driver.find_element(
             By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
         )
         buttons = pinned_container.find_elements(
@@ -308,46 +329,78 @@ class GroobeeActions:
                 By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
             )
             if btn_row.get_attribute("data-rowindex") == row_index:
-                return btn
+                btn.click()
+                return
 
-        raise NoSuchElementException(f"{row_index} 행에서 tools 아이콘을 찾을 수 없음")
+    # 중지중 아이콘 클릭
+    def click_pause_icon_by_name(self, cam_name):
+        cam_element = self.get_cam_list_item(cam_name)
 
-    # 상태 아이콘(재생/일시정지) 찾기
-    @staticmethod
-    def click_status_icon_by_name(cam_element, driver):
         row = cam_element.find_element(
             By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
         )
         row_index = row.get_attribute("data-rowindex")
 
-        # 1) row 내부
         try:
-            return row.find_element(
+            btn = row.find_element(
                 By.XPATH,
-                ".//button[.//*[name()='svg' and "
-                "(@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
+                ".//button[.//*[name()='svg' and @data-testid='PauseOutlinedIcon']]"
             )
+            btn.click()
+            return
         except NoSuchElementException:
             pass
 
-        # 2) pinned fallback
-        pinned_container = driver.find_element(
+        pinned_container = self.driver.find_element(
             By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
         )
-        status_buttons = pinned_container.find_elements(
+        buttons = pinned_container.find_elements(
             By.XPATH,
-            ".//button[.//*[name()='svg' and "
-            "(@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
+            ".//button[.//*[name()='svg' and @data-testid='PauseOutlinedIcon']]"
         )
 
-        for btn in status_buttons:
+        for btn in buttons:
             btn_row = btn.find_element(
                 By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
             )
             if btn_row.get_attribute("data-rowindex") == row_index:
-                return btn
+                btn.click()
+                return
 
-        raise NoSuchElementException(f"{row_index} 행에서 상태 아이콘을 찾을 수 없음")
+    # 진행중 아이콘 클릭
+    def click_play_icon_by_name(self, cam_name):
+        cam_element = self.get_cam_list_item(cam_name)
+
+        row = cam_element.find_element(
+            By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
+        )
+        row_index = row.get_attribute("data-rowindex")
+
+        try:
+            btn = row.find_element(
+                By.XPATH,
+                ".//button[.//*[name()='svg' and @data-testid='PlayArrowIcon']]"
+            )
+            btn.click()
+            return
+        except NoSuchElementException:
+            pass
+
+        pinned_container = self.driver.find_element(
+            By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
+        )
+        buttons = pinned_container.find_elements(
+            By.XPATH,
+            ".//button[.//*[name()='svg' and @data-testid='PlayArrowIcon']]"
+        )
+
+        for btn in buttons:
+            btn_row = btn.find_element(
+                By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
+            )
+            if btn_row.get_attribute("data-rowindex") == row_index:
+                btn.click()
+                return
 
     # 생성된 캠페인 리스트
     def get_cam_list_item(self, cam_name):

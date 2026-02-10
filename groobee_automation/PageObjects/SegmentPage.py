@@ -1,5 +1,6 @@
 import time
 import pytest
+import sys
 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -21,6 +22,7 @@ class SegmentPage(GroobeeActions):
     # 도구모음
     top_tools_btn = (By.XPATH, "//div[@data-rowindex='0']//button[.//*[@data-testid='MoreHorizIcon']]")
     tools_del_btn = (By.XPATH, "//li[contains(normalize-space(.), '삭제')]")
+    tools_copy_btn = (By.XPATH, "//li[contains(normalize-space(.), '복사')]")
     modal_title = (By.XPATH, "//div[@role='dialog']//h2[contains(text(), '세그먼트 삭제')]")
     modal_ok_btn = (By.XPATH, "(//div[@role='dialog']//button[contains(normalize-space(.), '확인')])[last()]")
     modal_cancel_btn = (By.XPATH, "//div[@role='dialog']//button[contains(normalize-space(.), '취소']")
@@ -46,6 +48,10 @@ class SegmentPage(GroobeeActions):
 
     # 세그먼트 변수 추가 버튼
     add_seg_btn = (By.XPATH, "//button[contains(text(), '세그먼트 변수')]")
+
+    ### `과거 x 현재` 시점에서 활용
+    past_div = (By.XPATH, "//h6[text()='과거']/ancestor::div[contains(@class, 'MuiPaper-root')][1]")
+    present_div = (By.XPATH, "//h6[text()='현재']/ancestor::div[contains(@class, 'MuiPaper-root')][1]")
 
     # 세그먼트 변수 RNB
     rnb_title_elem = (By.XPATH, "//h2[contains(., '세그먼트 변수')]")
@@ -76,7 +82,7 @@ class SegmentPage(GroobeeActions):
     rnb_order_act = (By.XPATH, "//h6[contains(text(), '주문 행동')]")
     rnb_custom = (By.XPATH, "//h6[contains(text(), '커스텀')]")
     rnb_choose = (By.XPATH, "//button[contains(text(),'선택')]")
-    rnb_member_id = (By.XPATH, "//h6[contains(text(), '회원 번호(ID)')]")
+    rnb_order_cnt = (By.XPATH, "//h6[contains(text(), '주문 횟수')]")
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     seg_setting1 = (By.XPATH, "(//div[contains(@role,'combobox')])[1]")
@@ -91,9 +97,6 @@ class SegmentPage(GroobeeActions):
     seg_setting4_yes = (By.XPATH, "//li[contains(text(),'일 때')]")
     seg_setting_or = (By.XPATH, "//button[normalize-space()='OR']")
     seg_setting_and = (By.XPATH, "//button[normalize-space()='AND']")
-    #seg_setting5_memberId = (By.XPATH, "//input[@placeholder='엔터로 복수 입력 가능']")
-    seg_setting5_memberId = (By.XPATH, "//input[@placeholder='엔터로 복수 입력 가능' and contains(@aria-labelledby,'segment')]")
-
 
     # 완료
     cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
@@ -124,12 +127,15 @@ class SegmentPage(GroobeeActions):
     def click_tools_del_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_del_btn, timeout).click()
         time.sleep(1)
-    def cehck_modal_title(self, timeout=10):
+    def click_tools_copy_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tools_copy_btn, timeout).click()
+        time.sleep(1)
+    def check_modal_title(self, timeout=10):
         return BaseClass.wait_visible(self.driver, self.modal_title, timeout).text
     def click_modal_ok_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.modal_ok_btn, timeout).click()
         time.sleep(0.5)
-
+    
 
     # 세그먼트 기본 정보 입력
     def send_seg_name(self, text, timeout=10):
@@ -142,6 +148,8 @@ class SegmentPage(GroobeeActions):
         elem.click()
         elem.clear()
         elem.send_keys(text)
+    def get_seg_name(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.seg_name, timeout).get_attribute("value")
 
     # 타겟 설정
     def click_range_onsite_web(self, timeout=10):
@@ -220,10 +228,11 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_order_act, timeout).click()
     def click_rnb_custom(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_custom, timeout).click()
-    def click_rnb_member_id(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.rnb_member_id, timeout).click()
     def click_rnb_choose(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_choose, timeout).click()
+        time.sleep(1.5)
+    def click_rnb_order_cnt(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_order_cnt, timeout).click()
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     def click_seg_setting1(self, timeout=10):
@@ -283,20 +292,21 @@ class SegmentPage(GroobeeActions):
         if var_name in rnb_map:
             for func in rnb_map[var_name]:
                 func()
+        time.sleep(1.5)
 
     # 선택한 세그먼트 유형의 세부 설정
     def select_seg_details(self, v1, v2):
-        ### 하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
-        ### 실행할 메서드와 매칭될 값을 리스트로 관리
+    ### 하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
+        # 실행할 메서드와 매칭될 값을 리스트로 관리
         actions = [(self.click_seg_setting1, v1),(self.click_seg_setting2, v2)]
 
         for i, (click_func, val) in enumerate(actions, start=1):
             if not val: continue
 
             try:
-                # 설정할 변수 요소 클릭 : click_* 함수에서 반환한 요소 값 할당
-                container = click_func() 
-                time.sleep(0.5)
+            # 설정할 변수 요소 클릭 : click_* 함수에서 반환한 요소 값 할당
+                container = click_func()
+                time.sleep(0.8)
 
                 if not container:
                     var_elem = f"(//div[contains(@class, 'MuiInputBase-root')])[{i}]"
@@ -304,9 +314,11 @@ class SegmentPage(GroobeeActions):
 
                 # 판별 및 실행
                 textareas = container.find_elements(By.TAG_NAME, "textarea")
+                #inputs = container.find_elements(By.CSS_SELECTOR, "input")
 
                 if textareas:
                     print(f"[DEBUG] {i}번 영역: 입력형 처리 -> {val}")
+                    textareas[0].click()
                     textareas[0].send_keys(val)
                     textareas[0].send_keys(Keys.ENTER)
                 else:
@@ -316,11 +328,12 @@ class SegmentPage(GroobeeActions):
                     try:
                         BaseClass.wait_clickable(self.driver, (By.XPATH, li_xpath), timeout=10).click()
                     except Exception:
-                        self.driver.execute_script("arguments[0].click();", li_xpath)
+                        li_elem = BaseClass.wait_clickable(self.driver, (By.XPATH, li_xpath), timeout=10)
+                        self.driver.execute_script("arguments[0].click();", li_elem)
             except Exception as e:
                 print(f"[ERROR] 상세설정 {i}번 처리 중 오류: {e}")
-            
             time.sleep(0.5)
+
 
     # 생성된 세그먼트 리스트
     def get_seg_list_item(self, seg_name):
@@ -337,3 +350,9 @@ class SegmentPage(GroobeeActions):
             "segmentCheckCd": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='segmentCheckCd']").text,
             "reg_date": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='regDtm']").text
     }
+
+    ### `과거 x 현재` 시점에서 활용
+    def click_var_btn_in_scope(self, scope_locator):
+        parent = BaseClass.wait_visible(self.driver, scope_locator)
+        parent.find_element(*self.add_seg_btn).click()
+        time.sleep(0.7)
