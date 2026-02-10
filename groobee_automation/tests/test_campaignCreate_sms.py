@@ -14,6 +14,9 @@ class TestSmsCampaignCreate:
     personal_input = "대체 발송 입력"
     personal_key = "automation_testing"
     url_input = "https://groobee.shop/"
+    expect_sms_modify_title = "SMS 캠페인 수정하기 :: GROOBEE"
+    sms_campaign_modify_input = "[QA][GP][Auto] SMS 캠페인_수정"
+    contents_modify_input = "_수정"
 
     @pytest.mark.case_id(16658)
     def test_16658(self, driver):
@@ -180,3 +183,61 @@ class TestSmsCampaignCreate:
 
         # 2. 캠페인 리스트 > {sms_campaign_input} 노출 확인
         assert groobee.get_cam_list_item(self.sms_campaign_input).is_displayed()
+
+    @pytest.mark.case_id(16671)
+    def test_16671(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 관리 도구 클릭
+        # 2. 수정 클릭
+
+        # 2. SMS 캠페인 수정하기 페이지 노출 확인
+
+    @pytest.mark.case_id(16672)
+    def test_16672(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 캠페인명 텍스트필드에 {sms_campaign_modify_input} 입력
+
+        # 1. 캠페인명 텍스트필드 > {sms_campaign_modify_input} 노출 확인
+
+    @pytest.mark.case_id(16673)
+    def test_16673(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 확인하기 버튼 클릭
+
+        # 1. 다시 확인하기 버튼 노출 확인
+
+    @pytest.mark.case_id(16674)
+    def test_16674(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 다음 단계 버튼 클릭
+
+        # 1. 메시지 설정 화면 노출 확인
+
+    @pytest.mark.case_id(16675)
+    def test_16675(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 내용 텍스트필드에 {contents_modify_input} 입력
+
+        # 1. 미리보기 > {contents_modify_input} 노출 확인
+
+    @pytest.mark.case_id(16676)
+    def test_16676(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 다음 단계 버튼 클릭
+
+        # 1. 옵션 설정 화면 노출 확인
+
+    @pytest.mark.case_id(16677)
+    def test_16677(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 저장 버튼 클릭
+        # 2. 확인 버튼 클릭
+
+        # 2. 캠페인 리스트 > {sms_campaign_modify_input} 노출 확인

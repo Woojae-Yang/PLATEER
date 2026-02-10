@@ -294,15 +294,16 @@ class GroobeeActions:
         except (ElementClickInterceptedException, WebDriverException):
             self.driver.execute_script("arguments[0].click();", el)
 
-    # 관리 도구(…) 아이콘 찾기
-    @staticmethod
-    def click_tools_icon_by_name(cam_element, driver):
+    # 관리 도구 클릭
+    def click_tools_icon_by_name(self, cam_name):
+        cam_element = self.get_cam_list_item(cam_name)
+
         row = cam_element.find_element(
             By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
         )
         row_index = row.get_attribute("data-rowindex")
 
-        pinned_container = driver.find_element(
+        pinned_container = self.driver.find_element(
             By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
         )
         buttons = pinned_container.find_elements(
@@ -314,46 +315,78 @@ class GroobeeActions:
                 By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
             )
             if btn_row.get_attribute("data-rowindex") == row_index:
-                return btn
+                btn.click()
+                return
 
-        raise NoSuchElementException(f"{row_index} 행에서 tools 아이콘을 찾을 수 없음")
+    # 중지중 아이콘 클릭
+    def click_pause_icon_by_name(self, cam_name):
+        cam_element = self.get_cam_list_item(cam_name)
 
-    # 상태 아이콘(재생/일시정지) 찾기
-    @staticmethod
-    def click_status_icon_by_name(cam_element, driver):
         row = cam_element.find_element(
             By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
         )
         row_index = row.get_attribute("data-rowindex")
 
-        # 1) row 내부
         try:
-            return row.find_element(
+            btn = row.find_element(
                 By.XPATH,
-                ".//button[.//*[name()='svg' and "
-                "(@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
+                ".//button[.//*[name()='svg' and @data-testid='PauseOutlinedIcon']]"
             )
+            btn.click()
+            return
         except NoSuchElementException:
             pass
 
-        # 2) pinned fallback
-        pinned_container = driver.find_element(
+        pinned_container = self.driver.find_element(
             By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
         )
-        status_buttons = pinned_container.find_elements(
+        buttons = pinned_container.find_elements(
             By.XPATH,
-            ".//button[.//*[name()='svg' and "
-            "(@data-testid='PlayArrowIcon' or @data-testid='PauseOutlinedIcon')]]"
+            ".//button[.//*[name()='svg' and @data-testid='PauseOutlinedIcon']]"
         )
 
-        for btn in status_buttons:
+        for btn in buttons:
             btn_row = btn.find_element(
                 By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
             )
             if btn_row.get_attribute("data-rowindex") == row_index:
-                return btn
+                btn.click()
+                return
 
-        raise NoSuchElementException(f"{row_index} 행에서 상태 아이콘을 찾을 수 없음")
+    # 진행중 아이콘 클릭
+    def click_play_icon_by_name(self, cam_name):
+        cam_element = self.get_cam_list_item(cam_name)
+
+        row = cam_element.find_element(
+            By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
+        )
+        row_index = row.get_attribute("data-rowindex")
+
+        try:
+            btn = row.find_element(
+                By.XPATH,
+                ".//button[.//*[name()='svg' and @data-testid='PlayArrowIcon']]"
+            )
+            btn.click()
+            return
+        except NoSuchElementException:
+            pass
+
+        pinned_container = self.driver.find_element(
+            By.XPATH, "//div[contains(@class,'MuiDataGrid-pinnedColumns--right')]"
+        )
+        buttons = pinned_container.find_elements(
+            By.XPATH,
+            ".//button[.//*[name()='svg' and @data-testid='PlayArrowIcon']]"
+        )
+
+        for btn in buttons:
+            btn_row = btn.find_element(
+                By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
+            )
+            if btn_row.get_attribute("data-rowindex") == row_index:
+                btn.click()
+                return
 
     # 생성된 캠페인 리스트
     def get_cam_list_item(self, cam_name):
