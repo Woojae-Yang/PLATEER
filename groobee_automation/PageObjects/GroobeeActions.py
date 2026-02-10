@@ -85,11 +85,13 @@ class GroobeeActions:
     # 예상 타겟 수
     target_numBtn = (By.XPATH, "//button[contains(text(),'확인하기')]")
     target_result = (By.XPATH, "//p[contains(., '타겟 수는 변동될 수 있습니다')]")
+    target_result_pushNoti = (By.XPATH, "//p[contains(., '예상 타겟 수는')]")
 
     # 파일 업로드 RNB
     file_uploadBtn = (By.XPATH, "//button[contains(text(),'파일 업로드')]")
     file_input = (By.XPATH, "//input[@type='file']")
     doneBtn = (By.XPATH, "//button[contains(text(),'확인')]")
+    doneBtn_pushNoti = (By.XPATH, "//div[contains(@class,'MuiDialogActions')]//button[.//text()[contains(.,'확인')]]")
 
     # 완료
     cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
@@ -250,6 +252,9 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout).click()
         BaseClass.wait_visible(self.driver, self.target_result, 20)
 
+    def click_target_pushNoti_num_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver,self.target_numBtn, timeout).click()
+        BaseClass.wait_visible(self.driver, self.target_result_pushNoti, 20)
     # 파일 업로드 RNB
     def click_file_upload_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.file_uploadBtn, timeout).click()
@@ -259,6 +264,9 @@ class GroobeeActions:
         el.send_keys(file_path)
     def click_done_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
+    def click_done_btn_pushNoti(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.doneBtn_pushNoti, timeout).click()
+
 
     # 완료
     def click_cancel_btn(self, timeout=10):
