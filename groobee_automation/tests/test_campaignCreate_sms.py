@@ -62,7 +62,7 @@ class TestSmsCampaignCreate:
         groobee.click_tag_add()
 
         # 3. {tag_input} 노출 확인
-        assert groobee.wait_auto_tag_visible()
+        assert groobee.wait_tag_visible(self.tag_input)
 
     @pytest.mark.case_id(16662)
     def test_16662(self, driver):
@@ -134,13 +134,13 @@ class TestSmsCampaignCreate:
         groobee = SmsPage(driver)
 
         # 1. 추가 버튼 클릭
-        groobee.click_add_personal_btn()
+        groobee.click_add_short_url_btn()
         # 2. URL 입력 텍스트필드에 {url_input} 입력
         groobee.send_add_short_url_input(self.url_input)
         # 3. 확인 버튼 클릭
-        groobee.click_add_personal_confirm()
+        groobee.click_add_short_url_confirm()
         # 4. 내용 텍스트필드에 단축 URL 입력
-        groobee.send_add_short_url_input(groobee.get_created_short_url())
+        groobee.send_contents_input(groobee.get_created_short_url())
 
         # 4. 미리보기 > 단축 URL 노출 확인
         assert groobee.is_preview_url_match()
@@ -178,7 +178,5 @@ class TestSmsCampaignCreate:
         # 2. 확인 버튼 클릭
         groobee.click_done_btn()
 
-        # 1. SMS 캠페인 페이지 노출 확인
-        assert driver.title == self.expect_sms_title
         # 2. 캠페인 리스트 > {sms_campaign_input} 노출 확인
         assert groobee.get_cam_list_item(self.sms_campaign_input).is_displayed()

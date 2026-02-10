@@ -184,6 +184,9 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.tag_cancel, timeout).click()
     def click_tag_add(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tag_add, timeout).click()
+    def wait_tag_visible(self, tag_text, timeout=10):
+        locator = (By.XPATH, f"//span[contains(normalize-space(.), '{tag_text}')]")
+        return BaseClass.wait_visible(self.driver, locator, timeout)
 
     # 상태탭
     def click_progress_tab(self, timeout=10):
@@ -251,12 +254,12 @@ class GroobeeActions:
 
     # 예상 타겟 수
     def wait_target_num_btn_clickable(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout)
+        return BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout)
     def click_target_num_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.target_numBtn, timeout).click()
         BaseClass.wait_visible(self.driver, self.target_result, 20)
     def wait_target_num_re_btn_visible(self, timeout=10):
-        BaseClass.wait_visible(self.driver, self.target_numBtn, timeout)
+        return BaseClass.wait_visible(self.driver, self.target_numBtn, timeout)
     def click_target_num_re_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.target_num_reBtn, timeout).click()
         BaseClass.wait_visible(self.driver, self.target_result, 20)

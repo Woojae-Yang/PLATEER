@@ -12,9 +12,6 @@ class SmsPage(GroobeeActions):
     # 타이틀
     sms_cam_title = (By.XPATH, "//h1[contains(text(),'새로운 SMS 캠페인 만들기')]")
 
-    # 태그(설정할 값 실제 작성)
-    auto_tag = (By.XPATH, "//span[contains(text(),'자동화 태그')]")
-
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     qa_gp_seg = (By.XPATH, "//h6[contains(text(),'[QA][GP][Auto] 세그먼트')]")
 
@@ -40,22 +37,14 @@ class SmsPage(GroobeeActions):
     created_short_url = (By.XPATH, "(//div[contains(text(),'grb.ai/s/')])[1]")
 
     # 미리보기
+    preview_area = (By.XPATH, "(//button[normalize-space()='발송 테스트']/ancestor::*[.//div[contains(@class,'MuiPaper-root')]][1]//div[contains(@class,'MuiPaper-root')])[1]")
     preview_img = (By.XPATH, "(//img[contains(@src,'/upload_file/')])[2]")
-    preview_text = (
-        By.XPATH,
-        "//div[contains(.,'(광고)') "
-        "and .//a[contains(@href,'grb.ai')] "
-        "and not(.//div[contains(.,'(광고)') and .//a[contains(@href,'grb.ai')]])]"
-    )
     preview_url = (By.XPATH, "//a[contains(@href,'grb.ai/s/')]")
 
     # 옵션 설정 서브타이틀
     sms_subtitle_option = (By.XPATH, "//h6[contains(text(),'스케줄')]")
 
     # -------------------------동작 선언 영역-------------------------
-    # 태그(설정할 값 실제 작성)
-    def wait_auto_tag_visible(self, timeout=10):
-        BaseClass.wait_visible(self.driver, self.auto_tag, timeout)
 
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     def click_qa_gp_seg(self, timeout=10):
@@ -63,12 +52,11 @@ class SmsPage(GroobeeActions):
 
     # 메시지 설정 서브타이틀
     def wait_sms_subtitle_msg_visible(self, timeout=10):
-        BaseClass.wait_visible(self.driver, self.sms_subtitle_msg, timeout)
+        return BaseClass.wait_visible(self.driver, self.sms_subtitle_msg, timeout)
 
     # 내용
     def send_contents_input(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.contents_input, timeout)
-        el.clear()
         el.send_keys(text)
 
     # 개인화 변수 추가(설정할 값 실제 작성)
@@ -104,9 +92,9 @@ class SmsPage(GroobeeActions):
 
     # 미리보기
     def wait_preview_img_visible(self, timeout=10):
-        BaseClass.wait_visible(self.driver, self.preview_img, timeout)
+        return BaseClass.wait_visible(self.driver, self.preview_img, timeout)
     def is_preview_text_contains(self, text, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.preview_text, timeout)
+        el = BaseClass.wait_visible(self.driver, self.preview_area, timeout)
         return text in el.text
     def get_preview_url(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.preview_url, timeout)
@@ -118,4 +106,4 @@ class SmsPage(GroobeeActions):
 
     # 옵션 설정 서브타이틀
     def wait_sms_subtitle_option_visible(self, timeout=10):
-        BaseClass.wait_visible(self.driver, self.sms_subtitle_option, timeout)
+        return BaseClass.wait_visible(self.driver, self.sms_subtitle_option, timeout)
