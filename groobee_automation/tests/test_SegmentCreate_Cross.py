@@ -11,10 +11,10 @@ from selenium.webdriver.common.by import By
 @pytest.mark.usefixtures("driver", "login")
 class TestSegCreateCross:
 
-    # (범위, 시점, 조합, 세그먼트 변수명, 값1, 값2, 값3, 값4) : 추후 csv로 변환하여 관리 가능
+    # (범위, 시점, 조합, 세그먼트 변수 과거, 과거값1, 과거값2, 세그먼트 변수 현재, 현재값3, 현재값4) : 추후 csv로 변환하여 관리 가능
     DECISION_TABLE = [
-    ("온사이트(웹/하이브리드)", "과거 x 현재", None, "주문 횟수", "5" , "이상", "", "" ),
-    ("온사이트(네이티브)", "과거 x 현재", None, "첫 방문", None, None)
+    ("온사이트(웹/하이브리드)", "과거 x 현재", None, "주문 횟수", "5", "이상", "로그인 방문자", None, None),
+    ("온사이트(네이티브)", "과거 x 현재", None, "주문 횟수", "5", "이상", "로그인 방문자", None, None)
     ]
 
     @pytest.fixture(autouse=True)
@@ -38,7 +38,7 @@ class TestSegCreateCross:
         # 2. RNB 변수 선택 매핑 (함수 시퀀스)
         self.rnb_map = {
             "주문 횟수": [self.groobee.click_rnb_order_rec, self.groobee.click_rnb_order_cnt],
-            "로그인 방문자": []
+            "로그인 방문자": [self.groobee.click_rnb_visitors, self.groobee.click_rnb_visitors_login]
         }
 
     login_expect_title = "대시보드 :: GROOBEE"
@@ -51,8 +51,8 @@ class TestSegCreateCross:
         assert driver.title == self.login_expect_title
     
     @pytest.mark.seg
-    @pytest.mark.parametrize("range_v, time_v, cond_v, var_name, v1, v2", DECISION_TABLE)
-    def test_seg_create_flow(self, driver, range_v, time_v, cond_v, var_name, v1, v2):
+    @pytest.mark.parametrize("range_v, time_v, cond_v, p_var, p_v1, p_v2, n_var, n_v1, n_v2", DECISION_TABLE)
+    def test_seg_create_flow(self, driver, range_v, time_v, cond_v, p_var, p_v1, p_v2, n_var, n_v1, n_v2):
         seg_title = f"[AUTO]seg_{datetime.now().strftime('%H%M%S')}_{var_name}"
         
         ## LNB 세그먼트 페이지 진입
@@ -72,21 +72,28 @@ class TestSegCreateCross:
         # 타겟 설정
         self.groobee.select_target_radio("range", range_v, self.target_map)
         self.groobee.select_target_radio("time", time_v, self.target_map)
-        self.groobee.select_target_radio("condition", cond_v, self.target_map)
+        #self.groobee.select_target_radio("condition", cond_v, self.target_map)
         
-        # 세그먼트 변수 btn 클릭
-        self.groobee.click_add_seg_btn()
-        time.sleep(2)
+        # 과거 세그먼트 변수 설정
+        self.groobee.click_var_btn_in_scope(self.groobee.past_div)
         assert BaseClass.wait_visible(driver, self.groobee.rnb_title_elem).is_displayed()
-
-        # 세그먼트 변수 RNB
-        self.groobee.navigate_rnb(var_name, self.rnb_map)
+        ### 세그먼트 변수 RNB
+        self.groobee.navigate_rnb(p_var, self.rnb_map)
         self.groobee.click_rnb_choose()
-        time.sleep(1)
+        ### 선택한 세그먼트 변수 상세 설정
+        self.groobee.click_var_btn_in_scope(self.groobee.past_div)
+        self.groobee.select_seg_details(p_v1, p_v2)
 
-        # 선택한 세그먼트 변수 상세 설정
-        self.groobee.select_seg_details(v1, v2)
-
+        # 현재 세그먼트 변수 설정
+        self.groobee.click_var_btn_in_scope(self.groobee.present_div)
+        assert BaseClass.wait_visible(driver, self.groobee.rnb_title_elem).is_displayed()
+        ### 세그먼트 변수 RNB
+        self.groobee.navigate_rnb(n_var, self.rnb_map)
+        self.groobee.click_rnb_choose()
+        ### 선택한 세그먼트 변수 상세 설정
+        self.groobee.click_var_btn_in_scope(self.groobee.past_div)
+        self.groobee.select_seg_details(n_v1, n_v2)
+        
         # 저장 버튼 클릭
         self.groobee.click_save_btn()
         time.sleep(1)

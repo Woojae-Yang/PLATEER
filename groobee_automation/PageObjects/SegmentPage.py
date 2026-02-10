@@ -48,6 +48,10 @@ class SegmentPage(GroobeeActions):
     # 세그먼트 변수 추가 버튼
     add_seg_btn = (By.XPATH, "//button[contains(text(), '세그먼트 변수')]")
 
+    ### `과거 x 현재` 시점에서 활용
+    past_div = (By.XPATH, "//h6[text()='과거']/ancestor::div[contains(@class, 'MuiPaper-root')][1]")
+    present_div = (By.XPATH, "//h6[text()='현재']/ancestor::div[contains(@class, 'MuiPaper-root')][1]")
+
     # 세그먼트 변수 RNB
     rnb_title_elem = (By.XPATH, "//h2[contains(., '세그먼트 변수')]")
     add_seg1 = (By.XPATH, "(//button[@type='button'][contains(text(),'세그먼트 변수')])[1]")
@@ -131,7 +135,6 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.modal_ok_btn, timeout).click()
         time.sleep(0.5)
     
-
 
     # 세그먼트 기본 정보 입력
     def send_seg_name(self, text, timeout=10):
@@ -287,6 +290,7 @@ class SegmentPage(GroobeeActions):
         if var_name in rnb_map:
             for func in rnb_map[var_name]:
                 func()
+        time.sleep(1.5)
 
     # 선택한 세그먼트 유형의 세부 설정
     def select_seg_details(self, v1, v2):
@@ -341,3 +345,8 @@ class SegmentPage(GroobeeActions):
             "segmentCheckCd": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='segmentCheckCd']").text,
             "reg_date": self.driver.find_element(By.XPATH, f"{seg_elem}//div[@data-field='regDtm']").text
     }
+
+    ### `과거 x 현재` 시점에서 활용
+    def click_var_btn_in_scope(self, scope_locator):
+        parent = BaseClass.wiat_Visible(self.driver, scope_locator)
+        parent.find_element(*self.add_seg_btn).click()
