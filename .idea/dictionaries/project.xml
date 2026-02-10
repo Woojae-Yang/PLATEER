@@ -22,6 +22,7 @@
       <w>moveto</w>
       <w>nodeid</w>
       <w>norecursedirs</w>
+      <w>oncam</w>
       <w>onsiteweb</w>
       <w>pcweb</w>
       <w>poten</w>

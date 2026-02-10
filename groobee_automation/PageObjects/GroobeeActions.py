@@ -61,7 +61,7 @@ class GroobeeActions:
 
     # 관리 도구
     tools_icon = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='MoreHorizIcon']]")
-    update_icon = (By.XPATH, "//p[contains(text(),'수정')]")
+    modify_icon = (By.XPATH, "//p[contains(text(),'수정')]")
     copy_icon = (By.XPATH, "//p[contains(text(),'복사')]")
     download_icon = (By.XPATH, "//div[contains(text(),'방문자 리스트 다운로드')]")
     report_icon = (By.XPATH, "//p[contains(text(),'분석 리포트')]")
@@ -155,11 +155,15 @@ class GroobeeActions:
     # 캠페인 생성
     def send_cam_name(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
-        el.clear()
+        el.click()
+        el.send_keys(Keys.CONTROL, "a")
+        el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
     def send_cam_des(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
-        el.clear()
+        el.click()
+        el.send_keys(Keys.CONTROL, "a")
+        el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
     def get_cam_name(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
@@ -209,10 +213,12 @@ class GroobeeActions:
     # 관리 도구
     def click_tools_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_icon, timeout).click()
-    def click_update_icon(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.update_icon, timeout).click()
+    def click_modify_icon(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.modify_icon, timeout).click()
+        self.wait_url_contains("/regist", timeout)
     def click_copy_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.copy_icon, timeout).click()
+        self.wait_url_contains("/regist", timeout)
     def click_download_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.download_icon, timeout).click()
     def click_report_icon(self, timeout=10):
