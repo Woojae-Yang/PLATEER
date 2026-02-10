@@ -1,5 +1,6 @@
 import time
 import pytest
+import sys
 
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -312,12 +313,13 @@ class SegmentPage(GroobeeActions):
 
                 # 판별 및 실행
                 textareas = container.find_elements(By.TAG_NAME, "textarea")
+                #inputs = container.find_elements(By.CSS_SELECTOR, "input")
 
                 if textareas:
                     print(f"[DEBUG] {i}번 영역: 입력형 처리 -> {val}")
+                    textareas[0].click()
                     textareas[0].send_keys(val)
                     textareas[0].send_keys(Keys.ENTER)
-
                 else:
                     print(f"[DEBUG] {i}번 영역: 선택형 처리 -> {val}")
                     li_xpath = f"//li[contains(., '{val}')]"

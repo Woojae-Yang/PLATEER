@@ -13,8 +13,8 @@ class TestSegCreateCross:
 
     # (범위, 시점, 조합, 세그먼트 변수 과거, 과거값1, 과거값2, 세그먼트 변수 현재, 현재값3, 현재값4) : 추후 csv로 변환하여 관리 가능
     DECISION_TABLE = [
-    ("온사이트(웹/하이브리드)", "과거 x 현재", None, "주문 횟수", 5, "이상", "로그인 방문자", None, None),
-    ("온사이트(네이티브)", "과거 x 현재", None, "주문 횟수", 5, "이상", "로그인 방문자", None, None)
+    ("온사이트(웹/하이브리드)", "과거 x 현재", None, "브라우저", "Chrome", "일 때", "로그인 방문자", None, None),
+    ("온사이트(네이티브)", "과거 x 현재", None, "첫 방문", None, None, "로그인 방문자", None, None)
     ]
 
     @pytest.fixture(autouse=True)
@@ -37,6 +37,8 @@ class TestSegCreateCross:
         }
         # 2. RNB 변수 선택 매핑 (함수 시퀀스)
         self.rnb_map = {
+            "브라우저": [self.groobee.click_rnb_system, self.groobee.click_rnb_system_browser],
+            "첫 방문": [self.groobee.click_rnb_visit_rec, self.groobee.click_rnb_visit_rec_first],
             "주문 횟수": [self.groobee.click_rnb_order_rec, self.groobee.click_rnb_order_cnt],
             "로그인 방문자": [self.groobee.click_rnb_visitors, self.groobee.click_rnb_visitors_login]
         }
@@ -53,6 +55,8 @@ class TestSegCreateCross:
     @pytest.mark.seg
     @pytest.mark.parametrize("range_v, time_v, cond_v, past_var, past_v1, past_v2, n_var, n_v1, n_v2", DECISION_TABLE)
     def test_seg_create_flow(self, driver, range_v, time_v, cond_v, past_var, past_v1, past_v2, n_var, n_v1, n_v2):
+        driver.refresh()
+        time.sleep(2)
         seg_title = f"[AUTO]seg_{datetime.now().strftime('%H%M%S')}Cross"
         
         ## LNB 세그먼트 페이지 진입
