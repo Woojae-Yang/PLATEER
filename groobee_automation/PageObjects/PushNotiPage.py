@@ -36,7 +36,7 @@ class PushNotiPage(GroobeeActions):
 
 
     # 타겟팅 유형
-    type_segment =(By.XPATH, "//input[@value='세그먼트']")
+    type_segment =(By.XPATH, "//button[.//text()[contains(.,'세그먼트')]]")
     type_recipient_consent = (By.XPATH, "//input[@value='수신 동의자 전체']")
     type_member_upload =(By.XPATH, "//input[@value='회원 정보 업로드']")
 
@@ -193,8 +193,12 @@ class PushNotiPage(GroobeeActions):
     #클릭 동작
     def click_launch_app(self, text, timeout=10):
         BaseClass.wait_clickable(self.driver,self.img_setting,timeout).click()
-    def click_deepLink(self, text, timeout=10):
-        BaseClass.wait_clickable(self.driver,self.deepLink,timeout).click()
+
+    def click_deepLink(self, timeout=10):
+        el = BaseClass.wait_clickable(self.driver, self.deepLink, timeout)
+        el.click()
+        return self
+
     def click_launch_webBrowser(self, text, timeout=10):
         BaseClass.wait_clickable(self.driver,self.launch_webBrowser, timeout).click()
     #클릭 동작 텍스트 박스

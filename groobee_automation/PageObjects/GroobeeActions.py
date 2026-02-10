@@ -153,6 +153,10 @@ class GroobeeActions:
     def click_create_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
         self.wait_url_contains("/regist", timeout)
+    #푸시 알림 만들기 버튼
+    def click_create_pushNoti_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
+
 
     # 캠페인 생성
     def send_cam_name(self, text, timeout=10):

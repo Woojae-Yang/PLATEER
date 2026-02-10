@@ -36,12 +36,12 @@ class TestCampaignCreate(BaseClass):
         groobee = PushNotiPage(driver)
 
         #푸시 알림 캠페인 메뉴 진입
-        groobee. click_pushnoti_menu()
+        groobee.click_pushnoti_menu()
         time.sleep(2)
 
         #만들기 버튼 클릭
-        groobee.click_create_btn()
-        time.sleep(1)
+        groobee.click_create_pushNoti_btn()
+        time.sleep(2)
 
         #스케쥴 발송 선택
         groobee.click_create_btn_push_schedule()
@@ -59,7 +59,7 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
 
         #타겟팅 유형 설정
-        groobee.click_type_segment
+        groobee.click_type_segment()
         time.sleep(1)
 
         #세그먼트 불러오기 RNB (단일): 버튼 > 세그 탭 > 검색
