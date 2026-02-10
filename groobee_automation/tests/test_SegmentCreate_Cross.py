@@ -9,20 +9,12 @@ from selenium.webdriver.common.by import By
 
 
 @pytest.mark.usefixtures("driver", "login")
-class TestSegCreate:
+class TestSegCreateCross:
 
-    # (범위, 시점, 조합, 세그먼트 변수명, 값1, 값2) : 추후 csv로 변환하여 관리 가능
+    # (범위, 시점, 조합, 세그먼트 변수명, 값1, 값2, 값3, 값4) : 추후 csv로 변환하여 관리 가능
     DECISION_TABLE = [
-    ("온사이트(웹/하이브리드)", "과거", None, "브라우저", "Chrome", "일 때"),
-    ("온사이트(웹/하이브리드)", "현재", "AND/OR", "브라우저", "Chrome", "아닐 때"),
-    ("온사이트(웹/하이브리드)", "현재", "시퀀스(강)", "방문 페이지", "https://groobee.net" , "일 때" ),
-    ("온사이트(웹/하이브리드)", "현재", "시퀀스(약)", "방문 페이지", "https://groobee.net" , "포함할 때" ),
-    ("온사이트(네이티브)", "과거", None, "첫 방문", None, None),
-    ("온사이트(네이티브)", "현재", "AND/OR", "첫 방문", None, None),
-    ("온사이트(네이티브)", "현재", "시퀀스(강)", "담은 상품명", "젤라또", "포함하지 않을 때"),
-    ("온사이트(네이티브)", "현재", "시퀀스(약)", "담은 상품명", "젤라또", "아닐 때"),
-    ("오프사이트", None, None, "로그인 방문자", None, None)
-    # ... 나머지 케이스 추가
+    ("온사이트(웹/하이브리드)", "과거 x 현재", None, "주문 횟수", "5" , "이상", "", "" ),
+    ("온사이트(네이티브)", "과거 x 현재", None, "첫 방문", None, None)
     ]
 
     @pytest.fixture(autouse=True)
@@ -34,27 +26,19 @@ class TestSegCreate:
         self.target_map = {
             "range": {
                 "온사이트(웹/하이브리드)": self.groobee.click_range_onsite_web,
-                "온사이트(네이티브)": self.groobee.click_range_onsite_native,
-                "오프사이트": self.groobee.click_range_offsite
+                "온사이트(네이티브)": self.groobee.click_range_onsite_native
             },
             "time": {
-                "과거": self.groobee.click_time_past,
-                "현재": self.groobee.click_time_now,
                 "과거 x 현재": self.groobee.click_time_cross
             },
             "condition": {
-                "AND/OR": self.groobee.click_mix_andor,
-                "시퀀스(강)": self.groobee.click_mix_strong,
-                "시퀀스(약)": self.groobee.click_mix_weak
+                "AND/OR": self.groobee.click_mix_andor
             }
         }
         # 2. RNB 변수 선택 매핑 (함수 시퀀스)
         self.rnb_map = {
-            "브라우저": [self.groobee.click_rnb_system, self.groobee.click_rnb_system_browser],
-            "첫 방문": [self.groobee.click_rnb_visit_rec, self.groobee.click_rnb_visit_rec_first],
-            "방문 페이지": [self.groobee.click_rnb_visit_act, self.groobee.click_rnb_visit_page],
-            "담은 상품명": [self.groobee.click_rnb_cart_act, self.groobee.click_rnb_cart_prod_nm],
-            "로그인 방문자": [self.groobee.click_rnb_visitors, self.groobee.click_rnb_visitors_login]
+            "주문 횟수": [self.groobee.click_rnb_order_rec, self.groobee.click_rnb_order_cnt],
+            "로그인 방문자": []
         }
 
     login_expect_title = "대시보드 :: GROOBEE"

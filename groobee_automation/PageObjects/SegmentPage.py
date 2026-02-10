@@ -14,15 +14,17 @@ class SegmentPage(GroobeeActions):
 
     # ------------------------------ element 선언 ------------------------------
     
-    #서치바
+    # 데이터 테이블 영역 : 참조할 항목이 없어서 어쩔 수 없이 절대경로 입력
     seg_search_bar = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[1]/div[2]/div/div/div/input")
+    empty_msg = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[2]/div[1]/div[2]/div[1]/div/div/div")
 
     # 도구모음
     top_tools_btn = (By.XPATH, "//div[@data-rowindex='0']//button[.//*[@data-testid='MoreHorizIcon']]")
     tools_del_btn = (By.XPATH, "//li[contains(normalize-space(.), '삭제')]")
-    modal_title = (By.XPATH, "//h2[contains(text(), '세그먼트 삭제')]")
-    modal_ok_btn = (By.XPATH, "//button[contains(normalize-space(.), '확인')]")
-    modal_cancel_btn = (By.XPATH, "//button[contains(normalize-space(.), '취소']")
+    tools_copy_btn = (By.XPATH, "//li[contains(normalize-space(.), '복사')]")
+    modal_title = (By.XPATH, "//div[@role='dialog']//h2[contains(text(), '세그먼트 삭제')]")
+    modal_ok_btn = (By.XPATH, "(//div[@role='dialog']//button[contains(normalize-space(.), '확인')])[last()]")
+    modal_cancel_btn = (By.XPATH, "//div[@role='dialog']//button[contains(normalize-space(.), '취소']")
 
     # 만들기
     createBtn = (By.XPATH, "//button[contains(text(),'만들기')]")
@@ -75,6 +77,7 @@ class SegmentPage(GroobeeActions):
     rnb_order_act = (By.XPATH, "//h6[contains(text(), '주문 행동')]")
     rnb_custom = (By.XPATH, "//h6[contains(text(), '커스텀')]")
     rnb_choose = (By.XPATH, "//button[contains(text(),'선택')]")
+    rnb_order_cnt = (By.XPATH, "//h6//[contains(text(), '주문 횟수')]")
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     seg_setting1 = (By.XPATH, "(//div[contains(@role,'combobox')])[1]")
@@ -107,6 +110,10 @@ class SegmentPage(GroobeeActions):
         search_bar.send_keys(text)
         search_bar.send_keys(Keys.ENTER)
         time.sleep(1)
+    
+    # 검색 결과 없음 안내 문구
+    def get_empty_msg(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.empty_msg, timeout)
 
     # 도구모음
     def click_top_tools_btn(self, timeout=10):
@@ -115,10 +122,15 @@ class SegmentPage(GroobeeActions):
     def click_tools_del_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_del_btn, timeout).click()
         time.sleep(1)
-    def cehck_modal_title(self, timeout=10):
+    def click_tools_copy_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.tools_copy_btn, timeout).click()
+        time.sleep(1)
+    def check_modal_title(self, timeout=10):
         return BaseClass.wait_visible(self.driver, self.modal_title, timeout).text
     def click_modal_ok_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.modal_ok_btn, timeout).click()
+        time.sleep(0.5)
+    
 
 
     # 세그먼트 기본 정보 입력
@@ -132,6 +144,8 @@ class SegmentPage(GroobeeActions):
         elem.click()
         elem.clear()
         elem.send_keys(text)
+    def get_seg_name(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.seg_name, timeout).get_attribute("value")
 
     # 타겟 설정
     def click_range_onsite_web(self, timeout=10):
@@ -212,6 +226,8 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_custom, timeout).click()
     def click_rnb_choose(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_choose, timeout).click()
+    def click_rnb_order_cnt(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.rnb_order_act, timeout).click()
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     def click_seg_setting1(self, timeout=10):
@@ -308,7 +324,7 @@ class SegmentPage(GroobeeActions):
             except Exception as e:
                 print(f"[ERROR] 상세설정 {i}번 처리 중 오류: {e}")
             
-            time.sleep(1)
+            time.sleep(0.5)
 
     # 생성된 세그먼트 리스트
     def get_seg_list_item(self, seg_name):
