@@ -81,7 +81,7 @@ class SegmentPage(GroobeeActions):
     rnb_order_act = (By.XPATH, "//h6[contains(text(), '주문 행동')]")
     rnb_custom = (By.XPATH, "//h6[contains(text(), '커스텀')]")
     rnb_choose = (By.XPATH, "//button[contains(text(),'선택')]")
-    rnb_order_cnt = (By.XPATH, "//h6//[contains(text(), '주문 횟수')]")
+    rnb_order_cnt = (By.XPATH, "//h6[contains(text(), '주문 횟수')]")
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     seg_setting1 = (By.XPATH, "(//div[contains(@role,'combobox')])[1]")
@@ -229,8 +229,9 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_custom, timeout).click()
     def click_rnb_choose(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.rnb_choose, timeout).click()
+        time.sleep(1.5)
     def click_rnb_order_cnt(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.rnb_order_act, timeout).click()
+        BaseClass.wait_clickable(self.driver, self.rnb_order_cnt, timeout).click()
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
     def click_seg_setting1(self, timeout=10):
@@ -304,7 +305,7 @@ class SegmentPage(GroobeeActions):
             try:
                 # 설정할 변수 요소 클릭 : click_* 함수에서 반환한 요소 값 할당
                 container = click_func() 
-                time.sleep(0.5)
+                time.sleep(0.8)
 
                 if not container:
                     var_elem = f"(//div[contains(@class, 'MuiInputBase-root')])[{i}]"
@@ -348,5 +349,6 @@ class SegmentPage(GroobeeActions):
 
     ### `과거 x 현재` 시점에서 활용
     def click_var_btn_in_scope(self, scope_locator):
-        parent = BaseClass.wiat_Visible(self.driver, scope_locator)
+        parent = BaseClass.wait_visible(self.driver, scope_locator)
         parent.find_element(*self.add_seg_btn).click()
+        time.sleep(0.7)
