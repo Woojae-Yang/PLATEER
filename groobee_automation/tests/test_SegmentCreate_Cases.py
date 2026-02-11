@@ -70,6 +70,8 @@ class TestSegCreate:
     @pytest.mark.seg
     @pytest.mark.parametrize("range_v, time_v, cond_v, var_name, v1, v2", DECISION_TABLE)
     def test_seg_create_flow(self, driver, range_v, time_v, cond_v, var_name, v1, v2):
+        driver.refresh()
+        
         seg_title = f"[AUTO]seg_{datetime.now().strftime('%H%M%S')}_{var_name}"
         
         ## LNB 세그먼트 페이지 진입
@@ -100,9 +102,16 @@ class TestSegCreate:
         self.groobee.navigate_rnb(var_name, self.rnb_map)
         self.groobee.click_rnb_choose()
         time.sleep(1)
+        target_scope = None
+        
+        if time_v in ["과거", None]:
+            target_scope = BaseClass.wait_visible(driver, self.groobee.past_div)
+        elif time_v == "현재":
+            target_scope = BaseClass.wait_visible(driver, self.groobee.present_div)
+
 
         # 선택한 세그먼트 변수 상세 설정
-        self.groobee.select_seg_details(v1, v2)
+        self.groobee.select_seg_details(v1, v2, scope_elem = target_scope)
 
         # 저장 버튼 클릭
         self.groobee.click_save_btn()

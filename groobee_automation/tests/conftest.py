@@ -1,6 +1,7 @@
 import os
 import pytest
 import requests
+import time
 
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
@@ -108,8 +109,10 @@ def login(driver):
     assert shop, "GROOBEE_SHOP not set"
 
     driver.get(base_url)
+    time.sleep(1)
 
     groobee = LoginPage(driver)
+    time.sleep(1)
 
     # ID/PW 입력 > 로그인 버튼 선택
     groobee.send_id(user_id)
