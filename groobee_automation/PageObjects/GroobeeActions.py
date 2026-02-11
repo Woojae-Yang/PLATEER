@@ -291,7 +291,20 @@ class GroobeeActions:
     def click_done_btn_pushNoti(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn_pushNoti, timeout).click()
 
-
+    #backdrop 대기
+    def wait_backdrop_gone(self, timeout=10):
+        WebDriverWait(self.driver, timeout).until(
+            EC.invisibility_of_element_located(
+                (By.CSS_SELECTOR, ".MuiBackdrop-root")
+            )
+        )
+    #세그 탭 활성화 대기
+    def wait_seg_tab_active(self, timeout=10):
+        WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, ".MuiTab-root.Mui-selected")
+            )
+        )
     # 완료
     def click_cancel_btn(self, timeout=10):
         el = BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout)

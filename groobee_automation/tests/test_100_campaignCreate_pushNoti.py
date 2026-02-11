@@ -64,9 +64,16 @@ class TestCampaignCreate(BaseClass):
 
         #세그먼트 불러오기 RNB (단일): 버튼 > 세그 탭 > 검색
         groobee.click_seg_load()
+        groobee.wait_backdrop_gone()
+        time.sleep(3)
+
         groobee.click_seg_tab()
+        groobee.wait_seg_tab_active()
+        time.sleep(1)
         #검색 > 세그먼트 입력
+        groobee.wait_seg_input_ready()
         groobee.send_seg_input(self.Offsite_seg_id)
+        time.sleep(1)
         # 세그먼트 리스트에서 [0] 클릭
         seg_list = groobee.get_seg_list()
         assert len(seg_list) > 0, "세그먼트 미노출"
