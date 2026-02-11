@@ -297,8 +297,9 @@ class SegmentPage(GroobeeActions):
     # 선택한 세그먼트 유형의 세부 설정
     def select_seg_details(self, v1, v2):
     ### 하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
-    ### 실행할 메서드와 매칭될 값을 리스트로 관리
+        # 실행할 메서드와 매칭될 값을 리스트로 관리
         actions = [(self.click_seg_setting1, v1),(self.click_seg_setting2, v2)]
+
         for i, (click_func, val) in enumerate(actions, start=1):
             if not val: continue
 
