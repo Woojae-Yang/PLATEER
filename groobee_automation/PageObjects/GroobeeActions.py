@@ -251,7 +251,6 @@ class GroobeeActions:
     def click_target_set(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.target_set, timeout).click()
     def click_seg_load(self, timeout=10):
-        BaseClass.wait_overlay_gone(self.driver, 3)
         BaseClass.wait_clickable(self.driver, self.seg_load, timeout).click()
     def send_seg_input(self, text, timeout=10):
         el = BaseClass.wait_clickable(self.driver, self.seg_input, timeout)

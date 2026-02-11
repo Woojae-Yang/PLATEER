@@ -36,7 +36,8 @@ class PushNotiPage(GroobeeActions):
 
 
     # 타겟팅 유형
-    type_segment =(By.XPATH, "//button[.//text()[contains(.,'세그먼트')]]")
+    #type_segment =(By.XPATH, "//button[.//text()[contains(.,'세그먼트')]]")
+    type_segment = (By.XPATH, "//input[@value='세그먼트']")
     type_recipient_consent = (By.XPATH, "//input[@value='수신 동의자 전체']")
     type_member_upload =(By.XPATH, "//input[@value='회원 정보 업로드']")
 
@@ -109,11 +110,11 @@ class PushNotiPage(GroobeeActions):
 
     # 타겟팅 유형
     def click_type_segment(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_segment,timeout).click()
+        BaseClass.select_radio(self.driver, self.type_segment, timeout)
     def click_type_recipient_consent(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_recipient_consent,timeout).click()
+        BaseClass.select_radio(self.driver, self.type_recipient_consent, timeout)
     def click_type_member_upload(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_member_upload,timeout).click()
+        BaseClass.select_radio(self.driver, self.type_member_upload, timeout)
 
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     def click_qa_hs_seg(self, timeout=10):
