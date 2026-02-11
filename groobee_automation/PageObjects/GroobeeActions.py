@@ -155,11 +155,12 @@ class GroobeeActions:
     # 만들기 버튼
     def click_create_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
+        # 만들기 화면 진입 대기
         self.wait_url_contains("/regist", timeout)
-    #푸시 알림 만들기 버튼
-    def click_create_pushNoti_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
 
+    # 온사이트 캠페인/푸시 알림 캠페인 만들기 버튼
+    def click_create_pushnoti_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
 
     # 캠페인 생성
     def send_cam_name(self, text, timeout=10):
@@ -255,13 +256,10 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.seg_load, timeout).click()
 
     def click_seg_load_push(self, timeout=10):
-        WebDriverWait(self.driver, self.seg_load_push, timeout).until(
-            EC.invisibility_of_element_located(
-                (By.CSS_SELECTOR, ".MuiBackdrop-root")
-            )
-        )
+        BaseClass.wait_overlay_gone(self.driver, timeout)
+
         el = BaseClass.wait_clickable(self.driver, self.seg_load_push, timeout)
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", el)
+        self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", el)
         el.click()
 
     def send_seg_input(self, text, timeout=10):
@@ -288,10 +286,10 @@ class GroobeeActions:
     def click_target_num_re_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.target_num_reBtn, timeout).click()
         BaseClass.wait_visible(self.driver, self.target_result, 20)
-
-    def click_target_pushNoti_num_btn(self, timeout=10):
+    def click_target_pushnoti_num_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver,self.target_numBtn, timeout).click()
         BaseClass.wait_visible(self.driver, self.target_result_pushNoti, 20)
+
     # 파일 업로드 RNB
     def click_file_upload_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.file_uploadBtn, timeout).click()
@@ -301,7 +299,7 @@ class GroobeeActions:
         el.send_keys(file_path)
     def click_done_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
-    def click_done_btn_pushNoti(self, timeout=10):
+    def click_done_btn_pushnoti(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn_pushNoti, timeout).click()
 
     #backdrop 대기
@@ -311,6 +309,7 @@ class GroobeeActions:
                 (By.CSS_SELECTOR, ".MuiBackdrop-root")
             )
         )
+
     #세그 탭 활성화 대기
     def wait_seg_tab_active(self, timeout=10):
         WebDriverWait(self.driver, timeout).until(
@@ -318,6 +317,7 @@ class GroobeeActions:
                 (By.CSS_SELECTOR, ".MuiTab-root.Mui-selected")
             )
         )
+
     # 완료
     def click_cancel_btn(self, timeout=10):
         el = BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout)

@@ -40,7 +40,7 @@ class TestCampaignCreate(BaseClass):
         time.sleep(2)
 
         #만들기 버튼 클릭
-        groobee.click_create_pushNoti_btn()
+        groobee.click_create_pushnoti_btn()
         time.sleep(2)
 
         #스케쥴 발송 선택
@@ -92,7 +92,7 @@ class TestCampaignCreate(BaseClass):
 
         #예상 타겟 수
         try:
-            groobee.click_target_pushNoti_num_btn()
+            groobee.click_target_pushnoti_num_btn()
         except TimeoutException:
             driver.save_screenshot("target_result_timeout.png")
             assert False, "예상 타겟 수 결과 UI가 20초 내 노출되지 않음"
@@ -132,7 +132,7 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
 
         # [확인] 버튼
-        groobee.click_done_btn_pushNoti()
+        groobee.click_done_btn_pushnoti()
         time.sleep(1)
 
         #딥 링크 클릭

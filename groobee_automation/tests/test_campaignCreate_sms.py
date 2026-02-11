@@ -260,3 +260,79 @@ class TestSmsCampaignCreate:
 
         # 2. 캠페인 리스트 > {sms_campaign_modify_input} 노출 확인
         assert groobee.get_cam_list_item(self.sms_campaign_modify_input).is_displayed()
+
+    @pytest.mark.case_id(16678)
+    def test_16678(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 관리 도구 클릭
+        groobee.click_tools_icon_by_name(self.sms_campaign_modify_input)
+        # 2. 복사 클릭
+        groobee.click_copy_icon()
+
+        # 2. 새로운 SMS 캠페인 만들기 페이지 노출 확인
+        assert driver.title == self.expect_sms_regist_title
+        # 3. 캠페인명 텍스트필드 > {expect_copy_text} 노출 확인
+        assert self.expect_copy_text in groobee.get_cam_name()
+
+    @pytest.mark.case_id(16679)
+    def test_16679(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 캠페인명 텍스트필드에 {sms_campaign_copy_input} 입력
+        groobee.send_cam_name(self.sms_campaign_copy_input)
+
+        # 1. 캠페인명 텍스트필드 > {sms_campaign_copy_input} 노출 확인
+        assert groobee.get_cam_name() == self.sms_campaign_copy_input
+
+    @pytest.mark.case_id(16680)
+    def test_16680(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 확인하기 버튼 클릭
+        groobee.click_target_num_btn()
+
+        # 1. 다시 확인하기 버튼 노출 확인
+        assert groobee.wait_target_num_re_btn_visible()
+
+    @pytest.mark.case_id(16681)
+    def test_16681(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 다음 단계 버튼 클릭
+        groobee.click_next_btn()
+
+        # 1. 메시지 설정 화면 노출 확인
+        assert groobee.wait_sms_subtitle_msg_visible()
+
+    @pytest.mark.case_id(16682)
+    def test_16682(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 내용 텍스트필드에 {contents_copy_input} 입력
+        groobee.send_contents_input(self.contents_copy_input)
+
+        # 1. 미리보기 > {contents_copy_input} 노출 확인
+        assert groobee.is_preview_text_contains(self.contents_copy_input)
+
+    @pytest.mark.case_id(16683)
+    def test_16683(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 다음 단계 버튼 클릭
+        groobee.click_next_btn()
+
+        # 1. 옵션 설정 화면 노출 확인
+        assert groobee.wait_sms_subtitle_option_visible()
+
+    @pytest.mark.case_id(16684)
+    def test_16684(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 저장 버튼 클릭
+        groobee.click_save_btn()
+        # 2. 확인 버튼 클릭
+        groobee.click_done_btn()
+
+        # 2. 캠페인 리스트 > {sms_campaign_copy_input} 노출 확인
+        assert groobee.get_cam_list_item(self.sms_campaign_copy_input).is_displayed()
