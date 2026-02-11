@@ -17,6 +17,9 @@ class TestSmsCampaignCreate:
     expect_sms_modify_title = "SMS 캠페인 수정하기 :: GROOBEE"
     sms_campaign_modify_input = "[QA][GP][Auto] SMS 캠페인_수정"
     contents_modify_input = "_수정"
+    expect_copy_text = "-COPY"
+    sms_campaign_copy_input = "[QA][GP][Auto] SMS 캠페인_복사"
+    contents_copy_input = "_복사"
 
     @pytest.mark.case_id(16658)
     def test_16658(self, driver):

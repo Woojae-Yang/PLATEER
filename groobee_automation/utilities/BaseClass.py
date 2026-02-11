@@ -3,6 +3,7 @@ import inspect
 import logging
 import time
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -23,6 +24,14 @@ class BaseClass:
     def wait_visible(driver, locator, timeout=10):
         return WebDriverWait(driver, timeout).until(
             EC.presence_of_element_located(locator)
+        )
+
+    # 오버레이 대기 함수
+    OVERLAY = (By.CSS_SELECTOR, ".MuiBackdrop-root, .MuiModal-backdrop")
+    @staticmethod
+    def wait_overlay_gone(driver, timeout=5):
+        WebDriverWait(driver, timeout, poll_frequency=0.05).until(
+            lambda d: all(not el.is_displayed() for el in d.find_elements(*BaseClass.OVERLAY))
         )
 
     # 웹 요소 대기 유틸 함수(클릭)
