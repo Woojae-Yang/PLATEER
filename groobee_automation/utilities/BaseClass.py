@@ -3,11 +3,11 @@ import inspect
 import logging
 import time
 
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.remote.webdriver import WebDriver
-from selenium.common.exceptions import TimeoutException, WebDriverException
-
+from selenium.common.exceptions import TimeoutException, WebDriverException, ElementClickInterceptedException
 
 class BaseClass:
     driver: WebDriver = None
@@ -25,12 +25,42 @@ class BaseClass:
             EC.presence_of_element_located(locator)
         )
 
+    # 오버레이 대기 함수
+    OVERLAY = (By.CSS_SELECTOR, ".MuiBackdrop-root, .MuiModal-backdrop")
+    @staticmethod
+    def wait_overlay_gone(driver, timeout=5):
+        WebDriverWait(driver, timeout, poll_frequency=0.05).until(
+            lambda d: all(not el.is_displayed() for el in d.find_elements(*BaseClass.OVERLAY))
+        )
+
     # 웹 요소 대기 유틸 함수(클릭)
     @staticmethod
     def wait_clickable(driver, locator, timeout=10):
         return WebDriverWait(driver, timeout).until(
             EC.element_to_be_clickable(locator)
         )
+
+    # 라디오 버튼 선택
+    @staticmethod
+    def select_radio(driver, input_locator, timeout=10):
+        el = WebDriverWait(driver, timeout).until(
+            EC.presence_of_element_located(input_locator)
+        )
+        driver.execute_script("arguments[0].scrollIntoView({block:'center'});", el)
+
+        # 1) 먼저 JS로 체크 + 이벤트 발생 (MUI에서 가장 안정적)
+        driver.execute_script("""
+                const el = arguments[0];
+                if (!el.checked) {
+                  el.checked = true;
+                  el.dispatchEvent(new Event('input', { bubbles: true }));
+                  el.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            """, el)
+
+        # 2) 상태 검증
+        WebDriverWait(driver, timeout).until(lambda d: el.is_selected())
+        return el
 
     # 프로젝트 루트 경로 찾기
     @staticmethod
