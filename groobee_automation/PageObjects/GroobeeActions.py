@@ -1,3 +1,5 @@
+import platform
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -61,16 +63,16 @@ class GroobeeActions:
 
     # 관리 도구
     tools_icon = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='MoreHorizIcon']]")
-    modify_icon = (By.XPATH, "//p[contains(text(),'수정')]")
-    copy_icon = (By.XPATH, "//p[contains(text(),'복사')]")
-    download_icon = (By.XPATH, "//div[contains(text(),'방문자 리스트 다운로드')]")
-    report_icon = (By.XPATH, "//p[contains(text(),'분석 리포트')]")
-    view_icon = (By.XPATH, "//p[contains(text(),'미리보기')]")
-    exclusion_icon = (By.XPATH, "//p[contains(text(),'제외 조건 설정')]")
-    code_copy_icon = (By.XPATH, "//p[contains(text(),'코드 복사')]")
-    moveto_storage = (By.XPATH, "//p[contains(text(),'보관함으로 이동')]")
-    moveto_pause = (By.XPATH, "//p[contains(text(),'중지중으로 이동')]")
-    delete_icon = (By.XPATH, "//p[contains(text(),'삭제')]")
+    modify_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='수정']]")
+    copy_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='복사']]")
+    download_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='방문자 리스트 다운로드']]")
+    report_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='분석 리포트']]")
+    view_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='미리보기']]")
+    exclusion_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='제외 조건 설정']]")
+    code_copy_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='코드 샘플 복사']]")
+    moveto_storage = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='보관함으로 이동']]")
+    moveto_done = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='완료 탭으로 이동']]")
+    delete_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='삭제']]")
     delete_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
     delete_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
 
@@ -155,17 +157,14 @@ class GroobeeActions:
     # 캠페인 생성
     def send_cam_name(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
+        modifier = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
         el.click()
-        el.send_keys(Keys.CONTROL, "a")
-        el.send_keys(Keys.COMMAND, "a")
+        el.send_keys(modifier, "a")
         el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
     def send_cam_des(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
-        el.click()
-        el.send_keys(Keys.CONTROL, "a")
-        el.send_keys(Keys.COMMAND, "a")
-        el.send_keys(Keys.BACKSPACE)
+        el.clear()
         el.send_keys(text)
     def get_cam_name(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
@@ -233,8 +232,8 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.code_copy_icon, timeout).click()
     def click_moveto_storage_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.moveto_storage, timeout).click()
-    def click_moveto_pause_icon(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.moveto_pause, timeout).click()
+    def click_moveto_done_icon(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.moveto_done, timeout).click()
     def click_delete_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.delete_icon, timeout).click()
     def click_delete_icon_cancel(self, timeout=10):
