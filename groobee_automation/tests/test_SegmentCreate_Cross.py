@@ -13,7 +13,7 @@ class TestSegCreateCross:
 
     # (범위, 시점, 조합, 세그먼트 변수 과거, 과거값1, 과거값2, 세그먼트 변수 현재, 현재값3, 현재값4) : 추후 csv로 변환하여 관리 가능
     DECISION_TABLE = [
-    ("온사이트(웹/하이브리드)", "과거 x 현재", None, "브라우저", "Chrome", "일 때", "로그인 방문자", None, None),
+    ("온사이트(웹/하이브리드)", "과거 x 현재", None, "주문 횟수", 5, "이상", "로그인 방문자", None, None),
     ("온사이트(네이티브)", "과거 x 현재", None, "첫 방문", None, None, "로그인 방문자", None, None)
     ]
 
@@ -78,22 +78,24 @@ class TestSegCreateCross:
         #self.groobee.select_target_radio("condition", cond_v, self.target_map)
         
         # 과거 세그먼트 변수 설정
+        past_scope = BaseClass.wait_visible(driver, self.groobee.past_div)
         self.groobee.click_var_btn_in_scope(self.groobee.past_div)
         assert BaseClass.wait_visible(driver, self.groobee.rnb_title_elem).is_displayed()
         ### 세그먼트 변수 RNB
         self.groobee.navigate_rnb(past_var, self.rnb_map)
         self.groobee.click_rnb_choose()
         ### 선택한 세그먼트 변수 상세 설정
-        self.groobee.select_seg_details(past_v1, past_v2)
+        self.groobee.select_seg_details(past_v1, past_v2, scope_elem = past_scope)
 
         # 현재 세그먼트 변수 설정
+        present_scope = BaseClass.wait_visible(driver, self.groobee.present_div)
         self.groobee.click_var_btn_in_scope(self.groobee.present_div)
         assert BaseClass.wait_visible(driver, self.groobee.rnb_title_elem).is_displayed()
         ### 세그먼트 변수 RNB
         self.groobee.navigate_rnb(n_var, self.rnb_map)
         self.groobee.click_rnb_choose()
         ### 선택한 세그먼트 변수 상세 설정
-        self.groobee.select_seg_details(n_v1, n_v2)
+        self.groobee.select_seg_details(n_v1, n_v2, scope_elem = present_scope)
         
         # 저장 버튼 클릭
         self.groobee.click_save_btn()

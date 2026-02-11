@@ -2,6 +2,8 @@ import time
 import pytest
 import sys
 
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from PageObjects.GroobeeActions import GroobeeActions
@@ -85,11 +87,11 @@ class SegmentPage(GroobeeActions):
     rnb_order_cnt = (By.XPATH, "//h6[contains(text(), '주문 횟수')]")
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
-    seg_setting1 = (By.XPATH, "(//div[contains(@role,'combobox')])[1]")
+    seg_setting1 = (By.XPATH, "(.//div[contains(@class, 'MuiInputBase-root')])[2]")
     seg_setting1_pc = (By.XPATH, "//li[normalize-space()='PC']")
     seg_setting1_wed = (By.XPATH, "//li[contains(text(),'수')]")
     seg_setting1_android = (By.XPATH, "//li[normalize-space()='Android']")
-    seg_setting2 = (By.XPATH, "(//div[contains(@role,'combobox')])[2]")
+    seg_setting2 = (By.XPATH, "(.//div[contains(@class, 'MuiInputBase-root')])[3]")
     seg_setting2_yes = (By.XPATH, "//li[contains(text(),'일 때')]")
     seg_setting3 = (By.XPATH, "(//div[contains(@role,'combobox')])[3]")
     seg_setting3_ios = (By.XPATH, "//li[normalize-space()='iOS']")
@@ -235,8 +237,9 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.rnb_order_cnt, timeout).click()
 
     # 세그먼트 변수 설정(설정할 값 실제 작성)
-    def click_seg_setting1(self, timeout=10):
-        elem = BaseClass.wait_clickable(self.driver, self.seg_setting1, timeout)
+    def click_seg_setting1(self, scope_elem = None, timeout=10):
+        parent = scope_elem if scope_elem else self.driver
+        elem = WebDriverWait(parent, timeout).until(EC.element_to_be_clickable(self.seg_setting1))
         elem.click()
         return elem
     def click_seg_setting1_pc(self, timeout=10):
@@ -247,8 +250,11 @@ class SegmentPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.seg_setting1_wed, timeout).click()
     def click_seg_setting1_android(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_setting1_android, timeout).click()
-    def click_seg_setting2(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.seg_setting2, timeout).click()
+    def click_seg_setting2(self, scope_elem = None, timeout=10):
+        parent = scope_elem if scope_elem else self.driver
+        elem = WebDriverWait(parent, timeout).until(EC.element_to_be_clickable(self.seg_setting2))
+        elem.click()
+        return elem
     def click_seg_setting2_yes(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_setting2_yes, timeout).click()
     def click_seg_setting3(self, timeout=10):
@@ -295,7 +301,7 @@ class SegmentPage(GroobeeActions):
         time.sleep(1.5)
 
     # 선택한 세그먼트 유형의 세부 설정
-    def select_seg_details(self, v1, v2):
+    def select_seg_details(self, v1, v2, scope_elem = None):
     ### 하나만 있거나, v1/v2 둘 다 있거나, 둘 다 없는 경우 모두 처리 가능
         # 실행할 메서드와 매칭될 값을 리스트로 관리
         actions = [(self.click_seg_setting1, v1),(self.click_seg_setting2, v2)]
@@ -305,31 +311,47 @@ class SegmentPage(GroobeeActions):
 
             try:
             # 설정할 변수 요소 클릭 : click_* 함수에서 반환한 요소 값 할당
-                container = click_func()
+                container = click_func(scope_elem = scope_elem)
                 time.sleep(0.8)
 
-                if not container:
-                    var_elem = f"(//div[contains(@class, 'MuiInputBase-root')])[{i}]"
-                    container = BaseClass.wait_clickable(self.driver, (By.XPATH, var_elem), timeout=10)
+                li_xpath = f"//li[contains(., '{val}')]"
+                li_elem = self.driver.find_elements(By.XPATH, li_xpath)
+                
+                # 눈에 보이는 리스트 항목만 추려냄
+                visible_li = [el for el in li_elem if el.is_displayed()]
 
-                # 판별 및 실행
-                textareas = container.find_elements(By.TAG_NAME, "textarea")
-                #inputs = container.find_elements(By.CSS_SELECTOR, "input")
-
-                if textareas:
-                    print(f"[DEBUG] {i}번 영역: 입력형 처리 -> {val}")
-                    textareas[0].click()
-                    textareas[0].send_keys(val)
-                    textareas[0].send_keys(Keys.ENTER)
-                else:
-                    print(f"[DEBUG] {i}번 영역: 선택형 처리 -> {val}")
-                    li_xpath = f"//li[contains(., '{val}')]"
-                    # 일반 클릭(.click())이 가로채기 에러가 나면 JS 클릭으로 우회
+                if visible_li:
+                    # Case A: 화면에 리스트가 나타났다! -> 드롭다운(선택형) 처리
+                    print(f"[DEBUG] {i}번 영역: 선택형 처리 -> 리스트에서 '{val}' 클릭")
+                    
                     try:
-                        BaseClass.wait_clickable(self.driver, (By.XPATH, li_xpath), timeout=10).click()
-                    except Exception:
-                        li_elem = BaseClass.wait_clickable(self.driver, (By.XPATH, li_xpath), timeout=10)
-                        self.driver.execute_script("arguments[0].click();", li_elem)
+                        visible_li[-1].click() # 방금 뜬 팝업(가장 마지막 요소) 클릭
+                    except:
+                        self.driver.execute_script("arguments[0].click();", visible_li[-1])
+                        
+                else:
+                    # Case B: 리스트가 안 나타났다! -> 진짜 숫자/텍스트 입력창 처리
+                    print(f"[DEBUG] {i}번 영역: 입력형 처리 -> '{val}' 타이핑")
+                    
+                    target_elements = container.find_elements(By.CSS_SELECTOR, "input, textarea")
+                    if target_elements:
+                        target = target_elements[0]
+                        target.click()
+                        
+                        # 기존 값 지우기
+                        try:
+                            target.send_keys(Keys.COMMAND + "a" if sys.platform == 'darwin' else Keys.CONTROL + "a")
+                            target.send_keys(Keys.BACK_SPACE)
+                        except: pass
+                        
+                        # 값 입력 (숫자 에러 방지용 str 변환 유지)
+                        target.send_keys(str(val))
+                        time.sleep(0.2)
+                        target.send_keys(Keys.ENTER)
+                    else:
+                        print(f"[WARN] {i}번 영역: 리스트도 없고 입력창도 찾을 수 없습니다.")
+
+
             except Exception as e:
                 print(f"[ERROR] 상세설정 {i}번 처리 중 오류: {e}")
             time.sleep(0.5)
