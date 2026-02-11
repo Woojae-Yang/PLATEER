@@ -79,6 +79,7 @@ class GroobeeActions:
     # 세그먼트 불러오기 RNB
     target_set = (By.XPATH, "//h6[contains(text(),'타겟 설정')]")
     seg_load = (By.XPATH, "//button[contains(text(),'세그먼트 불러오기')]")
+    seg_load_push = (By.XPATH, "//button[normalize-space()='세그먼트 불러오기']")
     seg_input = (By.XPATH, "//input[@placeholder='세그먼트명 검색']")
     seg_search_icon = (By.XPATH, "//span[normalize-space()='search_filled']")
     aiseg_tab = (By.XPATH, "//button[@id='basic-tab-0']")
@@ -252,6 +253,17 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.target_set, timeout).click()
     def click_seg_load(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_load, timeout).click()
+
+    def click_seg_load_push(self, timeout=10):
+        WebDriverWait(self.driver, self.seg_load_push, timeout).until(
+            EC.invisibility_of_element_located(
+                (By.CSS_SELECTOR, ".MuiBackdrop-root")
+            )
+        )
+        el = BaseClass.wait_clickable(self.driver, self.seg_load_push, timeout)
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", el)
+        el.click()
+
     def send_seg_input(self, text, timeout=10):
         el = BaseClass.wait_clickable(self.driver, self.seg_input, timeout)
         el.clear()

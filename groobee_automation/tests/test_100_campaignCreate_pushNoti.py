@@ -59,16 +59,13 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
 
         #타겟팅 유형 설정
-        groobee.click_type_segment()
-        time.sleep(1)
+        #groobee.click_type_segment()
+        #time.sleep(1)
 
         #세그먼트 불러오기 RNB (단일): 버튼 > 세그 탭 > 검색
         groobee.click_seg_load()
-        groobee.wait_backdrop_gone()
-        time.sleep(3)
-
+        time.sleep(1)
         groobee.click_seg_tab()
-        groobee.wait_seg_tab_active()
         time.sleep(1)
         #검색 > 세그먼트 입력
         groobee.wait_seg_input_ready()

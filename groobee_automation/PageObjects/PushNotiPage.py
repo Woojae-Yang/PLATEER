@@ -108,12 +108,29 @@ class PushNotiPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.createBtn_pushNoti_apiTrigger,timeout).click()
 
     # 타겟팅 유형
+    #def click_type_segment(self, timeout=10):
+    #    BaseClass.wait_clickable(self.driver, self.type_segment,timeout).click()
+    #def click_type_recipient_consent(self, timeout=10):
+    #    BaseClass.wait_clickable(self.driver, self.type_recipient_consent,timeout).click()
+    #def click_type_member_upload(self, timeout=10):
+    #    BaseClass.wait_clickable(self.driver, self.type_member_upload,timeout).click()
+
     def click_type_segment(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_segment,timeout).click()
-    def click_type_recipient_consent(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_recipient_consent,timeout).click()
-    def click_type_member_upload(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_member_upload,timeout).click()
+
+        # Backdrop 제거 대기
+        WebDriverWait(self.driver, timeout).until(
+            EC.invisibility_of_element_located(
+                (By.CSS_SELECTOR, ".MuiBackdrop-root")
+            )
+        )
+
+        # 버튼 클릭 가능 대기
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.type_segment)
+        )
+        el.click()
+
+
 
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     def click_qa_hs_seg(self, timeout=10):
