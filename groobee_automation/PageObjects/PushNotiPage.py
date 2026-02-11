@@ -109,11 +109,11 @@ class PushNotiPage(GroobeeActions):
 
     # 타겟팅 유형
     def click_type_segment(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_segment,timeout).click()
+        BaseClass.select_radio(self.driver, self.type_segment,timeout)
     def click_type_recipient_consent(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_recipient_consent,timeout).click()
+        BaseClass.select_radio(self.driver, self.type_recipient_consent,timeout)
     def click_type_member_upload(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.type_member_upload,timeout).click()
+        BaseClass.select_radio(self.driver, self.type_member_upload,timeout)
 
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     def click_qa_hs_seg(self, timeout=10):
