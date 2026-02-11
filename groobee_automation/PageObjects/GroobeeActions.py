@@ -61,6 +61,9 @@ class GroobeeActions:
     status_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
     status_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
 
+    # 리스트 아이콘
+    search_icon=(By.XPATH, "//button[@data - testid = 'SearchIcon']")
+
     # 관리 도구
     tools_icon = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='MoreHorizIcon']]")
     modify_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='수정']]")
@@ -219,6 +222,9 @@ class GroobeeActions:
     def click_status_icon_confirm(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.status_icon_confirm, timeout).click()
 
+    # 서치 아이콘
+    def click_search_icon(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.search_icon, timeout).click()
     # 관리 도구
     def click_tools_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_icon, timeout).click()
@@ -301,22 +307,6 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
     def click_done_btn_pushnoti(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn_pushNoti, timeout).click()
-
-    #backdrop 대기
-    def wait_backdrop_gone(self, timeout=10):
-        WebDriverWait(self.driver, timeout).until(
-            EC.invisibility_of_element_located(
-                (By.CSS_SELECTOR, ".MuiBackdrop-root")
-            )
-        )
-
-    #세그 탭 활성화 대기
-    def wait_seg_tab_active(self, timeout=10):
-        WebDriverWait(self.driver, timeout).until(
-            EC.presence_of_element_located(
-                (By.CSS_SELECTOR, ".MuiTab-root.Mui-selected")
-            )
-        )
 
     # 완료
     def click_cancel_btn(self, timeout=10):
