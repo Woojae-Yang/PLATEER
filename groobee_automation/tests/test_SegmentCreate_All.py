@@ -65,6 +65,7 @@ class TestSegCreateCross:
     login_expect_title = "대시보드 :: GROOBEE"
     seg_expect_title = "세그먼트 타겟팅 :: GROOBEE"
     seg_description = 'Automation Testing'
+    tag_text = "automation"
 
     @pytest.mark.login
     def test_login(self, driver, login):
@@ -95,7 +96,14 @@ class TestSegCreateCross:
         self.groobee.send_seg_name(seg_title)
         self.groobee.send_seg_des(self.seg_description)
         time.sleep(1.5)
-
+        
+        # 태그 추가
+        self.groobee.click_addtag_btn()
+        self.groobee.send_tag_input(text = self.tag_text)
+        self.groobee.click_tag_add()
+        assert self.groobee.wait_tag_visible(self.tag_text)
+        time.sleep(1.5)
+        
         # 타겟 설정
         self.groobee.select_target_radio("range", range_v, self.target_map)
         self.groobee.select_target_radio("time", time_v, self.target_map)
