@@ -1,11 +1,11 @@
 import time
 
-from selenium.webdriver.common.by import By
 from PageObjects.GroobeeActions import GroobeeActions
 from utilities.BaseClass import BaseClass
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
 
 class PushNotiPage(GroobeeActions):
     def __init__(self, driver):
@@ -24,6 +24,9 @@ class PushNotiPage(GroobeeActions):
     eventTrigger_cam_title = (By.XPATH, "//h1[contains(text(),'새로운 푸시 알림 캠페인 만들기')]")
     apiTrigger_cam_title = (By.XPATH, "//h1[contains(text(),'새로운 푸시 알림 캠페인 만들기')]")
 
+    # 리스트 > 캠페인명
+    campaign_row_by_name = (By.XPATH, "//div[@role='row']//div[contains(text(),\"[HS] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인\")]")
+
     #리스트 >Tab
     schedule_send_tab = (By.XPATH, "//button[@role='tab' and normalize-space(.)='스케줄 발송']")
     eventTrigger_send_tab = (By.XPATH, "//button[@role='tab' and normalize-space(.)='이벤트 트리거 발송']")
@@ -36,7 +39,6 @@ class PushNotiPage(GroobeeActions):
 
 
     # 타겟팅 유형
-    #type_segment =(By.XPATH, "//button[.//text()[contains(.,'세그먼트')]]")
     type_segment = (By.XPATH, "//input[@value='세그먼트']")
     type_recipient_consent = (By.XPATH, "//input[@value='수신 동의자 전체']")
     type_member_upload =(By.XPATH, "//input[@value='회원 정보 업로드']")
@@ -64,10 +66,10 @@ class PushNotiPage(GroobeeActions):
 
 
     #기본 이미지 - 설정 값 사용
-    #default_img_setting =  (By.XPATH, "//span[normalize-space(.)='설정 값 사용']"
-    #"/preceding-sibling::span//input[@type='checkbox']")
     default_img_setting = (By.XPATH, "//label[.//span[normalize-space()='설정 값 사용']]")
     #본문 이미지는 파일 업로드 RNB 공용 사용
+    # 본문 > 파일 업로드 확인
+    uploaded_body_image_file_name= (By.XPATH, "//h6[text()='pushNoti_test_img.jpg']")
 
     #수신 거부 표기
     unsubscribe_notice = (By.XPATH, "//div//input[@value='<푸시 수신거부 표기 문구>']")
@@ -78,22 +80,25 @@ class PushNotiPage(GroobeeActions):
     launch_webBrowser_ = (By.XPATH, "//input[@value='웹 브라우저 실행']")
 
     #클릭 동작 텍스트 박스
-    deepLink_textArea_AOS =(By.XPATH,"//label[normalize-space(.)='Android*']"
+    deepLink_textArea_AOS =(By.XPATH, "//label[normalize-space(.)='Android*']"
     "/following::textarea[not(@aria-hidden)][1]")
-    deepLink_textArea_iOS = (By.XPATH,
-    "//label[normalize-space(.)='iOS*']"
+    deepLink_textArea_iOS = (By.XPATH, "//label[normalize-space(.)='iOS*']"
     "/following::textarea[not(@aria-hidden)][1]")
+
 
     #고급 옵션
     advanced_options = (By.XPATH, "//button[contains(text(),'옵션 추가')]")
     advanced_options_key = (By.XPATH, "//input[@placeholder='Key']")
     advanced_options_value = (By.XPATH, "//input[@placeholder='Value']")
 
-    #미리 보기: mo_버튼존재
+    #미리보기
+    preview_title = (By.XPATH, "//p[contains(@class,'MuiTypography-root') and contains(text(),'푸시 알림 캠페인')]")
+    preview_content = (By.XPATH, "//p[contains(@class,'MuiTypography-root') and contains(text(),'내용: 스케쥴 발송 테스트')]")
 
     #3단계 옵션 설정
     send_type_single = (By.XPATH, "//input[@value='단일 발송']")
     send_type_repeat = (By.XPATH, "//input[@value='반복 발송']")
+
 
     # 다이얼로그
     dialog_confirm_button = (By.XPATH, "//button[contains(text(),'확인')]")
@@ -176,8 +181,6 @@ class PushNotiPage(GroobeeActions):
         el = BaseClass.wait_visible(self.driver, self.message_contents, timeout)
         el.clear()
         el.send_keys(text)
-    #def click_default_img_setting(self, text, timeout=10):
-    #    BaseClass.wait_clickable(self.driver,self.default_img_setting,timeout).click()
 
     def click_default_img_setting(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.default_img_setting, timeout)
@@ -187,9 +190,28 @@ class PushNotiPage(GroobeeActions):
     def send_unsubscribe_notice(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.unsubscribe_notice, timeout)
         el.click()
+        time.sleep(1)
         el.send_keys(Keys.COMMAND + "a")  # Mac
         el.send_keys(Keys.DELETE)
+        time.sleep(1)
         el.send_keys(text)
+
+    # 미리보기
+    def is_preview_text_contains(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.preview_area, timeout)
+        return text in el.text
+
+    def is_preview_img_visible(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.preview_img, timeout)
+
+    def get_preview_url(self, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.preview_url, timeout)
+        return el.get_attribute("href").strip()
+
+    def is_preview_url_match(self, timeout=10):
+        created = self.get_created_short_url(timeout)
+        preview = self.get_preview_url(timeout)
+        return created == preview
 
     #리스트 내용 입력
     def send_campaign_search(self, text, timeout=10):
@@ -200,21 +222,11 @@ class PushNotiPage(GroobeeActions):
 
 
     #클릭 동작
-    #def click_launch_app(self, text, timeout=10):
-    #    BaseClass.wait_clickable(self.driver,self.img_setting,timeout).click()
-
     def click_launch_app(self, text, timeout=10):
         BaseClass.select_radio(self.driver, self.launch_app,timeout).click()
 
-
-    #def click_deepLink(self, timeout=10):
-    #    el = BaseClass.wait_clickable(self.driver, self.deepLink, timeout)
-    #    el.click()
-    #    return self
     def click_deepLink(self, timeout=10):
         BaseClass.select_radio(self.driver, self.deepLink,timeout).click()
-
-
 
     def click_launch_webBrowser(self, text, timeout=10):
         BaseClass.wait_clickable(self.driver,self.launch_webBrowser, timeout).click()
@@ -263,26 +275,36 @@ class PushNotiPage(GroobeeActions):
         )
         return self
 
+    # 캠페인 리스트 > 캠페인 일치 찾기
+    def search_campaign_row_by_name(self, campaign_name):
+        return (
+            By.XPATH,
+            f"//div[@role='row']//div[contains(text(),'{campaign_name}')]"
+        )
+
     #======== 검증 영역 =================#
-    def assert_searched_campaign_matches(groobee, Push_sched_expected_campaign_name):
+    def assert_searched_campaign_matches(self, expected_campaign_name):
         """
         검색된 캠페인명과
         실제 리스트에 노출된 캠페인명이 일치하는지 검증
         """
 
-        campaign_elements = groobee.get_campaign_name_list()
+        campaign_elements = self.get_campaign_name_list()
 
+        # 검색 결과 존재 여부 확인
         assert len(campaign_elements) > 0, (
-            f"[FAIL] 검색 결과 없음: {Push_sched_expected_campaign_name}"
+            f"[FAIL] 검색 결과 없음: {expected_campaign_name}"
         )
 
-        for el in campaign_elements:
-            actual_name = el.text.strip()
-            assert Push_sched_expected_campaign_name in actual_name, (
-                f"[FAIL] 검색 결과 불일치\n"
-                f" - 검색어: {Push_sched_expected_campaign_name}\n"
-                f" - 노출 캠페인: {actual_name}"
-            )
+        # 캠페인명 리스트 추출
+        campaign_names = [el.text.strip() for el in campaign_elements]
+
+        # 기대값이 리스트에 포함되어 있는지 확인
+        assert any(expected_campaign_name in name for name in campaign_names), (
+            f"[FAIL] 검색 결과 불일치\n"
+            f" - 검색어: {expected_campaign_name}\n"
+            f" - 노출 캠페인 리스트: {campaign_names}"
+        )
 
     def assert_page_title_matches(driver, expected_title, timeout=5, pushNoti_title=None):
         assert pushNoti_title is not None, "pushNoti title 전달되지 않았습니다."
@@ -311,4 +333,120 @@ class PushNotiPage(GroobeeActions):
         if segs:
             segs[0].click()
         return self
-        
+
+    # 진행 중 캠페인 존재 여부 체그
+    def is_campaign_playing(self, cam_name):
+        """
+        특정 캠페인이 '재생중(진행중)' 상태인지 확인
+        """
+        try:
+            play_icon = self.driver.find_element(
+                By.XPATH,
+                f"//tr[td[contains(text(),'{cam_name}')]]//button[contains(@class,'pause')]"
+            )
+            return play_icon.is_displayed()
+        except:
+            return False
+
+
+    # ===== 미리보기 일치 =========================== #
+
+    # 미리보기 > 제목
+    def preview_title_by_text(self, title_text):
+        return (
+            By.XPATH,
+            f"//p[contains(@class,'MuiTypography-root') and contains(text(),'{title_text}')]"
+        )
+
+    #  미리보기 영역 > wrapper 먼저 잡기
+    def get_push_preview_area(self):
+        return self.driver.find_element(
+            By.XPATH,
+            "//div[contains(@class,'MuiPaper-root') and .//p[contains(text(),'내용')]]"
+        )
+    # 미리보기 > 내용 입력 검증
+    def assert_push_preview_message(self, expected_message):
+
+        preview_area = self.get_push_preview_area()
+        preview_text = preview_area.text
+
+        assert expected_message in preview_text, (
+            f"[FAIL] 미리보기 내용 불일치\n"
+            f" - 기대값: {expected_message}\n"
+            f" - 실제값: {preview_text}"
+        )
+    # 미리보기 > 수신 거부 내용 입력 검증
+    def assert_push_preview_unsubscribe(self, expected_unsubscribe_text):
+
+        preview_area = self.get_push_preview_area()
+        preview_text = preview_area.text
+
+        assert expected_unsubscribe_text in preview_text, (
+            f"[FAIL] 수신거부 문구 불일치\n"
+            f" - 기대값: {expected_unsubscribe_text}\n"
+            f" - 실제값: {preview_text}"
+        )
+
+    # 본문 > 파일 업로드 확인
+    def assert_uploaded_body_image_file_name(self, expected_file_name):
+        element = self.driver.find_element(
+            By.XPATH,
+            f"//h6[contains(text(),'{expected_file_name}')]"
+        )
+        assert element.is_displayed(), \
+            f"[FAIL] 업로드 파일명 불일치: {expected_file_name}"
+
+    # 딥 링크 > AOS 입력값 검증
+    def assert_deepLink_textArea_AOS(self, expected_value):
+        actual_value = self.driver.find_element(
+            *self.deepLink_textArea_AOS
+        ).get_attribute("value")
+
+        assert expected_value == actual_value, (
+            f"[FAIL] AOS 딥링크 불일치\n"
+            f" - 기대값: {expected_value}\n"
+            f" - 실제값: {actual_value}"
+        )
+    # 딥 링크 > iOS 입력값 검증
+    def assert_deepLink_textArea_iOS(self, expected_value):
+        actual_value = self.driver.find_element(
+            *self.deepLink_textArea_iOS
+        ).get_attribute("value")
+
+        assert expected_value == actual_value, (
+            f"[FAIL] iOS 딥링크 불일치\n"
+            f" - 기대값: {expected_value}\n"
+            f" - 실제값: {actual_value}"
+        )
+
+
+    # 고급 옵션 > key 입력값 검증
+    def assert_advanced_options_key(self, expected_value):
+        actual_value = self.driver.find_element(
+            *self.advanced_options_key
+        ).get_attribute("value")
+
+        assert expected_value == actual_value, (
+            f"[FAIL] 고급 옵션 Key 불일치\n"
+            f" - 기대값: {expected_value}\n"
+            f" - 실제값: {actual_value}"
+        )
+    # 딥 링크 > value 입력값 검증
+    def assert_advanced_options_value(self, expected_value):
+        actual_value = self.driver.find_element(
+            *self.advanced_options_value
+        ).get_attribute("value")
+
+        assert expected_value == actual_value, (
+            f"[FAIL] 고급 옵션 Vaule 불일치\n"
+            f" - 기대값: {expected_value}\n"
+            f" - 실제값: {actual_value}"
+        )
+
+    # 3단계 > 옵션 노출 확인
+    def assert_send_type_options_exist(self):
+        single_option = self.driver.find_elements(*self.send_type_single)
+        repeat_option = self.driver.find_elements(*self.send_type_repeat)
+
+        assert len(single_option) > 0, "[FAIL] '단일 발송' 옵션이 존재하지 않습니다."
+        assert len(repeat_option) > 0, "[FAIL] '반복 발송' 옵션이 존재하지 않습니다."
