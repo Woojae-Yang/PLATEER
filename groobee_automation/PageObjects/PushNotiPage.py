@@ -31,7 +31,7 @@ class PushNotiPage(GroobeeActions):
     completed_tab =(By.XPATH, "//button[@role='tab' and normalize-space(.)='완료 캠페인']")
 
     #캠페인명 검색
-    campaign_search =(By.XPATH, "//input[contains(@placeholder='캠페인명 검색')]")
+    campaign_search =(By.XPATH, "//input[contains(@placeholder, '캠페인명 검색')]")
     #캠페인 리스트 > 해당 캠페인 명 찾기
 
 
@@ -100,6 +100,13 @@ class PushNotiPage(GroobeeActions):
     dialog_cancel_button = (By.XPATH, "//button[contains(text(),'취소')]")
 
     # -------------------------동작 선언 영역-------------------------
+    # 캠페인 서치바
+    def click_campaign_search(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.campaign_search, timeout).click()
+
+
+
+
     # 만들기 버튼
     def click_create_btn_push_schedule(self, timeout=10):
         BaseClass.wait_clickable(self.driver,self.createBtn_pushNoti_schedule,timeout).click()
@@ -189,33 +196,44 @@ class PushNotiPage(GroobeeActions):
         el = BaseClass.wait_visible(self.driver, self.campaign_search, timeout)
         el.clear()
         el.send_keys(text)
+        el.send_keys(Keys.ENTER)
 
 
     #클릭 동작
-    def click_launch_app(self, text, timeout=10):
-        BaseClass.wait_clickable(self.driver,self.img_setting,timeout).click()
+    #def click_launch_app(self, text, timeout=10):
+    #    BaseClass.wait_clickable(self.driver,self.img_setting,timeout).click()
 
+    def click_launch_app(self, text, timeout=10):
+        BaseClass.select_radio(self.driver, self.launch_app,timeout).click()
+
+
+    #def click_deepLink(self, timeout=10):
+    #    el = BaseClass.wait_clickable(self.driver, self.deepLink, timeout)
+    #    el.click()
+    #    return self
     def click_deepLink(self, timeout=10):
-        el = BaseClass.wait_clickable(self.driver, self.deepLink, timeout)
-        el.click()
-        return self
+        BaseClass.select_radio(self.driver, self.deepLink,timeout).click()
+
+
 
     def click_launch_webBrowser(self, text, timeout=10):
         BaseClass.wait_clickable(self.driver,self.launch_webBrowser, timeout).click()
     #클릭 동작 텍스트 박스
     def send_deepLink_testArea_AOS(self,text, timeout=10):
-        el = BaseClass.wait_visible(self.driver,self.deepLink_textArea_AOS,timeout).click()
+        el = (BaseClass.wait_visible(self.driver,self.deepLink_textArea_AOS,timeout))
+        el.click()
         el.clear()
         el.send_keys(text)
     def send_deepLink_testArea_iOS(self,text, timeout=10):
-        el = BaseClass.wait_visible(self.driver,self.deepLink_textArea_iOS,timeout).click()
+        el = (BaseClass.wait_visible(self.driver,self.deepLink_textArea_iOS,timeout))
+        el.click()
         el.clear()
         el.send_keys(text)
 
 
     #고급 옵션
-    def click_advanced_options(self, text, timeout=10):
-        BaseClass.wait_clickable(self.driver,self.advanced_options,timeout).click()
+    def click_advanced_options(self, timeout=10):
+        BaseClass.wait_visible(self.driver,self.advanced_options,timeout).click()
     def click_advanced_options_key(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.advanced_options_key, timeout)
         el.clear()
@@ -226,15 +244,15 @@ class PushNotiPage(GroobeeActions):
         el.send_keys(text)
 
     #단일, 반복 발송
-    def click_send_type_single(self, text, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.send_type_single, timeout).click()
-    def click_send_type_repeat(self, text, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.send_type_repeat, timeout).click()
+    def click_send_type_single(self, timeout=10):
+        BaseClass.select_radio(self.driver, self.send_type_single, timeout).click()
+    def click_send_type_repeat(self, timeout=10):
+        BaseClass.select_radio(self.driver, self.send_type_repeat, timeout).click()
 
     #다이얼로그
-    def click_dialog_confirm_button(self, text, timeout=10):
+    def click_dialog_confirm_button(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.dialog_confirm_button, timeout).click()
-    def click_dialog_cancel_button(self, text, timeout=10):
+    def click_dialog_cancel_button(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.dialog_cancel_button, timeout).click()
 
 
