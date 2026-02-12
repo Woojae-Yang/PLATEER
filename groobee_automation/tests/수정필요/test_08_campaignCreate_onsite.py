@@ -122,7 +122,7 @@ class TestCampaignCreate(BaseClass):
                 (By.XPATH, f"//p[contains(text(), '{self.campaign_name}')]")
             )
         )
-        assert groobee.get_cam_list_item(self.campaign_name).is_displayed(), f"생성 실패: {self.campaign_name}"
+        assert groobee.get_cam_item(self.campaign_name).is_displayed(), f"생성 실패: {self.campaign_name}"
         log.info(f"생성 완료: {self.campaign_name}")
         time.sleep(1)
 

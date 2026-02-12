@@ -62,6 +62,15 @@ class BaseClass:
         WebDriverWait(driver, timeout).until(lambda d: el.is_selected())
         return el
 
+    # 존재하면 클릭하기
+    @staticmethod
+    def click_if_present(driver, locator, timeout=0.5) -> bool:
+        els = driver.find_elements(*locator)
+        if not els:
+            return False
+        WebDriverWait(driver, timeout).until(EC.element_to_be_clickable(locator)).click()
+        return True
+
     # 프로젝트 루트 경로 찾기
     @staticmethod
     def project_root() -> str:

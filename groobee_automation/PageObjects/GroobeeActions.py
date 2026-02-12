@@ -1,4 +1,5 @@
 import platform
+import time
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -54,6 +55,9 @@ class GroobeeActions:
     progress_tab = (By.XPATH, "//button[contains(text(),'진행중')]")
     pause_tab = (By.XPATH, "//button[contains(text(),'중지중')]")
     storage_tab = (By.XPATH, "//button[contains(text(),'보관함')]")
+    single_tab = (By.XPATH, "//button[contains(text(),'단일 발송')]")
+    repeat_tab = (By.XPATH, "//button[contains(text(),'반복 발송')]")
+    complete_tab = (By.XPATH, "//button[contains(text(),'발송 완료')]")
 
     # 상태 아이콘
     status_icon_play = (By.XPATH, "//div[@class='MuiDataGrid-row']//button[.//*[name()='svg' and @data-testid='PlayArrowIcon']]")
@@ -71,10 +75,11 @@ class GroobeeActions:
     exclusion_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='제외 조건 설정']]")
     code_copy_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='코드 샘플 복사']]")
     moveto_storage = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='보관함으로 이동']]")
-    moveto_done = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='완료 탭으로 이동']]")
+    moveto_complete = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='완료 탭으로 이동']]")
     delete_icon = (By.XPATH, "//li[@role='menuitem' and .//*[normalize-space()='삭제']]")
     delete_icon_cancel = (By.XPATH, "//button[contains(text(),'취소')]")
     delete_icon_confirm = (By.XPATH, "//button[contains(text(),'확인')]")
+    delete_icon_delete = (By.XPATH, "//button[contains(text(),'삭제')]")
 
     # 세그먼트 불러오기 RNB
     target_set = (By.XPATH, "//h6[contains(text(),'타겟 설정')]")
@@ -208,6 +213,12 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.pause_tab, timeout).click()
     def click_storage_tab(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.storage_tab, timeout).click()
+    def click_single_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.single_tab, timeout).click()
+    def click_repeat_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_tab, timeout).click()
+    def click_complete_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.complete_tab, timeout).click()
 
     # 상태 아이콘
     def click_status_icon_play(self, timeout=10):
@@ -240,14 +251,16 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.code_copy_icon, timeout).click()
     def click_moveto_storage_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.moveto_storage, timeout).click()
-    def click_moveto_done_icon(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.moveto_done, timeout).click()
+    def click_moveto_complete_icon(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.moveto_complete, timeout).click()
     def click_delete_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.delete_icon, timeout).click()
     def click_delete_icon_cancel(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.delete_icon_cancel, timeout).click()
     def click_delete_icon_confirm(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.delete_icon_confirm, timeout).click()
+    def click_delete_icon_delete(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.delete_icon_delete, timeout).click()
 
     # 세그먼트 불러오기 RNB
     def click_target_set(self, timeout=10):
@@ -340,7 +353,7 @@ class GroobeeActions:
 
     # 관리 도구 클릭
     def click_tools_icon_by_name(self, cam_name):
-        cam_element = self.get_cam_list_item(cam_name)
+        cam_element = self.get_cam_item(cam_name)
 
         row = cam_element.find_element(
             By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
@@ -364,7 +377,7 @@ class GroobeeActions:
 
     # 중지중 아이콘 클릭
     def click_pause_icon_by_name(self, cam_name):
-        cam_element = self.get_cam_list_item(cam_name)
+        cam_element = self.get_cam_item(cam_name)
 
         row = cam_element.find_element(
             By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
@@ -399,7 +412,7 @@ class GroobeeActions:
 
     # 진행중 아이콘 클릭
     def click_play_icon_by_name(self, cam_name):
-        cam_element = self.get_cam_list_item(cam_name)
+        cam_element = self.get_cam_item(cam_name)
 
         row = cam_element.find_element(
             By.XPATH, "./ancestor-or-self::div[contains(@class,'MuiDataGrid-row')]"
@@ -432,9 +445,54 @@ class GroobeeActions:
                 btn.click()
                 return
 
-    # 생성된 캠페인 리스트
-    def get_cam_list_item(self, cam_name):
+    # 생성된 캠페인
+    def get_cam_item(self, cam_name):
         return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{cam_name}')]")
+
+    # 생성된 캠페인 리스트
+    def get_cam_list_items(self, cam_name):
+        return self.driver.find_elements(By.XPATH, f"//p[contains(text(), '{cam_name}')]")
+
+    # 완료 탭으로 이동
+    def moveto_complete_by_name(self, text):
+        while True:
+            items = self.get_cam_list_items(text)
+            if not items:
+                break
+
+            cam_name = items[0].text
+
+            try:
+                self.click_tools_icon_by_name(cam_name)
+                self.click_moveto_complete_icon()
+                self.click_done_btn()
+                BaseClass.wait_overlay_gone(self.driver, 5)
+                time.sleep(2)
+
+            except StaleElementReferenceException:
+                continue
+
+    # 캠페인 삭제
+    def delete_campaign_by_name(self, text):
+        while True:
+            items = self.get_cam_list_items(text)
+            if not items:
+                break
+
+            cam_name = items[0].text
+
+            try:
+                self.click_tools_icon_by_name(cam_name)
+                self.click_delete_icon()
+                # 삭제 버튼 or 확인 버튼 누르기
+                if not BaseClass.click_if_present(self.driver, self.delete_icon_delete, timeout=1):
+                    BaseClass.click_if_present(self.driver, self.delete_icon_confirm, timeout=1)
+
+                BaseClass.wait_overlay_gone(self.driver, 5)
+                time.sleep(2)
+
+            except StaleElementReferenceException:
+                continue
 
     # 진행중 아이콘 찾기
     @staticmethod
