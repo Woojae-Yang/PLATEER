@@ -22,6 +22,7 @@ class TestSmsCampaignCreate:
     contents_copy_input = "_복사"
     automation_text = "[Auto]"
     sms_campaign_repeat_input = "[QA][GP][Auto] SMS 캠페인_반복 발송"
+    expect_repeat_cycle_text = "1일마다"
 
     @pytest.mark.case_id(16658)
     def test_16658(self, driver):
@@ -188,6 +189,158 @@ class TestSmsCampaignCreate:
 
         # 2. 캠페인 리스트 > {sms_campaign_input} 노출 확인
         assert groobee.get_cam_item(self.sms_campaign_input).is_displayed()
+
+    @pytest.mark.case_id(16688)
+    def test_16688(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 만들기 버튼 클릭
+        groobee.click_create_btn()
+
+        # 1. 새로운 SMS 캠페인 만들기 페이지 노출 확인
+        assert driver.title == self.expect_sms_regist_title
+
+    @pytest.mark.case_id(16689)
+    def test_16689(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 캠페인명 텍스트필드에 {sms_campaign_repeat_input} 입력
+        groobee.send_cam_name(self.sms_campaign_repeat_input)
+        # 2. 상세 설명 텍스트필드에 {sms_des_input} 입력
+        groobee.send_cam_des(self.sms_des_input)
+
+        # 1. 캠페인명 텍스트필드 > {sms_campaign_repeat_input} 노출 확인
+        assert groobee.get_cam_name() == self.sms_campaign_repeat_input
+        # 2. 상세 설명 텍스트필드 > {sms_des_input} 노출 확인
+        assert groobee.get_cam_des() == self.sms_des_input
+
+    @pytest.mark.case_id(16690)
+    def test_16690(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 태그 추가 버튼 클릭
+        groobee.click_addtag_btn()
+        # 2. 엔터로 복수 입력 가능 텍스트필드에 {tag_input} 입력
+        groobee.send_tag_input(self.tag_input)
+        # 3. 추가 버튼 클릭
+        groobee.click_tag_add()
+
+        # 3. {tag_input} 노출 확인
+        assert groobee.wait_tag_visible(self.tag_input)
+
+    @pytest.mark.case_id(16691)
+    def test_16691(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 세그먼트 불러오기 버튼 클릭
+        groobee.click_seg_load()
+        # 2. 세그먼트 탭 선택
+        groobee.click_seg_tab()
+        # 3. 세그먼트명 검색 텍스트필드에 {seg_input} 입력
+        groobee.send_seg_input(self.seg_input)
+        # 4. {seg_input} 리스트 클릭
+        groobee.click_qa_gp_seg()
+        # 5. 선택 버튼 클릭
+        groobee.click_select_btn()
+
+        # 5. 예상 타겟 수 > 확인하기 버튼 활성화 상태 확인
+        assert groobee.wait_target_num_btn_clickable()
+
+    @pytest.mark.case_id(16692)
+    def test_16692(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 확인하기 버튼 클릭
+        groobee.click_target_num_btn()
+
+        # 1. 다시 확인하기 버튼 노출 확인
+        assert groobee.wait_target_num_re_btn_visible()
+
+    @pytest.mark.case_id(16693)
+    def test_16693(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 다음 단계 버튼 클릭
+        groobee.click_next_btn()
+
+        # 1. 메시지 설정 화면 노출 확인
+        assert groobee.wait_sms_subtitle_msg_visible()
+
+    @pytest.mark.case_id(16694)
+    def test_16694(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 내용 텍스트필드에 {contents_input} 입력
+        groobee.send_contents_input(self.contents_input)
+
+        # 1. 미리보기 > {contents_input} 노출 확인
+        assert groobee.is_preview_text_contains(self.contents_input)
+
+    @pytest.mark.case_id(16695)
+    def test_16695(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 추가 버튼 클릭
+        groobee.click_add_short_url_btn()
+        # 2. URL 입력 텍스트필드에 {url_input} 입력
+        groobee.send_add_short_url_input(self.url_input)
+        # 3. 확인 버튼 클릭
+        groobee.click_add_short_url_confirm()
+        # 4. 내용 텍스트필드에 단축 URL 입력
+        groobee.send_contents_input(groobee.get_created_short_url())
+
+        # 4. 미리보기 > 단축 URL 노출 확인
+        assert groobee.is_preview_url_match()
+
+    @pytest.mark.case_id(16697)
+    def test_16697(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 파일 업로드 버튼 클릭
+        groobee.click_file_upload_btn()
+        # 2. TestImage2.jpg 업로드 시도
+        groobee.send_file_input("TestImage2.jpg")
+        # 3. 확인 버튼 클릭
+        groobee.click_done_btn()
+
+        # 3. 미리보기 > TestImage2.jpg 노출 확인
+        assert groobee.is_preview_img_visible()
+
+    @pytest.mark.case_id(16698)
+    def test_16698(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 다음 단계 버튼 클릭
+        groobee.click_next_btn()
+
+        # 1. 옵션 설정 화면 노출 확인
+        assert groobee.wait_sms_subtitle_option_visible()
+
+    @pytest.mark.case_id(16699)
+    def test_16699(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 반복 발송 클릭
+        groobee.click_repeat_btn()
+        # 2. 설정하기 버튼 클릭
+        groobee.click_cycle_btn()
+        # 3. 확인 버튼 클릭
+        groobee.click_done_btn()
+
+        # 3. 반복 주기 > {expect_repeat_cycle_text} 노출 확인
+        assert groobee.is_repeat_cycle_text_visible(self.expect_repeat_cycle_text)
+
+    @pytest.mark.case_id(16700)
+    def test_16700(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 저장 버튼 클릭
+        groobee.click_save_btn()
+        # 2. 확인 버튼 클릭
+        groobee.click_done_btn()
+
+        # 2. 캠페인 리스트 > {sms_campaign_repeat_input} 노출 확인
+        assert groobee.get_cam_item(self.sms_campaign_repeat_input).is_displayed()
 
     @pytest.mark.case_id(16671)
     def test_16671(self, driver):
