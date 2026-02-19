@@ -20,7 +20,6 @@ class TestCampaignCreate(BaseClass):
     Push_sched_campaign_name ="[HS] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
     Push_sched_expected_campaign_name = "[HS] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
     pushNoti_expected_title = "푸시 알림 캠페인"
-
     Push_sched_campaign_des = "세그먼트:회원ID_광고성,기본 및 본문 이미지, 딥링크, 고급 옵션"
     tag_input = "Automation"
     Push_sched_message_title = "푸시 알림 캠페인"
@@ -50,13 +49,15 @@ class TestCampaignCreate(BaseClass):
         campaign_name = "[HS] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
         try:
             groobee.click_play_icon_by_name(cam_name=campaign_name)
-            time.sleep(2)
-            groobee.click_dialog_confirm_button()
-            time.sleep(1)
-            print("진행 중 캠페인 중지 완료")
 
-        except NoSuchElementException:
-            print("재생 중인 캠페인이 없어 PASS 처리")
+            WebDriverWait(driver, 3).until(
+                EC.presence_of_element_located(groobee.dialog_confirm_button)
+            )
+
+            groobee.click_dialog_confirm_button()
+
+        except TimeoutException:
+            print("재생 중인 캠페인이 없어 다이얼로그 없음 → PASS")
 
     @pytest.mark.case_id(7001)
     def test_7001(self,driver):
@@ -210,12 +211,15 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
 
         # 8. 고급 옵션 검증
-        groobee.assert_advanced_options_key(self.advanced_options_key)
-        groobee.assert_advanced_options_value(self.advanced_options_value)
+        groobee.assert_advanced_options_key(self.Offsite_advanced_key)
+        time.sleep(1)
+        groobee.assert_advanced_options_value(self.Offsite_advanced_value)
+        time.sleep(1)
 
     @pytest.mark.case_id(7006)
     def test_7006(self,driver):
         groobee = PushNotiPage(driver)
+
         # 1. 다음 단계
         groobee.click_next_btn()
         time.sleep(1)
@@ -245,8 +249,9 @@ class TestCampaignCreate(BaseClass):
         groobee.click_pushnoti_menu()
         time.sleep(1)
 
-        cam = groobee.get_cam_list_item(self.Push_sched_campaign_name)
-        assert cam.is_displayed(), "생성된 캠페인이 리스트에 노출되지 않음"
+        cam = groobee.get_cam_list_items(self.Push_sched_campaign_name)
+        assert cam, \
+            f"생성된 캠페인이 리스트에 노출되지 않음: {self.Push_sched_campaign_name}"
 
         groobee.click_pause_icon_by_name(self.Push_sched_campaign_name)
         time.sleep(1)
