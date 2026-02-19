@@ -1,6 +1,7 @@
 import time
 import pytest
 import sys
+import json
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -296,28 +297,13 @@ class SegmentPage(GroobeeActions):
 
     # API 확인 함수
     def check_api_status(self, url_keyword, timeout=10):
-        time.sleep(1.5)
-        collected = []
-        # 네트워크 감청 시작
-        self.driver.execute_cdp_cmd("Network.enable", {})
-
-        def listener(response):
-            url = response["params"]["response"]["url"]
-            status = response["params"]["response"]["status"]
-            if url_keyword in url:
-                collected.append(status)
-
-        self.driver.add_cdp_listener("Network.responseReceived", listener)
-
-        # 응답 올 때까지 대기
         end_time = time.time() + timeout
         while time.time() < end_time:
-            if collected:
-                return collected[-1]
+            for request in self.driver.requests:
+                if url_keyword in request.url and request.response:
+                    return request.response.status_code
             time.sleep(0.5)
-
-        return None  # timeout 초과시
-
+        return None
 
     # target_map에서 category와 value에 맞는 함수를 찾아 실행하는 함수
     def select_target_radio(self, category, value, target_map):

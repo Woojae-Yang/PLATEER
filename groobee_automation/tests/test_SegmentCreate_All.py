@@ -150,8 +150,8 @@ class TestSegCreateCross:
         # 3. 매 케이스마다 즉시 확인 (검증 영역)
         # ==========================================================
         
-        target_cnt = self.groobee.get_expected_target_cnt()
-        if target_cnt == '-1':
+        total_cnt = self.groobee.get_total_visitor_cnt()
+        if total_cnt == '-1':
             status = self.groobee.check_api_status("/v1/segment/size")
             print(f'status: {status}')
             assert status == 200, f"예상과 다른 응답코드: {status}"
