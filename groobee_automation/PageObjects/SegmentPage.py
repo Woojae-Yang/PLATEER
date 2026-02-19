@@ -2,6 +2,7 @@ import time
 import pytest
 import sys
 import json
+import random as rd
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -380,8 +381,12 @@ class SegmentPage(GroobeeActions):
                 print(f"[ERROR] 상세설정 {i}번 처리 중 오류: {e}")
             time.sleep(0.5)
 
-
-    # 생성된 세그먼트 리스트
+    # 생성된 세그먼트 리스트에서 요소 출력
+    def get_seg_random_star_btn(self):
+        rand_int = rd.randint(1,10)
+        star_seg_name = self.driver.find_element(By.XPATH, f"//div[@role = 'rowgroup']/div[@data-rowindex = '{rand_int}']/div[@data-colindex = '1']/p").text
+        self.driver.find_element(By.XPATH, f"//div[@role = 'rowgroup']/div[@data-rowindex = '{rand_int}']/div[@data-colindex = '0']/span/input").click()
+        return star_seg_name
     def get_seg_list_item(self, seg_name):
         return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{seg_name}')]")
    
