@@ -108,10 +108,10 @@ class GroobeeActions:
     doneBtn_pushNoti = (By.XPATH, "//div[contains(@class,'MuiDialogActions')]//button[.//text()[contains(.,'확인')]]")
 
     # 스케줄 (추가 필요)
-    singleBtn = (By.XPATH, "//input[@value='SC']")
-    repeatBtn = (By.XPATH, "//input[@value='RP']")
-    repeat_endBtn = (By.XPATH, "//input[@value='MA']")
-    repeat_setBtn = (By.XPATH, "//input[@value='ET']")
+    singleBtn = (By.XPATH, "//span[contains(text(),'단일 발송')]")
+    repeatBtn = (By.XPATH, "//span[contains(text(),'반복 발송')]")
+    repeat_endBtn = (By.XPATH, "//span[contains(text(),'수동 종료 전까지')]")
+    repeat_setBtn = (By.XPATH, "//span[contains(text(),'기간 지정')]")
     repeat_setBtn_input = (By.XPATH, "//input[@placeholder='YYYY.MM.DD ~ YYYY.MM.DD']")
     repeat_cycleBtn = (By.XPATH, "//button[contains(text(),'설정하기')]")
     repeat_cycle_num_bx = (By.XPATH, "//div[normalize-space()='1']")
@@ -360,9 +360,9 @@ class GroobeeActions:
     def click_repeat_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeatBtn, timeout).click()
     def click_repeat_end_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.repeatBtn, timeout).click()
+        BaseClass.wait_clickable(self.driver, self.repeat_endBtn, timeout).click()
     def click_repeat_set_btn(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.repeatBtn, timeout).click()
+        BaseClass.wait_clickable(self.driver, self.repeat_setBtn, timeout).click()
     def send_repeat_set_btn_input(self, text, timeout=10):
         el = BaseClass.wait_clickable(self.driver, self.repeat_setBtn_input, timeout)
         el.clear()
