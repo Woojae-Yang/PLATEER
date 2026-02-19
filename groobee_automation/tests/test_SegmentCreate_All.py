@@ -168,3 +168,13 @@ class TestSegCreateCross:
             assert seg_info['segmentTime'] == time_v, f"시점 불일치: {time_v}"
         if cond_v is not None: # [타겟설정 > 조합]이 None인 경우에 대한 방어로직
             assert seg_info['segmentCheckCd'] == cond_v, f"조건 불일치: {cond_v}"
+
+
+    @pytest.mark.copy_seg
+    def test_copy_seg(self, driver):
+
+        ## LNB 세그먼트 페이지 진입
+        self.groobee.click_segment_menu()
+        self.groobee.click_top_tools_btn()
+        self.groobee.click_tools_copy_btn()
+        assert self.groobee.get_seg_name()[-5:] == '-COPY'
