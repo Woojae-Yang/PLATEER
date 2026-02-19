@@ -1,3 +1,5 @@
+import re
+
 from selenium.webdriver.common.by import By
 from PageObjects.GroobeeActions import GroobeeActions
 from utilities.BaseClass import BaseClass
@@ -88,7 +90,9 @@ class SmsPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.add_short_url_confirm, timeout).click()
     def get_created_short_url(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.created_short_url, timeout)
-        return el.text.strip()
+        text = el.text
+        m = re.search(r'https?://grb\.ai/s/\w+', text)
+        return m.group(0) if m else ""
 
     # 미리보기
     def is_preview_text_contains(self, text, timeout=10):

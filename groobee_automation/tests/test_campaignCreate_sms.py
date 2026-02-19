@@ -205,12 +205,12 @@ class TestSmsCampaignCreate:
         groobee = SmsPage(driver)
 
         # 1. 캠페인명 텍스트필드에 {sms_campaign_repeat_input} 입력
-        groobee.send_cam_name(self.sms_campaign_input)
+        groobee.send_cam_name(self.sms_campaign_repeat_input)
         # 2. 상세 설명 텍스트필드에 {sms_des_input} 입력
         groobee.send_cam_des(self.sms_des_input)
 
         # 1. 캠페인명 텍스트필드 > {sms_campaign_repeat_input} 노출 확인
-        assert groobee.get_cam_name() == self.sms_campaign_input
+        assert groobee.get_cam_name() == self.sms_campaign_repeat_input
         # 2. 상세 설명 텍스트필드 > {sms_des_input} 노출 확인
         assert groobee.get_cam_des() == self.sms_des_input
 
@@ -277,7 +277,7 @@ class TestSmsCampaignCreate:
         assert groobee.is_preview_text_contains(self.contents_input)
 
     @pytest.mark.case_id(16695)
-    def test_16696(self, driver):
+    def test_16695(self, driver):
         groobee = SmsPage(driver)
 
         # 1. 추가 버튼 클릭
@@ -323,12 +323,12 @@ class TestSmsCampaignCreate:
         # 1. 반복 발송 클릭
         groobee.click_repeat_btn()
         # 2. 설정하기 버튼 클릭
-        groobee.click_repeat_set_btn()
+        groobee.click_cycle_btn()
         # 3. 확인 버튼 클릭
         groobee.click_done_btn()
 
         # 3. 반복 주기 > {expect_repeat_cycle_text} 노출 확인
-        assert groobee.wait_sms_subtitle_msg_visible(self.expect_repeat_cycle_text)
+        assert groobee.is_repeat_cycle_text_visible(self.expect_repeat_cycle_text)
 
     @pytest.mark.case_id(16700)
     def test_16700(self, driver):
@@ -340,7 +340,7 @@ class TestSmsCampaignCreate:
         groobee.click_done_btn()
 
         # 2. 캠페인 리스트 > {sms_campaign_repeat_input} 노출 확인
-        assert groobee.get_cam_item(self.sms_campaign_input).is_displayed()
+        assert groobee.get_cam_item(self.sms_campaign_repeat_input).is_displayed()
 
     @pytest.mark.case_id(16671)
     def test_16671(self, driver):
