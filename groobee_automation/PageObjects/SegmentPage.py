@@ -19,9 +19,12 @@ class SegmentPage(GroobeeActions):
 
     # ------------------------------ element 선언 ------------------------------
     
-    # 데이터 테이블 영역 : 참조할 항목이 없어서 어쩔 수 없이 절대경로 입력
-    seg_search_bar = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[1]/div[2]/div/div/div/input")
+    # 데이터 테이블 영역
+    seg_search_bar = (By.XPATH, "//input[@placeholder='세그먼트명 검색']")
+    ### 참조할 항목이 없어서 어쩔 수 없이 절대경로 입력 : "검색 결과가 없습니다."
     empty_msg = (By.XPATH, "/html/body/div/div[3]/div/div/div/div[3]/div/div[2]/div[1]/div[2]/div[1]/div/div/div")
+    ### 즐겨찾기 탭
+    star_tab = (By.XPATH, "//button[contains(., '즐겨찾기')]")
 
     # 도구모음
     top_tools_btn = (By.XPATH, "//div[@data-rowindex='0']//button[.//*[@data-testid='MoreHorizIcon']]")
@@ -112,6 +115,12 @@ class SegmentPage(GroobeeActions):
     saveBtn = (By.XPATH, "//button[contains(text(),'저장')]")
 
     # ------------------------------ action + wait ------------------------------
+    
+    # 즐겨찾기 탭 이동
+    def click_star_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.star_tab, timeout).click()
+        time.sleep(1.5)
+
     # 만들기
     def click_create_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.createBtn, timeout).click()
@@ -382,13 +391,15 @@ class SegmentPage(GroobeeActions):
             time.sleep(0.5)
 
     # 생성된 세그먼트 리스트에서 요소 출력
-    def get_seg_random_star_btn(self):
-        rand_int = rd.randint(1,10)
+    def get_seg_random_star(self):
+        rows = self.driver.find_elements(By.XPATH, "//div[@role='rowgroup']/div[@role='row']")
+        rand_int = rd.randint(0, len(rows) - 1)  # 실제 행 수 기준으로
         star_seg_name = self.driver.find_element(By.XPATH, f"//div[@role = 'rowgroup']/div[@data-rowindex = '{rand_int}']/div[@data-colindex = '1']/p").text
         self.driver.find_element(By.XPATH, f"//div[@role = 'rowgroup']/div[@data-rowindex = '{rand_int}']/div[@data-colindex = '0']/span/input").click()
+        time.sleep(1)
         return star_seg_name
     def get_seg_list_item(self, seg_name):
-        return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{seg_name}')]")
+        return self.driver.find_element(By.XPATH, f"//p[contains(text(), '{seg_name}')]").text
    
     # 생성된 세그먼트 데이터테이블의 맨 위 row에 대한 정보 가져오기
     def get_seg_info(self):

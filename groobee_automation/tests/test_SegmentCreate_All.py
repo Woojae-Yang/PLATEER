@@ -178,3 +178,13 @@ class TestSegCreateCross:
         self.groobee.click_top_tools_btn()
         self.groobee.click_tools_copy_btn()
         assert self.groobee.get_seg_name()[-5:] == '-COPY'
+
+    @pytest.mark.star_seg
+    def test_star_tab(self, driver):
+
+        ## LNB 세그먼트 페이지 진입
+        self.groobee.click_segment_menu()
+        star_seg_name = self.groobee.get_seg_random_star()
+        driver.refresh()
+        self.groobee.click_star_tab()
+        assert star_seg_name == self.groobee.get_seg_list_item(star_seg_name)
