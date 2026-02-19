@@ -21,6 +21,7 @@ class TestSmsCampaignCreate:
     sms_campaign_copy_input = "[QA][GP][Auto] SMS 캠페인_복사"
     contents_copy_input = "_복사"
     automation_text = "[Auto]"
+    sms_campaign_repeat_input = "[QA][GP][Auto] SMS 캠페인_반복 발송"
 
     @pytest.mark.case_id(16658)
     def test_16658(self, driver):

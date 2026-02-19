@@ -1,6 +1,7 @@
 import platform
 import time
 
+from selenium.webdriver.common import by
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -105,6 +106,26 @@ class GroobeeActions:
     file_input = (By.XPATH, "//input[@type='file']")
     doneBtn = (By.XPATH, "//button[contains(text(),'확인')]")
     doneBtn_pushNoti = (By.XPATH, "//div[contains(@class,'MuiDialogActions')]//button[.//text()[contains(.,'확인')]]")
+
+    # 스케줄 (추가 필요)
+    singleBtn = (By.XPATH, "//input[@value='SC']")
+    repeatBtn = (By.XPATH, "//input[@value='RP']")
+    repeat_endBtn = (By.XPATH, "//input[@value='MA']")
+    repeat_setBtn = (By.XPATH, "//input[@value='ET']")
+    repeat_setBtn_input = (By.XPATH, "//input[@placeholder='YYYY.MM.DD ~ YYYY.MM.DD']")
+    repeat_cycleBtn = (By.XPATH, "//button[contains(text(),'설정하기')]")
+    repeat_cycle_num = (By.XPATH, "//div[normalize-space()='1']")
+    repeat_cycle_num_1 = (By.XPATH, "//li[normalize-space()='1']")
+    repeat_cycle_num_2 = (By.XPATH, "//li[normalize-space()='2']")
+    repeat_cycle_num_3 = (By.XPATH, "//li[normalize-space()='3']")
+    repeat_cycle_num_4 = (By.XPATH, "//li[normalize-space()='4']")
+    repeat_cycle_num_5 = (By.XPATH, "//li[normalize-space()='5']")
+    repeat_cycle_every = (By.XPATH, "//div[contains(text(),'일마다')]")
+    repeat_cycle_every_day = (By.XPATH, "//li[contains(text(),'일마다')]")
+    repeat_cycle_every_week = (By.XPATH, "//li[contains(text(),'주마다')]")
+    repeat_cycle_every_month = (By.XPATH, "//li[contains(text(),'개월마다')]")
+    date_input = (By.XPATH, "//input[@placeholder='YYYY.MM.DD hh:mm']")
+    time_input = (By.XPATH, "//input[@placeholder='hh:mm']")
 
     # 완료
     cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
@@ -320,6 +341,61 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.doneBtn, timeout).click()
     def click_done_btn_pushnoti(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.doneBtn_pushNoti, timeout).click()
+
+    # 스케줄 (추가 필요)
+    def click_single_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.singleBtn, timeout).click()
+    def click_repeat_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeatBtn, timeout).click()
+    def click_repeat_end_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeatBtn, timeout).click()
+    def click_repeat_set_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeatBtn, timeout).click()
+    def send_repeat_set_btn_input(self, text, timeout=10):
+        el = BaseClass.wait_clickable(self.driver, self.repeat_setBtn_input, timeout)
+        el.clear()
+        el.send_keys(text)
+    def click_cycle_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycleBtn, timeout).click()
+    def click_cycle_num(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_num, timeout).click()
+    def click_cycle_num_1(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_1, timeout).click()
+    def click_cycle_num_2(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_2, timeout).click()
+    def click_cycle_num_3(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_3, timeout).click()
+    def click_cycle_num_4(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_4, timeout).click()
+    def click_cycle_num_5(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_5, timeout).click()
+    def click_repeat_cycle_every(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every, timeout).click()
+    def click_repeat_cycle_every_day(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_day, timeout).click()
+    def click_repeat_cycle_every_week(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week, timeout).click()
+    def click_repeat_cycle_every_month(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_month, timeout).click()
+    def send_date_input(self, text, timeout=10):
+        el = BaseClass.wait_clickable(self.driver, self.date_input, timeout)
+        el.clear()
+        el.send_keys(text)
+    def send_time_input(self, text, timeout=10):
+        el = BaseClass.wait_clickable(self.driver, self.time_input, timeout)
+        el.clear()
+        el.send_keys(text)
+
+    # 반복 주기 설정 확인
+    def is_repeat_cycle_text_visible(self, text, timeout=5):
+        locator = (By.XPATH, f"//p[contains(normalize-space(), '{text}')]")
+        try:
+            WebDriverWait(self.driver, timeout).until(
+                EC.visibility_of_element_located(locator)
+            )
+            return True
+        except TimeoutException:
+            return False
 
     # 완료
     def click_cancel_btn(self, timeout=10):
