@@ -114,16 +114,27 @@ class GroobeeActions:
     repeat_setBtn = (By.XPATH, "//input[@value='ET']")
     repeat_setBtn_input = (By.XPATH, "//input[@placeholder='YYYY.MM.DD ~ YYYY.MM.DD']")
     repeat_cycleBtn = (By.XPATH, "//button[contains(text(),'설정하기')]")
-    repeat_cycle_num = (By.XPATH, "//div[normalize-space()='1']")
+    repeat_cycle_num_bx = (By.XPATH, "//div[normalize-space()='1']")
     repeat_cycle_num_1 = (By.XPATH, "//li[normalize-space()='1']")
     repeat_cycle_num_2 = (By.XPATH, "//li[normalize-space()='2']")
     repeat_cycle_num_3 = (By.XPATH, "//li[normalize-space()='3']")
     repeat_cycle_num_4 = (By.XPATH, "//li[normalize-space()='4']")
     repeat_cycle_num_5 = (By.XPATH, "//li[normalize-space()='5']")
-    repeat_cycle_every = (By.XPATH, "//div[contains(text(),'일마다')]")
+    repeat_cycle_every_bx = (By.XPATH, "//div[contains(text(),'일마다')]")
     repeat_cycle_every_day = (By.XPATH, "//li[contains(text(),'일마다')]")
     repeat_cycle_every_week = (By.XPATH, "//li[contains(text(),'주마다')]")
+    repeat_cycle_every_week_sun = (By.XPATH, "(//div[contains(@role,'button')])[1]")
+    repeat_cycle_every_week_mon = (By.XPATH, "(//div[contains(@role,'button')])[2]")
+    repeat_cycle_every_week_tue = (By.XPATH, "(//div[contains(@role,'button')])[3]")
+    repeat_cycle_every_week_wed = (By.XPATH, "(//div[contains(@role,'button')])[4]")
+    repeat_cycle_every_week_thu = (By.XPATH, "(//div[contains(@role,'button')])[5]")
+    repeat_cycle_every_week_fri = (By.XPATH, "(//div[contains(@role,'button')])[6]")
+    repeat_cycle_every_week_sat = (By.XPATH, "(//div[contains(@role,'button')])[7]")
     repeat_cycle_every_month = (By.XPATH, "//li[contains(text(),'개월마다')]")
+    repeat_cycle_every_month_date_bx = (By.XPATH, "//div[normalize-space()='1일']")
+    repeat_cycle_every_month_date_1 = (By.XPATH, "//li[normalize-space()='1일']")
+    # 2일 ~ 31일 필요 시 작성
+    repeat_cycle_every_month_date_end = (By.XPATH, "//li[normalize-space()='말일']")
     date_input = (By.XPATH, "//input[@placeholder='YYYY.MM.DD hh:mm']")
     time_input = (By.XPATH, "//input[@placeholder='hh:mm']")
 
@@ -257,6 +268,7 @@ class GroobeeActions:
     # 서치 아이콘
     def click_search_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.search_icon, timeout).click()
+
     # 관리 도구
     def click_tools_icon(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_icon, timeout).click()
@@ -357,8 +369,8 @@ class GroobeeActions:
         el.send_keys(text)
     def click_cycle_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycleBtn, timeout).click()
-    def click_cycle_num(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.repeat_cycle_num, timeout).click()
+    def click_cycle_num_bx(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_bx, timeout).click()
     def click_cycle_num_1(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_1, timeout).click()
     def click_cycle_num_2(self, timeout=10):
@@ -369,14 +381,35 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_4, timeout).click()
     def click_cycle_num_5(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_5, timeout).click()
-    def click_repeat_cycle_every(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every, timeout).click()
+    def click_repeat_cycle_every_bx(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_bx, timeout).click()
     def click_repeat_cycle_every_day(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_day, timeout).click()
     def click_repeat_cycle_every_week(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week, timeout).click()
+    def click_repeat_cycle_every_week_sun(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week_sun, timeout).click()
+    def click_repeat_cycle_every_week_mon(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week_mon, timeout).click()
+    def click_repeat_cycle_every_week_tue(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week_tue, timeout).click()
+    def click_repeat_cycle_every_week_wed(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week_wed, timeout).click()
+    def click_repeat_cycle_every_week_thu(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week_thu, timeout).click()
+    def click_repeat_cycle_every_week_fri(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week_fri, timeout).click()
+    def click_repeat_cycle_every_week_sat(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_week_sat, timeout).click()
     def click_repeat_cycle_every_month(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_month, timeout).click()
+    def click_repeat_cycle_every_month_date_bx(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_month_date_bx, timeout).click()
+    def click_repeat_cycle_every_month_date_1(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_month_date_1, timeout).click()
+    # 2일 ~ 31일 필요 시 작성
+    def click_repeat_cycle_every_month_date_end(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_month_date_end, timeout).click()
     def send_date_input(self, text, timeout=10):
         el = BaseClass.wait_clickable(self.driver, self.date_input, timeout)
         el.clear()
