@@ -65,6 +65,7 @@ def driver(request):
     options.add_argument("--lang=ko-KR")
     options.add_argument("--accept-lang=ko-KR")
     options.add_argument("Accept-Language=ko-KR")
+    options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
     if headless_enabled:
         options.add_argument("--headless=new")
         options.add_argument("--window-size=1920,1080")
