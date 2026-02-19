@@ -17,21 +17,26 @@ class TestCampaignCreate(BaseClass):
     Push_campaign_brower_title = "푸시 알림 캠페인 :: GROOBEE"
     Push_sched_campaign_brower_expect_title = "새로운 캠페인 만들기 :: GROOBEE"  # 푸시 알림 캠페인
     Push_sched_campaign_regist_title = "새로운 푸시 알림 캠페인 만들기" # 기본 설정
-    Push_sched_campaign_name ="[HS] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
-    Push_sched_campaign_name_re ="[HS] 푸시_스케쥴_세그먼트_반복발송 테스트 캠페인"
-    Push_sched_expected_campaign_name = "[HS] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
-    Push_sched_expected_campaign_name_re="[HS] 푸시_스케쥴_세그먼트_반복발송 테스트 캠페인"
+    Push_sched_campaign_name ="[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
+    Push_sched_campaign_name_re ="[HS][Auto] 푸시_스케쥴_세그먼트_반복발송 테스트 캠페인"
+    Push_sched_expected_campaign_name = "[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
+    Push_sched_expected_campaign_name_re="[HS][Auto] 푸시_스케쥴_세그먼트_반복발송 테스트 캠페인"
     pushNoti_expected_title = "푸시 알림 캠페인"
     Push_sched_campaign_des = "세그먼트:회원ID_광고성,기본 및 본문 이미지, 딥링크, 고급 옵션"
     Push_sched_campaign_des_re="세그먼트:회원"
     tag_input = "Automation"
-    Push_sched_message_title = "푸시 알림 캠페인"
+    automation_text = "[Auto]"
+    Push_sched_message_title = "푸시 알림 캠페인-단일"
+    Push_sched_message_title_re = "푸시 알림 캠페인-반복"
     Push_sched_message_contents = "내용: 스케쥴 발송 테스트"
+    Push_sched_message_contents_re = "내용: 스케쥴 반복 발송 테스트"
     Push_sched_unsubscribe_notice ="[자동화]수신거부070"
     Offsite_seg_id = "[QA][HS] OFFSITE_회원ID_세그먼트용" #qa_hs_seg
     expected_file_name = "pushNoti_test_img.jpg"
+
     Offsite_deepLink_AOS ="groobee://campaign/detail?id=12"
     Offsite_deepLink_iOS ="https://app.groobee.io/campaign/detail?id=45"
+    Offsite_webBrowser ="https://groobee.shop/product/list.html?cate_no=25"
     Offsite_advanced_key ="누텔라"
     Offsite_advanced_value = "15000"
 
@@ -49,15 +54,15 @@ class TestCampaignCreate(BaseClass):
         # 1. 푸시 알림 캠페인 페이지 노출 확인 _브라우저 타이틀
         assert driver.title == self.Push_campaign_brower_title
 
-        campaign_name = "[HS] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
+        campaign_name = "[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
         try:
-            groobee.click_play_icon_by_name(cam_name=campaign_name)
+            groobee.click_play_icon_by_name(campaign_name)
 
             WebDriverWait(driver, 3).until(
-                EC.presence_of_element_located(groobee.dialog_confirm_button)
+                EC.presence_of_element_located(groobee.dialog_confirm_btn)
             )
 
-            groobee.click_dialog_confirm_button()
+            groobee.click_dialog_confirm_btn()
 
         except TimeoutException:
             print("재생 중인 캠페인이 없어 다이얼로그 없음 → PASS")
@@ -109,9 +114,7 @@ class TestCampaignCreate(BaseClass):
     def test_7004(self,driver):
         groobee = PushNotiPage(driver)
 
-        # 1. 타겟팅 유형 > 세그먼트 클릭
-        groobee.click_type_segment()
-        time.sleep(1)
+        # 1. 타겟팅 유형 > 세그먼트
         # 2. 세그먼트 불러오기 RNB 선택
         groobee.click_seg_load()
         time.sleep(1)
@@ -239,47 +242,54 @@ class TestCampaignCreate(BaseClass):
         groobee.click_send_type_single()
         time.sleep(1)
 
-        #저장하기
+        # 2. 저장하기
         groobee.click_save_btn()
         time.sleep(1)
 
-        #캠페인 저장 - 다이얼로그 노출 > 확인 버튼
-        groobee.click_dialog_confirm_button()
+        # 2-1. 캠페인 저장 - 다이얼로그 노출 > 확인 버튼
+        groobee.click_dialog_confirm_btn()
         time.sleep(2)
 
 
-        # 푸시알림 캠페인 LNB
+        # 2-2. 푸시알림 캠페인 LNB
         groobee.click_pushnoti_menu()
         time.sleep(1)
-
+        # 2-3. 리스트 > 저장된 캠페인 일치 확인
         cam = groobee.get_cam_list_items(self.Push_sched_campaign_name)
         assert cam, \
             f"생성된 캠페인이 리스트에 노출되지 않음: {self.Push_sched_campaign_name}"
         groobee.click_pause_icon_by_name(self.Push_sched_campaign_name)
         time.sleep(1)
 
-        #다이얼로그 캠페인 진행
-        groobee.click_dialog_confirm_button()
-        time.sleep(2)
+        # 2-4. 다이얼로그 캠페인 진행
+        try:
+            WebDriverWait(driver, 5).until(
+                EC.visibility_of_element_located(
+                    groobee.dialog_confirm_btn
+                )
+            )
+            groobee.click_dialog_confirm_btn()
+        except TimeoutException:
+            print("다이얼로그 없음 → 이미 중지 상태로 간주")
 
-        # 2) 캠페인명 검색
+        # 3. 캠페인명 검색
         groobee.click_campaign_search()
         time.sleep(1)
         groobee.send_campaign_search(self.Push_sched_campaign_name)
         time.sleep(2)
 
-        # 2-1) 캠페인명 검색 일치 검증
+        # 3-1. 캠페인명 검색 일치 검증
         groobee.search_campaign_row_by_name(self.Push_sched_campaign_name)
         time.sleep(1)
 
-        #2-2) 재생 버튼 클릭 > 캠페인 발송 일시 일치 확인
+        #2-2) 재생 버튼 클릭 > 2-3) 팝업 일시 확인 2-4) 리스트  캠페인 발송 일시 일치 확인
         # 추후
 
-        # #타겟팅 유형> 세그먼트, 광고성, 기본 이미지> 설정(업로드된 상태), 본문 이미지,
+        # #타겟팅 유형> 수신자동의 , 광고성, 기본 이미지> 설정(업로드된 상태), 본문 이미지,
         # 웹브라우저, 고급 옵션
-
+#########################
     @pytest.mark.case_id(7008)
-    def test_7006(self,driver):
+    def test_7008(self,driver):
         groobee = PushNotiPage(driver)
 
         # 1. 푸시 알림 캠페인 LNB 클릭
@@ -289,21 +299,11 @@ class TestCampaignCreate(BaseClass):
         # 1. 푸시 알림 캠페인 페이지 노출 확인 _브라우저 타이틀
         assert driver.title == self.Push_campaign_brower_title
 
-        campaign_name_repeat = "[HS] 푸시_스케쥴_세그먼트_반복발송 테스트 캠페인"
-        try:
-            groobee.click_play_icon_by_name(cam_name=campaign_name_repeat)
-
-            WebDriverWait(driver, 3).until(
-                EC.presence_of_element_located(groobee.dialog_confirm_button)
-            )
-
-            groobee.click_dialog_confirm_button()
-
-        except TimeoutException:
-            print("재생 중인 캠페인이 없어 다이얼로그 없음 → PASS")
+        # 1-1. 재생 중 캠페인 중지
+        groobee.stop_all_running_campaigns()
 
     @pytest.mark.case_id(7009)
-    def test_7001(self, driver):
+    def test_7009(self, driver):
         groobee = PushNotiPage(driver)
         # 1.만들기 버튼 클릭
         groobee.click_create_pushnoti_btn()
@@ -318,20 +318,20 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
 
     @pytest.mark.case_id(7010)
-    def test_7002(self, driver):
+    def test_7010(self, driver):
         groobee = PushNotiPage(driver)
 
         # 1. 캠페인명/상세 설명 텍스트필드 입력
-        groobee.send_cam_name(self.Push_sched_campaign_name)
-        groobee.send_cam_des(self.Push_sched_campaign_des)
+        groobee.send_cam_name(self.Push_sched_campaign_name_re)
+        groobee.send_cam_des(self.Push_sched_campaign_des_re)
         time.sleep(1)
 
         # 1. 캠페인명/상세 설명 텍스트필드 노출 확인
-        assert groobee.get_cam_name() == self.Push_sched_campaign_name
-        assert groobee.get_cam_des() == self.Push_sched_campaign_des
+        assert groobee.get_cam_name() == self.Push_sched_campaign_name_re
+        assert groobee.get_cam_des() == self.Push_sched_campaign_des_re
 
-    @pytest.mark.case_id(7003)
-    def test_7003(self, driver):
+    @pytest.mark.case_id(7011)
+    def test_7011(self, driver):
         groobee = PushNotiPage(driver)
 
         # 1. 태그 추가 버튼 클릭
@@ -344,36 +344,22 @@ class TestCampaignCreate(BaseClass):
 
         # 1-2. 태그 노출 확인
         assert groobee.wait_tag_visible(self.tag_input)
+        time.sleep(1)
 
-    @pytest.mark.case_id(7004)
-    def test_7004(self, driver):
+    @pytest.mark.case_id(7012)
+    def test_7012(self, driver):
         groobee = PushNotiPage(driver)
 
-        # 1. 타겟팅 유형 > 세그먼트 클릭
-        groobee.click_type_segment()
-        time.sleep(1)
-        # 2. 세그먼트 불러오기 RNB 선택
-        groobee.click_seg_load()
-        time.sleep(1)
-        # 2-1. 세그먼트 탭
-        groobee.click_seg_tab()
-        time.sleep(1)
-        # 2-2. 검색 > 세그먼트 입력
-        groobee.send_seg_input(self.Offsite_seg_id)
-        time.sleep(1)
-        # 2-3. 검색된 세그먼트 리스트에서 [0] 클릭
-        seg_list = groobee.get_seg_list()
-        assert len(seg_list) > 0, "세그먼트 미노출"
-        groobee.click_first_seg()
-        time.sleep(1)
-        # 2-4. 선택 버튼 클릭
-        groobee.click_select_btn()
-        # 2-5. [다음 단계] 버튼
+        # 1. 타겟팅 유형 > 수신자 동의 클릭
+        groobee.click_type_recipient_consent()
+        time.sleep(2)
+        # 2. [다음 단계] 버튼
         groobee.click_next_btn()
         time.sleep(1)
 
-    @pytest.mark.case_id(7005)
-    def test_7005(self, driver):
+
+    @pytest.mark.case_id(7013)
+    def test_7013(self, driver):
         groobee = PushNotiPage(driver)
 
         # 1. step 2 예상 타겟 수
@@ -387,12 +373,12 @@ class TestCampaignCreate(BaseClass):
 
         # 2. 메시지 작성 > 제목* 입력
         groobee.click_message_title()
-        groobee.send_message_title(self.Push_sched_message_title)
+        groobee.send_message_title(self.Push_sched_message_title_re)
         time.sleep(1)
 
         # 3. 메시지 작성 > 내용* 입력
         groobee.click_message_content()
-        groobee.send_message_contests(self.Push_sched_message_contents)
+        groobee.send_message_contests(self.Push_sched_message_contents_re)
         time.sleep(1)
 
         # 4. 수신 거부 내용 클릭 > 입력
@@ -402,10 +388,10 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
 
         # 2. 미리 보기 > 제목* 입력 내용 일치 확인
-        assert groobee.preview_title_by_text(self.Push_sched_message_title)
+        assert groobee.preview_title_by_text(self.Push_sched_message_title_re)
 
         # 3. 미리 보기 > 내용* 입력값 일치
-        groobee.assert_push_preview_message(self.Push_sched_message_contents)
+        groobee.assert_push_preview_message(self.Push_sched_message_contents_re)
 
         # 4. 미리 보기 > 수신거부 내용 일치
         groobee.assert_push_preview_unsubscribe(self.Push_sched_unsubscribe_notice)
@@ -414,6 +400,9 @@ class TestCampaignCreate(BaseClass):
         btn = BaseClass.wait_visible(driver, groobee.default_img_setting, 10)
         groobee.scroll_to(btn)
         time.sleep(1)
+
+        # 5-1. 미리 보기 > 기본 이미지 경로 및 URL 비어있지 않음 확인
+        #groobee.assert_default_preview_image("default")
 
         # 6. 본문 이미지 > 파일 업로드
         groobee.click_file_upload_btn()
@@ -427,22 +416,16 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
         # 6-1. 파일 업로드 일치
         groobee.assert_uploaded_body_image_file_name(self.expected_file_name)
-        time.sleep(1)
+        time.sleep(3)
 
-        # 7. 딥 링크 라디오 버튼 클릭
-        groobee.click_deepLink()
+        # 7. 웹 브라우저 버튼 클릭
+        groobee.click_launch_webBrowser()
         time.sleep(1)
-        # 7-1. AOS* > 내용 입력
-        groobee.send_deepLink_testArea_AOS(self.Offsite_deepLink_AOS)
+        # 7-1. webBrowser > 내용 입력
+        groobee.send_launch_webBrowser(self.Offsite_webBrowser)
         time.sleep(1)
-        # 7-2. iOS* > 내용 입력
-        groobee.send_deepLink_testArea_iOS(self.Offsite_deepLink_iOS)
-        time.sleep(1)
-
-        # 7-1. AOS > 입력 내용 일치
-        groobee.assert_deepLink_textArea_AOS(self.Offsite_deepLink_AOS)
-        # 7-2. iOS > 입력 내용 일치
-        groobee.assert_deepLink_textArea_iOS(self.Offsite_deepLink_iOS)
+        # 7-1. webBrowser > 입력 내용 일치
+        groobee.assert_launch_webBrowser(self.Offsite_webBrowser)
 
         # 8. 고급 옵션
         groobee.click_advanced_options()
@@ -458,15 +441,29 @@ class TestCampaignCreate(BaseClass):
         groobee.assert_advanced_options_value(self.Offsite_advanced_value)
         time.sleep(1)
 
-    @pytest.mark.case_id(7006)
-    def test_7006(self, driver):
+    @pytest.mark.case_id(7014)
+    def test_7014(self, driver):
         groobee = PushNotiPage(driver)
 
         # 1. 다음 단계
         groobee.click_next_btn()
         time.sleep(1)
 
-        # 1. 옵션 설정 > 검증
+        # 2. 3단계 - 반복 발송 선택
+        groobee.click_send_type_repeat()
+        time.sleep(1)
+        # 수동 종료 전까지 > 수동 종료 전
+        # 반복 설정 > 설정하기
+        groobee.click_cycle_btn()
+        time.sleep(1)
+        groobee.click_cycle_num()
+        time.sleep(1)
+        groobee.click_cycle_num_2()
+        time.sleep(1)
+        groobee.click_dialog_confirm_btn()
+
+
+        # 2-1. 옵션 설정 > 검증
         def assert_send_type_options_exist(self):
             single_option = self.driver.find_elements(*self.send_type_single)
             repeat_option = self.driver.find_elements(*self.send_type_repeat)
@@ -474,38 +471,59 @@ class TestCampaignCreate(BaseClass):
             assert len(single_option) > 0, "[FAIL] '단일 발송' 옵션이 존재하지 않습니다."
             assert len(repeat_option) > 0, "[FAIL] '반복 발송' 옵션이 존재하지 않습니다."
 
-        # 1-1. 3단계 - 단일 발송 선택
-        groobee.click_send_type_single()
-        time.sleep(1)
-
-        # 저장하기
+        # 3. 저장하기
         groobee.click_save_btn()
         time.sleep(1)
 
-        # 캠페인 저장 - 다이얼로그 노출 > 확인 버튼
-        groobee.click_dialog_confirm_button()
+        # 4. 캠페인 저장 - 다이얼로그 노출 > 확인 버튼
+        groobee.click_dialog_confirm_btn()
         time.sleep(2)
 
-        # 푸시알림 캠페인 LNB
+        # 5. 푸시알림 캠페인 LNB
         groobee.click_pushnoti_menu()
         time.sleep(1)
 
-        cam = groobee.get_cam_list_items(self.Push_sched_campaign_name)
+        cam = groobee.get_cam_list_items(self.Push_sched_campaign_name_re)
         assert cam, \
-            f"생성된 캠페인이 리스트에 노출되지 않음: {self.Push_sched_campaign_name}"
-        groobee.click_pause_icon_by_name(self.Push_sched_campaign_name)
+            f"생성된 캠페인이 리스트에 노출되지 않음: {self.Push_sched_campaign_name_re}"
+        groobee.click_pause_icon_by_name(self.Push_sched_campaign_name_re)
         time.sleep(1)
 
-        # 다이얼로그 캠페인 진행
-        groobee.click_dialog_confirm_button()
+        # 6. 다이얼로그 캠페인 진행
+        dialogs = driver.find_elements(*groobee.dialog_confirm_btn)
+        if dialogs:
+            dialogs[0].click()
+        else:
+            print("다이얼로그 없음 → PASS")
         time.sleep(2)
 
-        # 2) 캠페인명 검색
+        # 7. 캠페인명 검색
         groobee.click_campaign_search()
         time.sleep(1)
-        groobee.send_campaign_search(self.Push_sched_campaign_name)
+        groobee.send_campaign_search(self.Push_sched_campaign_name_re)
         time.sleep(2)
 
-        # 2-1) 캠페인명 검색 일치 검증
-        groobee.search_campaign_row_by_name(self.Push_sched_campaign_name)
+        # 7-1. 캠페인명 검색 일치 검증
+        groobee.search_campaign_row_by_name(self.Push_sched_campaign_name_re)
         time.sleep(1)
+
+
+    @pytest.mark.case_id(7015)
+    def test_7015(self, driver):
+        groobee = PushNotiPage(driver)
+
+        #1. 스케쥴 발송 탭
+        #groobee.click_single_tab()
+        # 2. 특정 캠페인 > 중지 중
+        groobee.click_dialog_confirm_btn()
+        time.sleep(2)
+        # 2-1. 관리 도구 클릭
+        groobee.click_tools_icon_by_name(self.Push_sched_campaign_name)
+        # 3. 완료 탭으로 이동 클릭 (반복)
+        groobee.moveto_complete_by_name(self.automation_text)
+
+        # 3. 캠페인 리스트 > [Auto] 캠페인 미노출 확인
+        assert not groobee.get_cam_list_items(self.automation_text)
+
+
+

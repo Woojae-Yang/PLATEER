@@ -42,7 +42,7 @@ class PushNotiPage(GroobeeActions):
 
     # 타겟팅 유형
     type_segment = (By.XPATH, "//input[@value='세그먼트']")
-    type_recipient_consent = (By.XPATH, "//input[@value='수신 동의자 전체']")
+    type_recipient_consent = (By.XPATH, "//label[.//input[@value='수신 동의자 전체']]")
     type_member_upload =(By.XPATH, "//input[@value='회원 정보 업로드']")
 
 
@@ -79,13 +79,16 @@ class PushNotiPage(GroobeeActions):
     #클릭 동작
     launch_app = (By.XPATH, "//input[@value='앱 실행']")
     deepLink = (By.XPATH, "//input[@value='딥 링크']")
-    launch_webBrowser_ = (By.XPATH, "//input[@value='웹 브라우저 실행']")
+    launch_webBrowser = (By.XPATH, "//label[normalize-space()='웹 브라우저 실행']")
 
-    #클릭 동작 텍스트 박스
+    #클릭 동작 텍스트 박스 > 웹 브라우저 실행
+    launch_webBrowser_textArea = (By.XPATH, "//textarea[@placeholder='http:// 또는 https://를 포함한 URL' and not(@aria-hidden)]")
+    #클릭 동작 텍스트 박스 > 딥 링크
     deepLink_textArea_AOS =(By.XPATH, "//label[normalize-space(.)='Android*']"
     "/following::textarea[not(@aria-hidden)][1]")
     deepLink_textArea_iOS = (By.XPATH, "//label[normalize-space(.)='iOS*']"
     "/following::textarea[not(@aria-hidden)][1]")
+
 
 
     #고급 옵션
@@ -98,13 +101,25 @@ class PushNotiPage(GroobeeActions):
     preview_content = (By.XPATH, "//p[contains(@class,'MuiTypography-root') and contains(text(),'내용: 스케쥴 발송 테스트')]")
 
     #3단계 옵션 설정
-    #send_type_single = (By.XPATH, "//input[@value='단일 발송']")
-    send_type_repeat = (By.XPATH, "//label[normalize-space()='반복 발송']//input")
+    send_type_repeat = (By.XPATH, "//label[.//span[normalize-space()='반복 발송']]//input[@type='radio']")
     send_type_single = (By.XPATH, "//label[normalize-space()='단일 발송']//input")
 
+    # 발송 기간 > 수동 종료 전까지
+    send_period_until_manual = (By.XPATH, "//input[@type='radio' and @value='수동 종료 전까지']")
+    # 기간 지정 > 날짜 지정
+    send_period_fixed = (By.XPATH, "//input[@type='radio' and @value='기간 지정']")
+
+    # 기간 지정 > 날짜 지정
+    # 반복 설정* > 설정하기 btn
+    repeat_setBtn = (By.XPATH, "//button[contains(text(),'설정하기')]")
+
+    # 반복 설정 다이얼로그 > [확인][취소] btn
+    repeat_dialog_confirm_btn = (By.XPATH, "//button[contains(text(),'확인')]")
+    repeat_dialog_cancel_btn = (By.XPATH, "//button[contains(text(),'취소')]")
+
     # 다이얼로그
-    dialog_confirm_button = (By.XPATH, "//button[contains(text(),'확인')]")
-    dialog_cancel_button = (By.XPATH, "//button[contains(text(),'취소')]")
+    dialog_confirm_btn = (By.XPATH, "//button[contains(text(),'확인')]")
+    dialog_cancel_btn = (By.XPATH, "//button[contains(text(),'취소')]")
 
     # -------------------------동작 선언 영역-------------------------
     # 캠페인 서치바
@@ -124,11 +139,25 @@ class PushNotiPage(GroobeeActions):
 
     # 타겟팅 유형
     def click_type_segment(self, timeout=10):
-        BaseClass.select_radio(self.driver, self.type_segment,timeout)
+        BaseClass.wait_clickable(self.driver, self.type_segment, timeout).click()
     def click_type_recipient_consent(self, timeout=10):
-        BaseClass.select_radio(self.driver, self.type_recipient_consent,timeout)
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(self.type_recipient_consent)
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", el)
+        WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.type_recipient_consent)
+        )
+        el.click()
     def click_type_member_upload(self, timeout=10):
-        BaseClass.select_radio(self.driver, self.type_member_upload,timeout)
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(self.type_member_upload)
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", el)
+        WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.type_member_upload)
+        )
+        el.click()
 
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     def click_qa_hs_seg(self, timeout=10):
@@ -206,6 +235,7 @@ class PushNotiPage(GroobeeActions):
     def is_preview_img_visible(self, timeout=10):
         return BaseClass.wait_visible(self.driver, self.preview_img, timeout)
 
+
     def get_preview_url(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.preview_url, timeout)
         return el.get_attribute("href").strip()
@@ -230,9 +260,12 @@ class PushNotiPage(GroobeeActions):
     def click_deepLink(self, timeout=10):
         BaseClass.select_radio(self.driver, self.deepLink,timeout).click()
 
-    def click_launch_webBrowser(self, text, timeout=10):
-        BaseClass.wait_clickable(self.driver,self.launch_webBrowser, timeout).click()
-    #클릭 동작 텍스트 박스
+    def click_launch_webBrowser(self, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.launch_webBrowser)
+        )
+        el.click()
+    #클릭 동작 > 딥 링크 텍스트 박스
     def send_deepLink_testArea_AOS(self,text, timeout=10):
         el = (BaseClass.wait_visible(self.driver,self.deepLink_textArea_AOS,timeout))
         el.click()
@@ -244,6 +277,12 @@ class PushNotiPage(GroobeeActions):
         el.clear()
         el.send_keys(text)
 
+    # 클릭 동작 > 웹 브라우저 텍스트 박스
+    def send_launch_webBrowser(self, text, timeout=10):
+        el =(BaseClass.wait_visible(self.driver, self.launch_webBrowser_textArea, timeout))
+        el.click()
+        el.clear()
+        el.send_keys(text)
 
     #고급 옵션
     def click_advanced_options(self, timeout=10):
@@ -257,17 +296,23 @@ class PushNotiPage(GroobeeActions):
         el.clear()
         el.send_keys(text)
 
-    #단일, 반복 발송
+    # 3단계 > 단일, 반복 발송
     def click_send_type_single(self, timeout=10):
         BaseClass.select_radio(self.driver, self.send_type_single, timeout).click()
-    def click_send_type_repeat(self, timeout=10):
-        BaseClass.select_radio(self.driver, self.send_type_repeat, timeout).click()
 
-    #다이얼로그
-    def click_dialog_confirm_button(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.dialog_confirm_button, timeout).click()
-    def click_dialog_cancel_button(self, timeout=10):
-        BaseClass.wait_clickable(self.driver, self.dialog_cancel_button, timeout).click()
+    def click_send_type_repeat(self, timeout=15):
+        WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(self.send_type_repeat)
+        )
+        el = self.driver.find_element(*self.send_type_repeat)
+        self.driver.execute_script("arguments[0].click();", el)
+
+
+    #다이얼로그 > [확인][취소] btn
+    def click_dialog_confirm_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.dialog_confirm_btn, timeout).click()
+    def click_dialog_cancel_btn(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.dialog_cancel_btn, timeout).click()
 
 
     # 스크롤
@@ -388,6 +433,27 @@ class PushNotiPage(GroobeeActions):
             f" - 기대값: {expected_unsubscribe_text}\n"
             f" - 실제값: {preview_text}"
         )
+    # 기본 이미지 > 설정 체크 검증
+    def assert_default_preview_image_visible(self):
+        img = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(
+                (By.XPATH, "//img")
+            )
+        )
+        assert img.is_displayed(), "[FAIL] 미리보기 이미지가 표시되지 않음"
+    # 기본 이미지 > 미리보기 url 및 none 아님 확인
+    def assert_default_preview_image(self):
+        img_element = self.driver.find_element(
+            By.XPATH,
+            "//img[contains(@class,'MuiAvatar-img')]"
+        )
+        actual_src = img_element.get_attribute("src")
+        assert actual_src is not None and actual_src != "", \
+            "[FAIL] 이미지 src가 비어 있음"
+        assert "app_default_img" in actual_src, \
+            f"[FAIL] 기본 이미지 경로 아님: {actual_src}"
+        assert actual_src.endswith(".png"), \
+            f"[FAIL] PNG 이미지 아님: {actual_src}"
 
     # 본문 > 파일 업로드 확인
     def assert_uploaded_body_image_file_name(self, expected_file_name):
@@ -420,7 +486,16 @@ class PushNotiPage(GroobeeActions):
             f" - 기대값: {expected_value}\n"
             f" - 실제값: {actual_value}"
         )
+    # 웹 브라우저 > 입력값 검증
+    def assert_launch_webBrowser(self, Offsite_webBrowser, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(self.launch_webBrowser_textArea)
+        )
 
+        actual_value = el.get_attribute("value")
+
+        assert actual_value == Offsite_webBrowser, \
+            f"[FAIL] 웹브라우저 URL 불일치\n기대값: {Offsite_webBrowser}\n실제값: {actual_value}"
 
     # 고급 옵션 > key 입력값 검증
     def assert_advanced_options_key(self, expected_value):
@@ -463,10 +538,34 @@ class PushNotiPage(GroobeeActions):
             self.click_play_icon_by_name(cam_name)
 
             WebDriverWait(self.driver, 3).until(
-                EC.presence_of_element_located(self.dialog_confirm_button)
+                EC.presence_of_element_located(self.dialog_confirm_btn)
             )
 
-            self.click_dialog_confirm_button()
+            self.click_dialog_confirm_btn()
 
         except TimeoutException:
             pass
+
+    # 진행 중 캠페인 > 중지 중 변경
+    def stop_all_running_campaigns(self):
+
+        while True:
+            pause_buttons = self.driver.find_elements(
+                By.XPATH,
+                "//button[contains(@class,'pause')]"
+            )
+
+            if not pause_buttons:
+                break
+
+            pause_buttons[0].click()
+
+            WebDriverWait(self.driver, 5).until(
+                EC.presence_of_element_located(self.dialog_confirm_btn)
+            )
+
+            self.click_dialog_confirm_btn()
+
+            WebDriverWait(self.driver, 5).until(
+                EC.staleness_of(pause_buttons[0])
+            )

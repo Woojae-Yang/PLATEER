@@ -111,6 +111,7 @@ class GroobeeActions:
     singleBtn = (By.XPATH, "//input[@value='SC']")
     repeatBtn = (By.XPATH, "//input[@value='RP']")
     repeat_endBtn = (By.XPATH, "//input[@value='MA']")
+    repeat_endBtn_Push = (By.XPATH, "//input[@value='수동 종료 전까지']")
     repeat_setBtn = (By.XPATH, "//input[@value='ET']")
     repeat_setBtn_input = (By.XPATH, "//input[@placeholder='YYYY.MM.DD ~ YYYY.MM.DD']")
     repeat_cycleBtn = (By.XPATH, "//button[contains(text(),'설정하기')]")
@@ -355,6 +356,8 @@ class GroobeeActions:
         el = BaseClass.wait_clickable(self.driver, self.repeat_setBtn_input, timeout)
         el.clear()
         el.send_keys(text)
+
+
     def click_cycle_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycleBtn, timeout).click()
     def click_cycle_num(self, timeout=10):
