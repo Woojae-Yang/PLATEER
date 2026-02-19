@@ -1,5 +1,7 @@
 import time
 
+from selenium.common import TimeoutException
+
 from PageObjects.GroobeeActions import GroobeeActions
 from utilities.BaseClass import BaseClass
 from selenium.webdriver.support.ui import WebDriverWait
@@ -96,9 +98,9 @@ class PushNotiPage(GroobeeActions):
     preview_content = (By.XPATH, "//p[contains(@class,'MuiTypography-root') and contains(text(),'내용: 스케쥴 발송 테스트')]")
 
     #3단계 옵션 설정
-    send_type_single = (By.XPATH, "//input[@value='단일 발송']")
-    send_type_repeat = (By.XPATH, "//input[@value='반복 발송']")
-
+    #send_type_single = (By.XPATH, "//input[@value='단일 발송']")
+    send_type_repeat = (By.XPATH, "//label[normalize-space()='반복 발송']//input")
+    send_type_single = (By.XPATH, "//label[normalize-space()='단일 발송']//input")
 
     # 다이얼로그
     dialog_confirm_button = (By.XPATH, "//button[contains(text(),'확인')]")
@@ -445,8 +447,26 @@ class PushNotiPage(GroobeeActions):
 
     # 3단계 > 옵션 노출 확인
     def assert_send_type_options_exist(self):
+        WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located(self.send_type_single)
+        )
+
         single_option = self.driver.find_elements(*self.send_type_single)
         repeat_option = self.driver.find_elements(*self.send_type_repeat)
 
         assert len(single_option) > 0, "[FAIL] '단일 발송' 옵션이 존재하지 않습니다."
         assert len(repeat_option) > 0, "[FAIL] '반복 발송' 옵션이 존재하지 않습니다."
+
+    # 재생 중인 캠페인이 없어 다이얼로그 없음 -> pass
+    def stop_campaign_if_running(self, cam_name):
+        try:
+            self.click_play_icon_by_name(cam_name)
+
+            WebDriverWait(self.driver, 3).until(
+                EC.presence_of_element_located(self.dialog_confirm_button)
+            )
+
+            self.click_dialog_confirm_button()
+
+        except TimeoutException:
+            pass

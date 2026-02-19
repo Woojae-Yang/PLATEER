@@ -3,7 +3,9 @@ import pytest
 import requests
 import time
 
-from selenium import webdriver
+from seleniumwire import webdriver 
+# api 테스트에서 webdriver 활용을 위해 selenium-wire 라이브러리로 변경, 다른 영역은 기존의 selenium과 호환 가능
+
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service
 from requests.auth import HTTPBasicAuth
@@ -65,6 +67,10 @@ def driver(request):
     options.add_argument("--lang=ko-KR")
     options.add_argument("--accept-lang=ko-KR")
     options.add_argument("Accept-Language=ko-KR")
+
+    options.add_experimental_option("perfLoggingPrefs", {"enableNetwork": True})
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
     if headless_enabled:
         options.add_argument("--headless=new")
         options.add_argument("--window-size=1920,1080")

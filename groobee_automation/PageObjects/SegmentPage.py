@@ -1,6 +1,7 @@
 import time
 import pytest
 import sys
+import json
 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -99,6 +100,11 @@ class SegmentPage(GroobeeActions):
     seg_setting4_yes = (By.XPATH, "//li[contains(text(),'일 때')]")
     seg_setting_or = (By.XPATH, "//button[normalize-space()='OR']")
     seg_setting_and = (By.XPATH, "//button[normalize-space()='AND']")
+
+    # 예상 타겟 수
+    expected_target_cnt = (By.XPATH, "//div[contains(@class, 'MuiStack-root')]/h6[contains(@class, 'MuiTypography-h6')]")
+    total_visitor_cnt = (By.XPATH, "(//div[contains(@class, 'css-1821gv5')]/div[contains(@class, 'css-95g4uk')])[1]/h6[last()]")
+    target_visitor_cnt = (By.XPATH, "(//div[contains(@class, 'css-1821gv5')]/div[contains(@class, 'css-95g4uk')])[2]/h6[last()]")
 
     # 완료
     cancelBtn = (By.XPATH, "//button[contains(text(),'취소')]")
@@ -270,6 +276,14 @@ class SegmentPage(GroobeeActions):
     def click_seg_setting_and(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.seg_setting_and, timeout).click()
 
+    # 예상 타겟 수 확인
+    def get_expected_target_cnt(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.expected_target_cnt, timeout).text[:-2]
+    def get_total_visitor_cnt(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.total_visitor_cnt, timeout).text[:-2]
+    def get_target_visitor_cnt(self, timeout=10):
+        return BaseClass.wait_visible(self.driver, self.target_visitor_cnt, timeout).text[:-2]
+
     # 완료
     def click_cancel_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.cancelBtn, timeout).click()
@@ -280,6 +294,16 @@ class SegmentPage(GroobeeActions):
     ######################################################
     # 테스트에 활용되는 함수들
     ######################################################
+
+    # API 확인 함수
+    def check_api_status(self, url_keyword, timeout=10):
+        end_time = time.time() + timeout
+        while time.time() < end_time:
+            for request in self.driver.requests:
+                if url_keyword in request.url and request.response:
+                    return request.response.status_code
+            time.sleep(0.5)
+        return None
 
     # target_map에서 category와 value에 맞는 함수를 찾아 실행하는 함수
     def select_target_radio(self, category, value, target_map):

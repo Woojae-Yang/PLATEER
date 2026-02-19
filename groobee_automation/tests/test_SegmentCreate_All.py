@@ -149,7 +149,13 @@ class TestSegCreateCross:
         # ==========================================================
         # 3. 매 케이스마다 즉시 확인 (검증 영역)
         # ==========================================================
-       
+        
+        total_cnt = self.groobee.get_total_visitor_cnt()
+        if total_cnt == '-1':
+            status = self.groobee.check_api_status("/v1/segment/size")
+            print(f'status: {status}')
+            assert status == 200, f"예상과 다른 응답코드: {status}"
+        
         # 저장 버튼 클릭
         self.groobee.click_save_btn()
         time.sleep(1)
@@ -162,5 +168,3 @@ class TestSegCreateCross:
             assert seg_info['segmentTime'] == time_v, f"시점 불일치: {time_v}"
         if cond_v is not None: # [타겟설정 > 조합]이 None인 경우에 대한 방어로직
             assert seg_info['segmentCheckCd'] == cond_v, f"조건 불일치: {cond_v}"
-
-
