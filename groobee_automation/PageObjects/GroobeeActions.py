@@ -108,6 +108,7 @@ class GroobeeActions:
     doneBtn_pushNoti = (By.XPATH, "//div[contains(@class,'MuiDialogActions')]//button[.//text()[contains(.,'확인')]]")
 
     # 스케줄 (추가 필요)
+
     singleBtn = (By.XPATH, "//span[contains(text(),'단일 발송')]")
     repeatBtn = (By.XPATH, "//span[contains(text(),'반복 발송')]")
     repeat_endBtn = (By.XPATH, "//span[contains(text(),'수동 종료 전까지')]")
@@ -367,6 +368,8 @@ class GroobeeActions:
         el = BaseClass.wait_clickable(self.driver, self.repeat_setBtn_input, timeout)
         el.clear()
         el.send_keys(text)
+
+
     def click_cycle_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycleBtn, timeout).click()
     def click_cycle_num_bx(self, timeout=10):
