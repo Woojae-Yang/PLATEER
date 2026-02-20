@@ -368,8 +368,6 @@ class GroobeeActions:
         el = BaseClass.wait_clickable(self.driver, self.repeat_setBtn_input, timeout)
         el.clear()
         el.send_keys(text)
-
-
     def click_cycle_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycleBtn, timeout).click()
     def click_cycle_num_bx(self, timeout=10):
