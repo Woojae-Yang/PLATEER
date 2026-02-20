@@ -178,6 +178,16 @@ class TestSmsCampaignCreate:
         # 1. 옵션 설정 화면 노출 확인
         assert groobee.wait_sms_subtitle_option_visible()
 
+    @pytest.mark.case_id(16696)
+    def test_16696(self, driver):
+        groobee = SmsPage(driver)
+
+        # 1. 발송 일시에 현재 시간 +3분 입력
+        groobee.send_date_input(3)
+
+        # 1. 발송 일시 > 현재 시간 +3분 노출 확인
+        assert groobee.is_date_input_match(3)
+
     @pytest.mark.case_id(16670)
     def test_16670(self, driver):
         groobee = SmsPage(driver)
@@ -326,9 +336,13 @@ class TestSmsCampaignCreate:
         groobee.click_cycle_btn()
         # 3. 확인 버튼 클릭
         groobee.click_done_btn()
+        # 4. 발송 시간에 현재 시간 +3분 입력
+        groobee.send_time_input(3)
 
         # 3. 반복 주기 > {expect_repeat_cycle_text} 노출 확인
         assert groobee.is_repeat_cycle_text_visible(self.expect_repeat_cycle_text)
+        # 4. 발송 시간 > 현재 시간 +3분 노출 확인
+        assert groobee.is_time_input_match(3)
 
     @pytest.mark.case_id(16700)
     def test_16700(self, driver):

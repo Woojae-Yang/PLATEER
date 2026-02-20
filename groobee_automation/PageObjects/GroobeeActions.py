@@ -14,6 +14,7 @@ from selenium.common.exceptions import (
     WebDriverException,
 )
 from utilities.BaseClass import BaseClass
+from datetime import datetime, timedelta
 
 class GroobeeActions:
 
@@ -409,16 +410,72 @@ class GroobeeActions:
     # 2일 ~ 31일 필요 시 작성
     def click_repeat_cycle_every_month_date_end(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_every_month_date_end, timeout).click()
-    def send_date_input(self, text, timeout=10):
-        el = BaseClass.wait_clickable(self.driver, self.date_input, timeout)
-        el.clear()
-        el.send_keys(text)
-    def send_time_input(self, text, timeout=10):
-        el = BaseClass.wait_clickable(self.driver, self.time_input, timeout)
-        el.clear()
-        el.send_keys(text)
 
-    # 반복 주기 설정 확인
+    # 발송 일시 > 현재 시간 +n분 입력
+    def send_date_input(self, minutes_from_now=5, timeout=10):
+        el = BaseClass.wait_clickable(self.driver, self.date_input, timeout)
+        dt = datetime.now() + timedelta(minutes=minutes_from_now)
+        text = dt.strftime("%Y.%m.%d %H:%M")
+
+        modifier = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+        el.send_keys(modifier, "a")
+        el.send_keys(Keys.BACKSPACE)
+        el.send_keys(text)
+        el.send_keys(Keys.ESCAPE)
+
+    # 발송 일시 > 현재 시간 +n분 일치 확인
+    def is_date_input_match(self, minutes=5, tolerance_minutes=1, timeout=5):
+        el = BaseClass.wait_visible(self.driver, self.date_input, timeout)
+        value = el.get_attribute("value").strip()
+
+        try:
+            actual = datetime.strptime(value, "%Y.%m.%d %H:%M")
+        except ValueError:
+            return False
+
+        expected = datetime.now() + timedelta(minutes=minutes)
+        diff_seconds = abs((actual - expected).total_seconds())
+
+        return diff_seconds <= tolerance_minutes * 60
+
+    # 발송 시간 > 현재 시간 +n분 입력
+    def send_time_input(self, minutes_from_now=5, timeout=10):
+        el = BaseClass.wait_clickable(self.driver, self.time_input, timeout)
+        dt = datetime.now() + timedelta(minutes=minutes_from_now)
+        text = dt.strftime("%H:%M")
+
+        modifier = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+        el.send_keys(modifier, "a")
+        el.send_keys(Keys.BACKSPACE)
+        el.send_keys(text)
+        el.send_keys(Keys.ESCAPE)
+
+    # 발송 시간 > 현재 시간 +n분 일치 확인
+    def is_time_input_match(self, minutes=5, tolerance_minutes=1, timeout=5):
+        el = BaseClass.wait_visible(self.driver, self.time_input, timeout)
+        value = el.get_attribute("value").strip()
+
+        try:
+            actual_t = datetime.strptime(value, "%H:%M").time()
+        except ValueError:
+            return False
+
+        expected_dt = datetime.now() + timedelta(minutes=minutes)
+        expected_t = expected_dt.time()
+
+        # time만 비교하면 자정 넘어갈 때 애매해질 수 있어서 "오늘 날짜"로 붙여서 diff 계산
+        base = datetime.now().date()
+        actual_dt = datetime.combine(base, actual_t)
+        expected_dt2 = datetime.combine(base, expected_t)
+
+        diff_seconds = abs((actual_dt - expected_dt2).total_seconds())
+
+        # 자정 근처 보정(예: 23:59 vs 00:01 같은 케이스)
+        diff_seconds = min(diff_seconds, 24 * 3600 - diff_seconds)
+
+        return diff_seconds <= tolerance_minutes * 60
+
+    # 반복 주기 텍스트 확인
     def is_repeat_cycle_text_visible(self, text, timeout=5):
         locator = (By.XPATH, f"//p[contains(normalize-space(), '{text}')]")
         try:
