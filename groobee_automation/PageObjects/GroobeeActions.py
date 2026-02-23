@@ -115,6 +115,7 @@ class GroobeeActions:
     repeat_setBtn_input = (By.XPATH, "//input[@placeholder='YYYY.MM.DD ~ YYYY.MM.DD']")
     repeat_cycleBtn = (By.XPATH, "//button[contains(text(),'설정하기')]")
     repeat_cycle_num_bx = (By.XPATH, "//div[normalize-space()='1']")
+    edit_repeat_cycle_num_bx = (By.XPATH, "//div[@role='combobox' and contains(@class,'MuiSelect-select')]")
     repeat_cycle_num_1 = (By.XPATH, "//li[normalize-space()='1']")
     repeat_cycle_num_2 = (By.XPATH, "//li[normalize-space()='2']")
     repeat_cycle_num_3 = (By.XPATH, "//li[normalize-space()='3']")
@@ -428,6 +429,23 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.repeat_cycleBtn, timeout).click()
     def click_cycle_num_bx(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_bx, timeout).click()
+    def edit_click_cycle_num_bx(self, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(self.edit_repeat_cycle_num_bx)
+        )
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});", el
+        )
+        self.driver.execute_script("arguments[0].click();", el)
+
+    def edit_click_cycle_num_1(self, timeout=10):
+        # dropdown 열려 있는지 대기
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(self.repeat_cycle_num_1)
+        )
+        self.driver.execute_script("arguments[0].click();", el)
+
+
     def click_cycle_num_1(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_1, timeout).click()
     def click_cycle_num_2(self, timeout=10):
