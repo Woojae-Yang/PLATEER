@@ -8,6 +8,10 @@ from utilities.BaseClass import BaseClass
 
 from selenium.webdriver.common.by import By
 
+@pytest.fixture(scope="module")
+def testrail_run_id():
+    return 80  # 이 파일의 TestRail Run ID
+
 @pytest.mark.usefixtures("driver", "login")
 class TestSegDel:
 
@@ -27,6 +31,7 @@ class TestSegDel:
         assert driver.title == self.login_expect_title
     
     @pytest.mark.del_seg
+    @pytest.mark.case_id(17175)
     def test_delete_seg(self, driver):
         self.groobee.click_segment_menu()
         assert driver.title == self.seg_expect_title

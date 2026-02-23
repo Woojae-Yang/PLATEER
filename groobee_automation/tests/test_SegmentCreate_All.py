@@ -4,6 +4,7 @@ from datetime import datetime
 
 from PageObjects.SegmentPage import SegmentPage
 from utilities.BaseClass import BaseClass
+from tests.conftest import upload_result
 
 from selenium.webdriver.common.by import By
 
@@ -83,6 +84,8 @@ class TestSegCreateCross:
         
         # TestRail case_id 동적 주입
         request.node.add_marker(pytest.mark.case_id(case_id))
+        # run_id 할당
+        run_id = request.getfixturevalue("testrail_run_id")
 
         driver.refresh()
         time.sleep(2)
@@ -94,6 +97,7 @@ class TestSegCreateCross:
         
         ## LNB 세그먼트 페이지 진입
         self.groobee.click_segment_menu()
+        upload_result(run_id, 17155, driver.title == self.seg_expect_title)
         assert driver.title == self.seg_expect_title
 
         # 만들기 진입

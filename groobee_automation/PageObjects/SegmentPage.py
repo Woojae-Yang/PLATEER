@@ -147,7 +147,7 @@ class SegmentPage(GroobeeActions):
         time.sleep(1)
     def click_tools_copy_btn(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.tools_copy_btn, timeout).click()
-        time.sleep(1)
+        time.sleep(2)
     def check_modal_title(self, timeout=10):
         return BaseClass.wait_visible(self.driver, self.modal_title, timeout).text
     def click_modal_ok_btn(self, timeout=10):
@@ -167,6 +167,7 @@ class SegmentPage(GroobeeActions):
         elem.clear()
         elem.send_keys(text)
     def get_seg_name(self, timeout=10):
+        time.sleep(3)
         return BaseClass.wait_visible(self.driver, self.seg_name, timeout).get_attribute("value")
 
     # 타겟 설정

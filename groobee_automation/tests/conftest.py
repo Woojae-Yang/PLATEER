@@ -143,6 +143,47 @@ def clear_campaigns():
     return _clear
 
 
+
+# ==========================
+# TestRail API helper
+# ==========================
+
+def _get_testrail_cfg():
+    return {
+        "base_url": os.getenv("TESTRAIL_URL"),
+        "email": os.getenv("TESTRAIL_EMAIL"),
+        "api_key": os.getenv("TESTRAIL_API_KEY"),
+    }
+
+
+def _testrail_add_result_for_case(cfg, run_id: int, case_id: int, status_id: int, comment: str = ""):
+    if not (cfg.get("base_url") and cfg.get("email") and cfg.get("api_key")):
+        return False, "Missing TESTRAIL_URL/EMAIL/API_KEY env"
+
+    url = f"{cfg['base_url'].rstrip('/')}/index.php?/api/v2/add_result_for_case/{run_id}/{case_id}"
+    payload: dict[str, object] = {"status_id": status_id}
+    if comment:
+        payload["comment"] = comment
+
+    r = requests.post(
+        url,
+        json=payload,
+        auth=HTTPBasicAuth(cfg["email"], cfg["api_key"]),
+        timeout=15,
+    )
+    if r.status_code >= 300:
+        return False, f"{r.status_code} {r.text[:200]}"
+    return True, "OK"
+
+# 테스트 코드에서 중간 단계 결과를 직접 업로드할 때 호출하는 함수
+def upload_result(run_id: int, case_id: int, passed: bool):
+    status_id = 1 if passed else 5
+    cfg = _get_testrail_cfg()
+    ok, msg = _testrail_add_result_for_case(cfg, run_id, case_id, status_id)
+    if not ok:
+        print(f"[TestRail] upload failed: {msg}")
+
+
 # ==========================
 # Hooks
 # ==========================
@@ -170,7 +211,7 @@ def pytest_runtest_makereport(item, call):
 
     if not enabled or not run_id:
         return  # 업로드 비활성 또는 run_id 없음
-
+    
     # case_id 마커 읽기: @pytest.mark.case_id(<id>)
     m = item.get_closest_marker("case_id")
     if not m or not m.args:
@@ -185,12 +226,7 @@ def pytest_runtest_makereport(item, call):
     else:
         status_id = 2  # Blocked
 
-    cfg = {
-        "base_url": os.getenv("TESTRAIL_URL"),
-        "email": os.getenv("TESTRAIL_EMAIL"),
-        "api_key": os.getenv("TESTRAIL_API_KEY"),
-    }
-
+    cfg = _get_testrail_cfg()
     ok, msg = _testrail_add_result_for_case(
         cfg, run_id, case_id, status_id, comment=f"pytest nodeid: {item.nodeid}"
     )
@@ -198,28 +234,5 @@ def pytest_runtest_makereport(item, call):
         print(f"[TestRail] upload failed: {msg}")
 
 
-# ==========================
-# TestRail API helper
-# ==========================
-def _testrail_add_result_for_case(cfg, run_id: int, case_id: int, status_id: int, comment: str = ""):
-    if not (cfg.get("base_url") and cfg.get("email") and cfg.get("api_key")):
-        return False, "Missing TESTRAIL_URL/EMAIL/API_KEY env"
-
-    url = f"{cfg['base_url'].rstrip('/')}/index.php?/api/v2/add_result_for_case/{run_id}/{case_id}"
-    payload: dict[str, object] = {"status_id": status_id}
-    if comment:
-        payload["comment"] = comment
-
-    r = requests.post(
-        url,
-        json=payload,
-        auth=HTTPBasicAuth(cfg["email"], cfg["api_key"]),
-        timeout=15,
-    )
-    if r.status_code >= 300:
-        return False, f"{r.status_code} {r.text[:200]}"
-    return True, "OK"
-
-# conftest.py에 추가
 def pytest_configure(config):
     config.addinivalue_line("markers", "case_id(id): TestRail case ID")
