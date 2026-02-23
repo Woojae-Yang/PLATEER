@@ -211,9 +211,24 @@ class GroobeeActions:
         el.send_keys(modifier, "a")
         el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
+
+    def send_cam_name_push(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
+        modifier = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+        el.click()
+        el.send_keys(modifier, "a")
+        el.send_keys(Keys.BACKSPACE)
+        el.send_keys(text)
     def send_cam_des(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
         el.clear()
+        el.send_keys(text)
+    def send_cam_des_push(self, text, timeout=10):
+        el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
+        modifier = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+        el.click()
+        el.send_keys(modifier, "a")
+        el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
     def get_cam_name(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)

@@ -16,16 +16,19 @@ class TestCampaignCreate(BaseClass):
 
     Push_campaign_brower_title = "푸시 알림 캠페인 :: GROOBEE"
     Push_sched_campaign_brower_expect_title = "새로운 캠페인 만들기 :: GROOBEE"  # 푸시 알림 캠페인
-    Push_sched_campaign_regist_title = "새로운 푸시 알림 캠페인 만들기" # 기본 설정
-    Push_sched_campaign_name ="[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
-    Push_sched_campaign_name_re ="[HS][Auto] 푸시_스케쥴_세그먼트_반복발송 테스트 캠페인"
-    Push_sched_expected_campaign_name = "[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
-    Push_sched_expected_campaign_name_re="[HS][Auto] 푸시_스케쥴_세그먼트_반복발송 테스트 캠페인"
+    Push_sched_campaign_regist_title = "새로운 푸시 알림 캠페인 만들기" # 만들기, 복사하기 동일
+    Push_sched_expect_modify_title = "푸시 알림 캠페인 수정 하기 :: GROOBEE"
+    Push_sched_campaign_name ="[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트"
+    Push_sched_campaign_name_re ="[HS][Auto] 푸시_스케쥴_세그먼트_반복발송 테스트"
+    Push_sched_expected_campaign_name = "[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트"
+    Push_sched_expected_campaign_name_re="[HS][Auto] 푸시_스케쥴_세그먼트_반복발송 테스트"
     pushNoti_expected_title = "푸시 알림 캠페인"
     Push_sched_campaign_des = "세그먼트:회원ID_광고성,기본 및 본문 이미지, 딥링크, 고급 옵션"
     Push_sched_campaign_des_re="세그먼트:회원"
     tag_input = "Automation"
     automation_text = "[Auto]"
+    Copy_campaign= "-COPY"
+    Edit_campaign = "-EDIT"
     Push_sched_message_title = "푸시 알림 캠페인-단일"
     Push_sched_message_title_re = "푸시 알림 캠페인-반복"
     Push_sched_message_contents = "내용: 스케쥴 발송 테스트"
@@ -33,7 +36,7 @@ class TestCampaignCreate(BaseClass):
     Push_sched_unsubscribe_notice ="[자동화]수신거부070"
     Offsite_seg_id = "[QA][HS] OFFSITE_회원ID_세그먼트용" #qa_hs_seg
     expected_file_name = "pushNoti_test_img.jpg"
-
+    expected_file_name_member = "push_sample (37).csv"
     Offsite_deepLink_AOS ="groobee://campaign/detail?id=12"
     Offsite_deepLink_iOS ="https://app.groobee.io/campaign/detail?id=45"
     Offsite_webBrowser ="https://groobee.shop/product/list.html?cate_no=25"
@@ -54,16 +57,14 @@ class TestCampaignCreate(BaseClass):
         # 1. 푸시 알림 캠페인 페이지 노출 확인 _브라우저 타이틀
         assert driver.title == self.Push_campaign_brower_title
 
-        campaign_name = "[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트 캠페인"
+        # 1-1. 진행 중 캠페인 중지
+        campaign_name = "[HS][Auto] 푸시_스케쥴_세그먼트_단일발송 테스트"
         try:
             groobee.click_play_icon_by_name(campaign_name)
-
             WebDriverWait(driver, 3).until(
                 EC.presence_of_element_located(groobee.dialog_confirm_btn)
             )
-
             groobee.click_dialog_confirm_btn()
-
         except TimeoutException:
             print("재생 중인 캠페인이 없어 다이얼로그 없음 → PASS")
 
@@ -101,12 +102,10 @@ class TestCampaignCreate(BaseClass):
 
         # 1. 태그 추가 버튼 클릭
         groobee.click_addtag_btn()
-
         # 1-1. 엔터로 텍스트필드 태그 입력
         groobee.send_tag_input(self.tag_input)
         # 1-2. 추가 버튼 클릭
         groobee.click_tag_add()
-
         # 1-2. 태그 노출 확인
         assert groobee.wait_tag_visible(self.tag_input)
 
@@ -245,12 +244,9 @@ class TestCampaignCreate(BaseClass):
         # 2. 저장하기
         groobee.click_save_btn()
         time.sleep(1)
-
         # 2-1. 캠페인 저장 - 다이얼로그 노출 > 확인 버튼
         groobee.click_dialog_confirm_btn()
         time.sleep(2)
-
-
         # 2-2. 푸시알림 캠페인 LNB
         groobee.click_pushnoti_menu()
         time.sleep(1)
@@ -287,7 +283,8 @@ class TestCampaignCreate(BaseClass):
 
         # #타겟팅 유형> 수신자동의 , 광고성, 기본 이미지> 설정(업로드된 상태), 본문 이미지,
         # 웹브라우저, 고급 옵션
-#########################
+
+# ============= case 2 ==============================================
     @pytest.mark.case_id(7008)
     def test_7008(self,driver):
         groobee = PushNotiPage(driver)
@@ -401,7 +398,7 @@ class TestCampaignCreate(BaseClass):
         groobee.scroll_to(btn)
         time.sleep(1)
 
-        # 5-1. 미리 보기 > 기본 이미지 경로 및 URL 비어있지 않음 확인
+        # 5-1. 미리 보기 > 기본 이미지 경로 및 URL 비어 있지 않음 확인
         #groobee.assert_default_preview_image("default")
 
         # 6. 본문 이미지 > 파일 업로드
@@ -456,12 +453,11 @@ class TestCampaignCreate(BaseClass):
         # 반복 설정 > 설정하기
         groobee.click_cycle_btn()
         time.sleep(1)
-        groobee.click_cycle_num()
+        groobee.click_cycle_num_bx()
         time.sleep(1)
         groobee.click_cycle_num_2()
         time.sleep(1)
         groobee.click_dialog_confirm_btn()
-
 
         # 2-1. 옵션 설정 > 검증
         def assert_send_type_options_exist(self):
@@ -507,23 +503,113 @@ class TestCampaignCreate(BaseClass):
         groobee.search_campaign_row_by_name(self.Push_sched_campaign_name_re)
         time.sleep(1)
 
+# =========== case 3 (수정하기) =========
 
     @pytest.mark.case_id(7015)
     def test_7015(self, driver):
         groobee = PushNotiPage(driver)
 
-        #1. 스케쥴 발송 탭
-        #groobee.click_single_tab()
-        # 2. 특정 캠페인 > 중지 중
-        groobee.click_dialog_confirm_btn()
+        # 0. 진행 중 캠페인 다 중지
+        # 1-1. 진행 중 캠페인 중지
+
+        groobee.click_pushnoti_menu()
+        time.sleep(1)
+
+        campaign_name = "[HS][Auto] 푸시_스케쥴_세그먼트_반복발송 테스트"
+        try:
+            groobee.click_play_icon_by_name(campaign_name)
+
+            WebDriverWait(driver, 3).until(
+                EC.presence_of_element_located(groobee.dialog_confirm_btn)
+            )
+
+            groobee.click_dialog_confirm_btn()
+
+        except TimeoutException:
+            print("재생 중인 캠페인이 없어 다이얼로그 없음 → PASS")
+
+        # 0-1. 반복 발송 캠페인
+        ## 서치바 > 캠페인 검색 > 해당 캠페인 1열 > 관리도구 > 수정하기
+        groobee.click_campaign_search()
+        time.sleep(1)
+        groobee.send_campaign_search(self.Push_sched_campaign_name_re)
         time.sleep(2)
-        # 2-1. 관리 도구 클릭
-        groobee.click_tools_icon_by_name(self.Push_sched_campaign_name)
-        # 3. 완료 탭으로 이동 클릭 (반복)
-        groobee.moveto_complete_by_name(self.automation_text)
 
-        # 3. 캠페인 리스트 > [Auto] 캠페인 미노출 확인
-        assert not groobee.get_cam_list_items(self.automation_text)
+        # 0-1. 캠페인명 검색 일치 검증
+        groobee.search_campaign_row_by_name(self.Push_sched_campaign_name_re)
+        time.sleep(1)
 
+        # 1. 캠페인 리스트 > 관리 도구 > 수정하기 클릭
+        # 1. 관리 도구 클릭
+        groobee.click_tools_icon_by_name(self.Push_sched_campaign_name_re)
+        # 1-1. 수정 클릭
+        groobee.click_modify_icon()
+        time.sleep(1)
 
+        # 2. 캠페인 수정하기 노출 확인(h1)
+        assert driver.title ==self.Push_sched_expect_modify_title
+        # 2-1. 전체 지우기 >캠페인명 수정하기
+        expected_edit_camp_name = f"{self.Push_sched_campaign_name_re}{self.Edit_campaign}"
+        expected_edit_camp_des = f"{self.Push_sched_campaign_des_re}{self.Edit_campaign}"
 
+        groobee.send_cam_name_push(expected_edit_camp_name)
+        groobee.send_cam_des_push(expected_edit_camp_des)
+        time.sleep(1)
+
+        # 2-1. 캠페인명/상세 설명 텍스트필드 노출 확인
+        assert groobee.get_cam_name() == expected_edit_camp_name
+        time.sleep(1)
+        assert groobee.get_cam_des() == expected_edit_camp_des
+        time.sleep(1)
+
+        # 2-2. 타겟팅 유형 > 회원 정보 업로드 클릭
+        groobee.click_type_member_upload()
+        time.sleep(1)
+        # 2-3. 파일 업로드 RNB > 파일 업로드
+        groobee.click_file_upload_btn()
+        time.sleep(1)
+        file_path = BaseClass.getdata_file(self.expected_file_name_member)
+        groobee.send_file_input(file_path)
+        time.sleep(1)
+
+        # 2-4. [확인] 버튼
+        groobee.click_done_btn_pushnoti()
+        time.sleep(2)
+
+        # 2-5. 파일 업로드 일치 확인 *csv
+        groobee.assert_uploaded_body_csv_file_name(self.expected_file_name_member)
+        time.sleep(1)
+
+        # 2-3. 알림 목적 > 정보성 변경
+        # 2-4. 고급 옵션 제외
+        # 2-5. 다음 단계
+        # 3. 반복 설정 > 설정하기 클릭
+        # 3-1. 1일 마다 변경 > 확인 btn
+        # 3-2. 저장 > 다이얼로그 알럿 > 확인
+        # 4. 캠페인 리스트 -> 수정된 캠페인 리스트 확인
+        # 4-1. 서치바 > 수정 캠페인 검색 > 노출 확인
+
+    @pytest.mark.case_id(7016)
+    def test_7016(self, driver):
+        groobee = PushNotiPage(driver)
+
+       #[복사하기]
+
+        # 0. 진행 중 캠페인 중지
+        # 0-1. 단일 발송 캠페인
+        # 1. 캠페인 리스트 > 관리 도구 > 복사하기 클릭
+        # 2-1. 캠페인 명 > -copy 노출 확인
+        # 2-2. 제목 복사하기 확인
+        # 3. 기존 캠페인 == 복사 캠페인 기본 설정 일치 확인
+        # 3-1. 캠페인 명
+        # 3-2. 상세 설명
+        # 3-3. 태그
+        # 3-4. 타겟 유형
+
+        # 4. 알림 목적 일치 확인
+        # 4-1. 제목, 내용
+        # 4-2. 기존 이미지 , 본문 이미지
+        # 4-3. 클릭 동작
+        # 4-4. 고급 옵션
+        # 5. 옵션 설정 일치 확인
+        # 5-1.

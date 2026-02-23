@@ -1,5 +1,4 @@
 import time
-
 from selenium.common import TimeoutException
 
 from PageObjects.GroobeeActions import GroobeeActions
@@ -43,7 +42,7 @@ class PushNotiPage(GroobeeActions):
     # 타겟팅 유형
     type_segment = (By.XPATH, "//input[@value='세그먼트']")
     type_recipient_consent = (By.XPATH, "//label[.//input[@value='수신 동의자 전체']]")
-    type_member_upload =(By.XPATH, "//input[@value='회원 정보 업로드']")
+    type_member_upload =(By.XPATH, "//label[.//input[@value='회원 정보 업로드']]")
 
 
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
@@ -69,10 +68,11 @@ class PushNotiPage(GroobeeActions):
 
     #기본 이미지 - 설정 값 사용
     default_img_setting = (By.XPATH, "//label[.//span[normalize-space()='설정 값 사용']]")
-    #본문 이미지는 파일 업로드 RNB 공용 사용
-    # 본문 > 파일 업로드 확인
+    # 본문 이미지는 파일 업로드 RNB 공용 사용
+    # 본문 > 이미지 파일 업로드 확인
     uploaded_body_image_file_name= (By.XPATH, "//h6[text()='pushNoti_test_img.jpg']")
-
+    # 본문 > 회원 정보 업로드 확인
+    uploaded_body_csv_file_name=(By.XPATH, f"//*[contains(text(),'push_sample (37).csv')]")
     #수신 거부 표기
     unsubscribe_notice = (By.XPATH, "//div//input[@value='<푸시 수신거부 표기 문구>']")
 
@@ -88,8 +88,6 @@ class PushNotiPage(GroobeeActions):
     "/following::textarea[not(@aria-hidden)][1]")
     deepLink_textArea_iOS = (By.XPATH, "//label[normalize-space(.)='iOS*']"
     "/following::textarea[not(@aria-hidden)][1]")
-
-
 
     #고급 옵션
     advanced_options = (By.XPATH, "//button[contains(text(),'옵션 추가')]")
@@ -125,9 +123,6 @@ class PushNotiPage(GroobeeActions):
     # 캠페인 서치바
     def click_campaign_search(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.campaign_search, timeout).click()
-
-
-
 
     # 만들기 버튼
     def click_create_btn_push_schedule(self, timeout=10):
@@ -227,6 +222,7 @@ class PushNotiPage(GroobeeActions):
         time.sleep(1)
         el.send_keys(text)
 
+
     # 미리보기
     def is_preview_text_contains(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.preview_area, timeout)
@@ -234,7 +230,6 @@ class PushNotiPage(GroobeeActions):
 
     def is_preview_img_visible(self, timeout=10):
         return BaseClass.wait_visible(self.driver, self.preview_img, timeout)
-
 
     def get_preview_url(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.preview_url, timeout)
@@ -306,7 +301,6 @@ class PushNotiPage(GroobeeActions):
         )
         el = self.driver.find_element(*self.send_type_repeat)
         self.driver.execute_script("arguments[0].click();", el)
-
 
     #다이얼로그 > [확인][취소] btn
     def click_dialog_confirm_btn(self, timeout=10):
@@ -455,7 +449,7 @@ class PushNotiPage(GroobeeActions):
         assert actual_src.endswith(".png"), \
             f"[FAIL] PNG 이미지 아님: {actual_src}"
 
-    # 본문 > 파일 업로드 확인
+    # 본문 > 파일 업로드 확인 * image
     def assert_uploaded_body_image_file_name(self, expected_file_name):
         element = self.driver.find_element(
             By.XPATH,
@@ -463,6 +457,21 @@ class PushNotiPage(GroobeeActions):
         )
         assert element.is_displayed(), \
             f"[FAIL] 업로드 파일명 불일치: {expected_file_name}"
+
+    # 본문 > 파일 csv 확인
+    def assert_uploaded_body_csv_file_name(self, expected_file_name_member):
+        WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(
+                (By.XPATH, f"//span[contains(@class,'MuiChip-label') and contains(text(),'{expected_file_name_member}')]")
+            )
+        )
+
+        element = self.driver.find_element(
+            By.XPATH,
+            f"//span[contains(@class,'MuiChip-label') and contains(text(),'{expected_file_name_member}')]"
+        )
+
+        assert element.is_displayed(), f"[CSV 업로드 실패] {expected_file_name_member} 표시 안됨"
 
     # 딥 링크 > AOS 입력값 검증
     def assert_deepLink_textArea_AOS(self, expected_value):
