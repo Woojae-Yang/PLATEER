@@ -219,3 +219,7 @@ def _testrail_add_result_for_case(cfg, run_id: int, case_id: int, status_id: int
     if r.status_code >= 300:
         return False, f"{r.status_code} {r.text[:200]}"
     return True, "OK"
+
+# conftest.py에 추가
+def pytest_configure(config):
+    config.addinivalue_line("markers", "case_id(id): TestRail case ID")
