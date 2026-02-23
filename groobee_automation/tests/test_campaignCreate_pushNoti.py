@@ -539,8 +539,7 @@ class TestCampaignCreate(BaseClass):
         groobee.search_campaign_row_by_name(self.Push_sched_campaign_name_re)
         time.sleep(1)
 
-        # 1. 캠페인 리스트 > 관리 도구 > 수정하기 클릭
-        # 1. 관리 도구 클릭
+        # 1. 캠페인 리스트 -관리 도구 클릭
         groobee.click_tools_icon_by_name(self.Push_sched_campaign_name_re)
         # 1-1. 수정 클릭
         groobee.click_modify_icon()
@@ -552,8 +551,8 @@ class TestCampaignCreate(BaseClass):
         expected_edit_camp_name = f"{self.Push_sched_campaign_name_re}{self.Edit_campaign}"
         expected_edit_camp_des = f"{self.Push_sched_campaign_des_re}{self.Edit_campaign}"
 
-        groobee.send_cam_name_push(expected_edit_camp_name)
-        groobee.send_cam_des_push(expected_edit_camp_des)
+        groobee.send_cam_name_push(groobee.cam_name, expected_edit_camp_name)
+        groobee.send_cam_des_push(groobee.cam_des, expected_edit_camp_des)
         time.sleep(1)
 
         # 2-1. 캠페인명/상세 설명 텍스트필드 노출 확인
@@ -579,15 +578,83 @@ class TestCampaignCreate(BaseClass):
         # 2-5. 파일 업로드 일치 확인 *csv
         groobee.assert_uploaded_body_csv_file_name(self.expected_file_name_member)
         time.sleep(1)
+        groobee.click_next_btn()
+        time.sleep(1)
+        # 2-3. 2단계 - 알림 목적 > 정보성 변경
+        groobee.click_info_type()
+        time.sleep(1)
 
-        # 2-3. 알림 목적 > 정보성 변경
-        # 2-4. 고급 옵션 제외
+        #2-4. step 2 예상 타겟 수
+        try:
+            groobee.click_target_pushnoti_num_btn()
+        except TimeoutException:
+            driver.save_screenshot("target_result_timeout.png")
+            assert False, "예상 타겟 수 결과 UI가 20초 내 노출되지 않음"
+        # 2-4. 다시 확인하기 버튼 노출 확인
+        assert groobee.wait_target_num_re_btn_visible()
+        time.sleep(1)
+
+        # 2-5. 스크롤
+
+        # 2-6. 고급 옵션 삭제
+        groobee.click_advanced_options_cancel()
+        time.sleep(1)
         # 2-5. 다음 단계
+        groobee.click_next_btn()
+        time.sleep(1)
+
         # 3. 반복 설정 > 설정하기 클릭
-        # 3-1. 1일 마다 변경 > 확인 btn
-        # 3-2. 저장 > 다이얼로그 알럿 > 확인
-        # 4. 캠페인 리스트 -> 수정된 캠페인 리스트 확인
-        # 4-1. 서치바 > 수정 캠페인 검색 > 노출 확인
+        groobee.click_cycle_btn()
+        time.sleep(1)
+        groobee.click_cycle_num_bx()
+        time.sleep(1)
+        groobee.click_cycle_num_1()
+        time.sleep(1)
+        groobee.click_dialog_confirm_btn()
+
+        # 2-1. 옵션 설정 > 검증
+        def assert_send_type_options_exist(self):
+            single_option = self.driver.find_elements(*self.send_type_single)
+            repeat_option = self.driver.find_elements(*self.send_type_repeat)
+
+            assert len(single_option) > 0, "[FAIL] '단일 발송' 옵션이 존재하지 않습니다."
+            assert len(repeat_option) > 0, "[FAIL] '반복 발송' 옵션이 존재하지 않습니다."
+
+        # 3. 저장하기
+        groobee.click_save_btn()
+        time.sleep(1)
+
+        # 3-1. 캠페인 저장 - 다이얼로그 노출 > 확인 버튼
+        groobee.click_dialog_confirm_btn()
+        time.sleep(2)
+
+        # 4. 푸시알림 캠페인 LNB
+        groobee.click_pushnoti_menu()
+        time.sleep(1)
+
+        cam = groobee.get_cam_list_items(self.expected_edit_camp_name)
+        assert cam, \
+            f"생성된 캠페인이 리스트에 노출되지 않음: {self.expected_edit_camp_name}"
+        groobee.click_pause_icon_by_name(self.expected_edit_camp_name)
+        time.sleep(1)
+
+        # 4-1. 다이얼로그 캠페인 진행
+        dialogs = driver.find_elements(*groobee.dialog_confirm_btn)
+        if dialogs:
+            dialogs[0].click()
+        else:
+            print("다이얼로그 없음 → PASS")
+        time.sleep(2)
+
+        # 4-2. 캠페인명 검색
+        groobee.click_campaign_search()
+        time.sleep(1)
+        groobee.send_campaign_search(self.expected_edit_camp_name)
+        time.sleep(2)
+
+        # 4-3. 캠페인명 검색 일치 검증
+        groobee.search_campaign_row_by_name(self.expected_edit_camp_name)
+        time.sleep(1)
 
     @pytest.mark.case_id(7016)
     def test_7016(self, driver):

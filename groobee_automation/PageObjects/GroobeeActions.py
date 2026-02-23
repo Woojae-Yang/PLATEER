@@ -1,6 +1,5 @@
 import platform
 import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -211,25 +210,67 @@ class GroobeeActions:
         el.send_keys(modifier, "a")
         el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
-
-    def send_cam_name_push(self, text, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
-        modifier = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+    # 푸시 알림 캠페인 - 제목 수정
+    def send_cam_name_push(self, locator, value, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(locator)
+        )
         el.click()
-        el.send_keys(modifier, "a")
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            element.value = '';
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            """,
+            el
+        )
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            const value = arguments[1];
+            element.value = value;
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+            """,
+            el,
+            value
+        )
+        el.send_keys(Keys.SPACE)
         el.send_keys(Keys.BACKSPACE)
-        el.send_keys(text)
+
     def send_cam_des(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
         el.clear()
         el.send_keys(text)
-    def send_cam_des_push(self, text, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
-        modifier = Keys.COMMAND if platform.system() == "Darwin" else Keys.CONTROL
+
+    # 푸시 알림 캠페인 - 상세 설명 수정
+    def send_cam_des_push(self, locator, value, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(locator)
+        )
         el.click()
-        el.send_keys(modifier, "a")
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            element.value = '';
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            """,
+            el
+        )
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            const value = arguments[1];
+            element.value = value;
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+            """,
+            el,
+            value
+        )
+        el.send_keys(Keys.SPACE)
         el.send_keys(Keys.BACKSPACE)
-        el.send_keys(text)
+
     def get_cam_name(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
         return el.get_attribute("value")

@@ -93,6 +93,7 @@ class PushNotiPage(GroobeeActions):
     advanced_options = (By.XPATH, "//button[contains(text(),'옵션 추가')]")
     advanced_options_key = (By.XPATH, "//input[@placeholder='Key']")
     advanced_options_value = (By.XPATH, "//input[@placeholder='Value']")
+    advanced_options_cancel = (By.XPATH, "//button[.//svg[@data-testid='CloseOutlinedIcon']]")
 
     #미리보기
     preview_title = (By.XPATH, "//p[contains(@class,'MuiTypography-root') and contains(text(),'푸시 알림 캠페인')]")
@@ -290,6 +291,9 @@ class PushNotiPage(GroobeeActions):
         el = BaseClass.wait_visible(self.driver, self.advanced_options_value, timeout)
         el.clear()
         el.send_keys(text)
+    def click_advanced_options_cancel(self, timeout=10):
+        BaseClass.wait_visible(self.driver, self.advanced_options_cancel, timeout).click()
+
 
     # 3단계 > 단일, 반복 발송
     def click_send_type_single(self, timeout=10):
@@ -459,7 +463,7 @@ class PushNotiPage(GroobeeActions):
             f"[FAIL] 업로드 파일명 불일치: {expected_file_name}"
 
     # 본문 > 파일 csv 확인
-    def assert_uploaded_body_csv_file_name(self, expected_file_name_member):
+    def assert_uploaded_body_csv_file_name(self, expected_file_name_member, timeout=10):
         WebDriverWait(self.driver, timeout).until(
             EC.presence_of_element_located(
                 (By.XPATH, f"//span[contains(@class,'MuiChip-label') and contains(text(),'{expected_file_name_member}')]")
