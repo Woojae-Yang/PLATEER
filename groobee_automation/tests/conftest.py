@@ -177,7 +177,12 @@ def _testrail_add_result_for_case(cfg, run_id: int, case_id: int, status_id: int
 
 # 테스트 코드에서 중간 단계 결과를 직접 업로드할 때 호출하는 함수
 def upload_result(run_id: int, case_id: int, passed: bool):
-    status_id = 1 if passed else 5
+    if passed:
+        status_id = 1  # Passed
+    elif passed is False:
+        status_id = 5  # Failed
+    else:
+        status_id = 2  # Blocked
     cfg = _get_testrail_cfg()
     ok, msg = _testrail_add_result_for_case(cfg, run_id, case_id, status_id)
     if not ok:

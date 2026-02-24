@@ -103,6 +103,7 @@ class TestSegCreateCross:
         # 만들기 진입
         self.groobee.click_create_btn()
         time.sleep(1.5)
+        upload_result(run_id, 17156, BaseClass.wait_visible(driver, self.groobee.seg_title).is_displayed())
         assert BaseClass.wait_visible(driver, self.groobee.seg_title).is_displayed()
 
         # 세그먼트명, 상세설명 입력
@@ -114,6 +115,7 @@ class TestSegCreateCross:
         self.groobee.click_addtag_btn()
         self.groobee.send_tag_input(text = self.tag_text)
         self.groobee.click_tag_add()
+        upload_result(run_id, 17158, self.groobee.wait_tag_visible(self.tag_text))
         assert self.groobee.wait_tag_visible(self.tag_text)
         time.sleep(1.5)
         
@@ -167,6 +169,7 @@ class TestSegCreateCross:
         if total_cnt == '-1':
             status = self.groobee.check_api_status("/v1/segment/size")
             print(f'status: {status}')
+            upload_result(run_id, 17172, status==200)
             assert status == 200, f"예상과 다른 응답코드: {status}"
         
         # 저장 버튼 클릭
