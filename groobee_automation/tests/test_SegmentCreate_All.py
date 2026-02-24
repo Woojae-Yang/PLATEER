@@ -128,38 +128,45 @@ class TestSegCreateCross:
         # 2. 시점에 따른 세그먼트 변수 분기 처리
         # ==========================================================
         
-        if time_v == "과거 x 현재":
-            # --- [A] 크로스 시나리오 처리 ---
-            # 1. 과거 영역 설정 (var1 사용)
-            past_scope = BaseClass.wait_visible(driver, self.groobee.past_div)
-            self.groobee.click_var_btn_in_scope(self.groobee.past_div)
-            self.groobee.navigate_rnb(var1, self.rnb_map)
-            self.groobee.click_rnb_choose()
-            self.groobee.select_seg_details(v1_a, v1_b, scope_elem=past_scope)
-            
-            # 2. 현재 영역 설정 (var2 사용)
-            present_scope = BaseClass.wait_visible(driver, self.groobee.present_div)
-            self.groobee.click_var_btn_in_scope(self.groobee.present_div)
-            self.groobee.navigate_rnb(var2, self.rnb_map)
-            self.groobee.click_rnb_choose()
-            self.groobee.select_seg_details(v2_a, v2_b, scope_elem=present_scope)
-            
-        else:
-            # --- [B] 단일 시나리오 처리 (과거, 현재, None) ---
-            target_scope = None
-            if time_v in ["과거", None]:
-                target_scope = BaseClass.wait_visible(driver, self.groobee.past_div)
-            elif time_v == "현재":
-                target_scope = BaseClass.wait_visible(driver, self.groobee.present_div)
+        try:
+            if time_v == "과거 x 현재":
+                # --- [A] 크로스 시나리오 처리 ---
+                # 1. 과거 영역 설정 (var1 사용)
+                past_scope = BaseClass.wait_visible(driver, self.groobee.past_div)
+                self.groobee.click_var_btn_in_scope(self.groobee.past_div)
+                self.groobee.navigate_rnb(var1, self.rnb_map)
+                self.groobee.click_rnb_choose()
+                self.groobee.select_seg_details(v1_a, v1_b, scope_elem=past_scope)
+                
+                # 2. 현재 영역 설정 (var2 사용)
+                present_scope = BaseClass.wait_visible(driver, self.groobee.present_div)
+                self.groobee.click_var_btn_in_scope(self.groobee.present_div)
+                self.groobee.navigate_rnb(var2, self.rnb_map)
+                self.groobee.click_rnb_choose()
+                self.groobee.select_seg_details(v2_a, v2_b, scope_elem=present_scope)
+                
+            else:
+                # --- [B] 단일 시나리오 처리 (과거, 현재, None) ---
+                target_scope = None
+                if time_v in ["과거", None]:
+                    target_scope = BaseClass.wait_visible(driver, self.groobee.past_div)
+                elif time_v == "현재":
+                    target_scope = BaseClass.wait_visible(driver, self.groobee.present_div)
 
-            # 단일 케이스는 변수 추가 버튼 로직이 다를 수 있음 (기존 코드 반영)
-            self.groobee.click_add_seg_btn() 
-            time.sleep(1)
-            
-            self.groobee.navigate_rnb(var1, self.rnb_map)
-            self.groobee.click_rnb_choose()
-            self.groobee.select_seg_details(v1_a, v1_b, scope_elem=target_scope)
-
+                # 단일 케이스는 변수 추가 버튼 로직이 다를 수 있음 (기존 코드 반영)
+                self.groobee.click_add_seg_btn() 
+                time.sleep(1)
+                
+                self.groobee.navigate_rnb(var1, self.rnb_map)
+                self.groobee.click_rnb_choose()
+                self.groobee.select_seg_details(v1_a, v1_b, scope_elem=target_scope)
+            seg_var_ok = True
+        except Exception as e:
+            seg_var_ok = False
+            print(f"세그먼트 변수 설정 실패: {e}")
+        
+        upload_result(run_id, 17160, seg_var_ok)
+        assert seg_var_ok, "세그먼트 변수 설정 실패"
         
         # ==========================================================
         # 3. 매 케이스마다 즉시 확인 (검증 영역)
@@ -175,16 +182,17 @@ class TestSegCreateCross:
         # 저장 버튼 클릭
         self.groobee.click_save_btn()
         time.sleep(1)
-
+        
         seg_info = self.groobee.get_seg_info()
+        upload_result(run_id, 17173, seg_info)
 
+        upload_result(run_id, 17157, seg_title in seg_info['name'])
         assert seg_title in seg_info['name'], f"이름 불일치: {seg_info['name']}"
         assert seg_info['range'] == range_v, f"범위 불일치: {range_v}"
         if time_v is not None: # [타겟설정 > 시점]이 None인 경우에 대한 방어로직
             assert seg_info['segmentTime'] == time_v, f"시점 불일치: {time_v}"
         if cond_v is not None: # [타겟설정 > 조합]이 None인 경우에 대한 방어로직
             assert seg_info['segmentCheckCd'] == cond_v, f"조건 불일치: {cond_v}"
-
 
     @pytest.mark.copy_seg
     @pytest.mark.case_id(17176)
