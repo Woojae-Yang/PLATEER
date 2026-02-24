@@ -5,6 +5,7 @@ from datetime import datetime
 
 from PageObjects.SegmentPage import SegmentPage
 from utilities.BaseClass import BaseClass
+from tests.conftest import upload_result
 
 from selenium.webdriver.common.by import By
 
@@ -31,8 +32,8 @@ class TestSegDel:
         assert driver.title == self.login_expect_title
     
     @pytest.mark.del_seg
-    @pytest.mark.case_id(17175)
-    def test_delete_seg(self, driver):
+    def test_delete_seg(self, request, driver):
+        run_id = request.getfixturevalue("testrail_run_id")
         self.groobee.click_segment_menu()
         assert driver.title == self.seg_expect_title
 
@@ -42,12 +43,13 @@ class TestSegDel:
                 if BaseClass.wait_visible(driver, self.groobee.top_tools_btn).is_displayed():
                     self.groobee.click_top_tools_btn()
                     self.groobee.click_tools_del_btn()
+                    upload_result(run_id, 17174, self.modal_title == self.groobee.check_modal_title())
                     assert self.modal_title == self.groobee.check_modal_title()
                     self.groobee.click_modal_ok_btn()
-                else:
-                    empty_msg = self.groobee.get_empty_msg()
-                    assert empty_msg == self.empty_expect_msg
-                    break
-            except Exception as e:
-                print(f'[ERROR] {e}')
+            except AssertionError:
+                raise
+            except Exception:
+                empty_msg = self.groobee.get_empty_msg()
+                upload_result(run_id, 17175, empty_msg == self.empty_expect_msg)
+                assert empty_msg == self.empty_expect_msg
                 break

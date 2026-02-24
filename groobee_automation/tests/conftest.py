@@ -73,7 +73,7 @@ def driver(request):
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
     if headless_enabled:
         options.add_argument("--headless=new")
-        options.add_argument("--window-size=1920,1080")
+        options.add_argument("--window-size=2560,1440")
 
     # 드라이버 경로 설정
     if in_docker:
@@ -92,7 +92,7 @@ def driver(request):
 
     # 드라이버 생성 (여기서는 브라우저만 띄움)
     driver = webdriver.Chrome(service=service, options=options)
-    driver.implicitly_wait(5)
+    driver.implicitly_wait(10)
 
     # 로컬(비 headless)일 때만 maximize
     if not headless_enabled:

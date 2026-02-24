@@ -142,6 +142,7 @@ class TestSegCreateCross:
                 present_scope = BaseClass.wait_visible(driver, self.groobee.present_div)
                 self.groobee.click_var_btn_in_scope(self.groobee.present_div)
                 self.groobee.navigate_rnb(var2, self.rnb_map)
+                upload_result(run_id, 17159, BaseClass.wait_visible(driver,self.groobee.rnb_title_elem))
                 self.groobee.click_rnb_choose()
                 self.groobee.select_seg_details(v2_a, v2_b, scope_elem=present_scope)
                 
@@ -156,17 +157,15 @@ class TestSegCreateCross:
                 # 단일 케이스는 변수 추가 버튼 로직이 다를 수 있음 (기존 코드 반영)
                 self.groobee.click_add_seg_btn() 
                 time.sleep(1)
-                
                 self.groobee.navigate_rnb(var1, self.rnb_map)
+                upload_result(run_id, 17159, BaseClass.wait_visible(driver,self.groobee.rnb_title_elem))
                 self.groobee.click_rnb_choose()
                 self.groobee.select_seg_details(v1_a, v1_b, scope_elem=target_scope)
-            seg_var_ok = True
+            upload_result(run_id, 17160, True)
         except Exception as e:
-            seg_var_ok = False
-            print(f"세그먼트 변수 설정 실패: {e}")
-        
-        upload_result(run_id, 17160, seg_var_ok)
-        assert seg_var_ok, "세그먼트 변수 설정 실패"
+            upload_result(run_id, 17160, False)
+            raise
+
         
         # ==========================================================
         # 3. 매 케이스마다 즉시 확인 (검증 영역)

@@ -136,7 +136,7 @@ class SegmentPage(GroobeeActions):
     
     # 검색 결과 없음 안내 문구
     def get_empty_msg(self, timeout=10):
-        return BaseClass.wait_visible(self.driver, self.empty_msg, timeout)
+        return BaseClass.wait_visible(self.driver, self.empty_msg, timeout).text
 
     # 도구모음
     def click_top_tools_btn(self, timeout=10):
