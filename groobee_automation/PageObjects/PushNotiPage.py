@@ -53,6 +53,8 @@ class PushNotiPage(GroobeeActions):
     # 메시지 설정- 알림 목적
     ad_type = (By.XPATH, "//input[@value='광고성']")
     info_type = (By.XPATH, "//input[@value='정보성']")
+    info_type_alert = (By.XPATH, "//div[contains(@class,'MuiAlert-message') and contains(text(),'광고성 알림 수신 동의')]")
+
     #광고 문구 표기
     ad_KR = (By.XPATH, "//li[@data-value='한국어']")
     ad_EN = (By.XPATH, "//li[@data-value='영어']")
@@ -181,14 +183,12 @@ class PushNotiPage(GroobeeActions):
         el = BaseClass.wait_visible(self.driver, self.info_type)
         el.click()
         return self
-    # 메시지 설정 > 알림 목적 일치 확인
-    def get_is_info_type(self, timeout=10):
-        el = BaseClass.wait_visible(self.driver, self.info_type, timeout)
-        print("tag:", el.tag_name)
-        print("text:", el.text)
-        print("value:", el.get_attribute("value"))
-        print("checked:", el.get_attribute("checked"))
-        return el.text.strip()
+
+    # 메시지 설정 - 알림 목적 일치 확인 > 정보성 클릭 후 Alert 노출 확인
+    def wait_info_type_alert_visible(self, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(self.info_type_alert)
+        )
 
     def get_is_ad_type(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.ad_type, timeout)
