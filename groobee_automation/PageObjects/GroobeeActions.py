@@ -1,6 +1,5 @@
 import platform
 import time
-
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
@@ -116,6 +115,7 @@ class GroobeeActions:
     repeat_setBtn_input = (By.XPATH, "//input[@placeholder='YYYY.MM.DD ~ YYYY.MM.DD']")
     repeat_cycleBtn = (By.XPATH, "//button[contains(text(),'설정하기')]")
     repeat_cycle_num_bx = (By.XPATH, "//div[normalize-space()='1']")
+    edit_repeat_cycle_num_bx = (By.XPATH, "//div[@role='combobox' and contains(@class,'MuiSelect-select')]")
     repeat_cycle_num_1 = (By.XPATH, "//li[normalize-space()='1']")
     repeat_cycle_num_2 = (By.XPATH, "//li[normalize-space()='2']")
     repeat_cycle_num_3 = (By.XPATH, "//li[normalize-space()='3']")
@@ -211,10 +211,67 @@ class GroobeeActions:
         el.send_keys(modifier, "a")
         el.send_keys(Keys.BACKSPACE)
         el.send_keys(text)
+    # 푸시 알림 캠페인 - 제목 수정
+    def send_cam_name_push(self, locator, value, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(locator)
+        )
+        el.click()
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            element.value = '';
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            """,
+            el
+        )
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            const value = arguments[1];
+            element.value = value;
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+            """,
+            el,
+            value
+        )
+        el.send_keys(Keys.SPACE)
+        el.send_keys(Keys.BACKSPACE)
+
     def send_cam_des(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_des, timeout)
         el.clear()
         el.send_keys(text)
+
+    # 푸시 알림 캠페인 - 상세 설명 수정
+    def send_cam_des_push(self, locator, value, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.visibility_of_element_located(locator)
+        )
+        el.click()
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            element.value = '';
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            """,
+            el
+        )
+        self.driver.execute_script(
+            """
+            const element = arguments[0];
+            const value = arguments[1];
+            element.value = value;
+            element.dispatchEvent(new Event('input', { bubbles: true }));
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+            """,
+            el,
+            value
+        )
+        el.send_keys(Keys.SPACE)
+        el.send_keys(Keys.BACKSPACE)
+
     def get_cam_name(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.cam_name, timeout)
         return el.get_attribute("value")
@@ -372,6 +429,23 @@ class GroobeeActions:
         BaseClass.wait_clickable(self.driver, self.repeat_cycleBtn, timeout).click()
     def click_cycle_num_bx(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_bx, timeout).click()
+    def edit_click_cycle_num_bx(self, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(self.edit_repeat_cycle_num_bx)
+        )
+        self.driver.execute_script(
+            "arguments[0].scrollIntoView({block:'center'});", el
+        )
+        self.driver.execute_script("arguments[0].click();", el)
+
+    def edit_click_cycle_num_1(self, timeout=10):
+        # dropdown 열려 있는지 대기
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(self.repeat_cycle_num_1)
+        )
+        self.driver.execute_script("arguments[0].click();", el)
+
+
     def click_cycle_num_1(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.repeat_cycle_num_1, timeout).click()
     def click_cycle_num_2(self, timeout=10):

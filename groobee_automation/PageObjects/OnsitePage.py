@@ -6,16 +6,24 @@ from selenium.webdriver.support import expected_conditions as EC
 from PageObjects.GroobeeActions import GroobeeActions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import TimeoutException
 import time
 
 
 class OnsitePage(GroobeeActions):
     # =========================element 선언 영역========================
+    # 페이지 타이틀
+    report_title = "온사이트 캠페인 분석 리포트 :: GROOBEE"
+    list_title = "온사이트 캠페인 :: GROOBEE"
+
     # 온사이트 캠페인 관리
     create_dropdown_onsite = (By.XPATH, "//li[contains(text(),'온사이트 캠페인')]")
     create_dropdown_inapp = (By.XPATH, "//li[contains(text(),'인앱 메시지 캠페인')]")
-    list_title = (By.XPATH, "//h1[contains(text(),'온사이트 캠페인')]")
     except_btn = (By.XPATH, "//button[contains(text(),'제외 조건 관리')]")
+    more_btn =(By.XPATH, "//div[@data-field='box_cell']//button[@type='button']")
+    test_campaign = (By.XPATH, "//div[@aria-colindex='2']//p[contains(@class,'MuiTypography-root MuiTypography-body2') and contains(text(), '[QA][자동화]')]")
+    list_campaign_loc = (By.XPATH, "(//p[contains(@class,'MuiTypography-root MuiTypography-body2')])[2]")
+
 
     # 온사이트 캠페인 만들기
     title = (By.XPATH, "//h1[contains(text(),'새로운 온사이트 캠페인 만들기')]")
@@ -137,6 +145,43 @@ class OnsitePage(GroobeeActions):
     trigger_page_scroll_tf = (By.XPATH,"//div[p[contains(text(), '% 이상 봤을 때')]]/preceding-sibling::input[@placeholder='숫자만 입력 가능']")
     tlg_chip = (By.XPATH, "//span[contains(@class,'MuiChip-label')]")
 
+    # 캠페인 노출
+    camp_img = (By.XPATH, "//a[@id='image-all-A']//img[@class='img_999999']")
+    camp_btn1 = (By.XPATH, "//a[@id='btn-popup-A']")
+
+    # 분석 리포트
+    exp_cnt = (By.XPATH, "//div[h6[contains(text(), '노출 수')]]//following-sibling::div")
+    clk_cnt = (By.XPATH, "//h6[contains(., '클릭 수')]/ancestor::div[contains(@class, 'MuiPaper-root')]//div[contains(@class, 'subtitle1')]")
+    clk_detail = (By.XPATH, "//div[@class='MuiStack-root css-on2uk3']//button[@type='button'][contains(text(),'상세보기')]")
+    clk_datail_img_a =(By.XPATH, "//td[contains(text(), '(A안) 이미지 링크')]/following-sibling::td[1]")
+    or_cnt_tot = (By.XPATH, "//div[h6[contains(text(), '주문 수')]]//following-sibling::div[1]")
+    or_cnt_clk = (By.XPATH, "//div[h6[contains(text(), '주문 수')]]//following-sibling::div[2]")
+    conv_amt_cnt_tot = (By.XPATH, "//div[h6[contains(text(), '전환 금액')]]//following-sibling::div[1]")
+    conv_amt_cnt_clk = (By.XPATH, "//div[h6[contains(text(), '전환 금액')]]//following-sibling::div[2]")
+    clk_conv_per = (By.XPATH, "//h6[contains(., '클릭 전환율')]/ancestor::div[contains(@class, 'MuiPaper-root')]//div[contains(@class, 'subtitle1')]")
+    clk_conv_detail = (By.XPATH, "//div[@class='MuiStack-root css-1ro3byo']//button[@type='button'][contains(text(),'상세보기')]")
+    signup_conv_tot = (By.XPATH, "//div[h6[contains(text(), '회원가입 전환율')]]//following-sibling::div[1]")
+    signup_conv_clk = (By.XPATH, "//div[h6[contains(text(), '회원가입 전환율')]]//following-sibling::div[2]")
+    or_conv_tot = (By.XPATH, "//div[h6[contains(text(), '주문 전환율')]]//following-sibling::div[1]")
+    or_conv_clk = (By.XPATH, "//div[h6[contains(text(), '주문 전환율')]]//following-sibling::div[2]")
+    
+
+    
+    # 테스트샵
+    test_login = (By.XPATH, "//a[contains(text(),'로그인')]")
+    test_id_tf = (By.XPATH, "//fieldset[@class='memberArea']//input[@id='member_id']")
+    test_pw_tf = (By.XPATH, "//fieldset[@class='memberArea']//input[@id='member_passwd']")
+    test_login_btn = (By.XPATH, "//button[@type='button'][contains(text(),'로그인')]")
+    test_product = (By.XPATH, "//img[@id='eListPrdImage34_1']")
+    test_buy_btn = (By.XPATH, "//a[contains(@class,'btnSubmitL first')]")
+    test_or_name = (By.XPATH, "//input[@id='pname']")
+    test_or_bank_list = (By.XPATH, "//select[@id='bankaccount']")
+    test_or_bank_list1= (By.XPATH, "//option[contains(text(), '우리은행')]")
+    test_or_buy_btn= (By.XPATH, "//button[@id='btn_payment']")
+    test_or_agree_btn = (By.XPATH, "//input[@name='chk_purchase_agreement']")
+    test_or_comp = (By.XPATH, "//h2[contains(text(),'주문완료')]")
+
+
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
@@ -221,6 +266,23 @@ class OnsitePage(GroobeeActions):
                 print(f"\n [Fail] {locator} not found")
 
         return True
+    
+    def is_stepper3(self):
+
+        check_list = [
+            self.trigger_page_tgl_off,
+            # 추후 추가
+        ]
+
+        for locator in check_list:
+            try:
+                WebDriverWait(self.driver, 3).until(
+                    EC.visibility_of_element_located(locator)
+                )
+            except:
+                print(f"\n [Fail] {locator} not found")
+
+        return True
 
     def is_add_tag_modal(self):
         check_list = [
@@ -281,6 +343,17 @@ class OnsitePage(GroobeeActions):
             )
         )
         return True
+    
+    
+    def is_campaign_display(self, camp, retry=True):
+        try:
+            WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(camp))
+            return True
+        except TimeoutException:
+            if retry:
+                self.driver.refresh()
+                return self.is_campaign_display(camp, retry=False)
+            return False
 
     def input_text(self, loc, text, timeout=10):
         el = BaseClass.wait_clickable(self.driver, loc, timeout)
@@ -312,6 +385,9 @@ class OnsitePage(GroobeeActions):
     def click_listbox(self, lst, timeout=10):
         BaseClass.wait_clickable(self.driver, lst, timeout).click()
 
+    def click_checkbox(self, chk, timeout=10):
+        BaseClass.wait_clickable(self.driver, chk, timeout).click()
+
     def click_menu(self, menu, timeout=10):
         BaseClass.wait_clickable(self.driver, menu, timeout).click()
 
@@ -321,6 +397,9 @@ class OnsitePage(GroobeeActions):
     def click_tab(self, tab, timeout=10):
         BaseClass.wait_clickable(self.driver, tab, timeout).click()
 
+    def click_image(self, img, timeout=10):
+        BaseClass.wait_clickable(self.driver, img, timeout).click()
+
     def scroll_to_top(self):
         self.driver.execute_script("window.scrollTo(0, 0);")
         time.sleep(0.5)
@@ -328,3 +407,60 @@ class OnsitePage(GroobeeActions):
     def get_text(self, loc, timeout=10):
         el = BaseClass.wait_visible(self.driver, loc, timeout)
         return el.get_attribute("value")
+    
+    def get_textContent(self, loc, timeout=10):
+        el = BaseClass.wait_visible(self.driver, loc, timeout)
+        return el.get_attribute("textContent")
+
+    def open_new_tab(self, url):
+        self.driver.execute_script(f"window.open('{url}');")
+        self.driver.switch_to.window(self.driver.window_handles[-1])
+
+    def switch_tab(self, title):
+        handles = self.driver.window_handles
+    
+        for handle in handles:
+            self.driver.switch_to.window(handle)
+
+            if title in self.driver.title:
+                return True
+            
+        return False
+    
+    def get_current_url(self):
+        url = self.driver.current_url
+        return url
+    
+    def delete_campaign(self, driver):
+        while True:
+            try:
+                time.sleep(1)
+                el = WebDriverWait(driver, 5).until(
+                    EC.presence_of_element_located(self.test_campaign)
+                )
+                self.click_button(self.more_btn)
+                self.click_button(self.delete_icon)
+                self.click_button(self.delete_icon_confirm)
+
+            except TimeoutException:
+                break 
+            except Exception as e:
+                print(f"삭제 도중 오류 발생: {e}")
+                break
+
+    def move_storage(self, driver):
+        while True:
+            try:
+                time.sleep(1)
+                el = WebDriverWait(driver, 5).until(
+                    EC.presence_of_element_located(self.test_campaign)
+                )
+                self.click_button(self.more_btn)
+                self.click_button(self.moveto_storage)
+
+            except TimeoutException:
+                break 
+            except Exception as e:
+                # 예상치 못한 에러 발생 시 출력 후 종료
+                print(f"삭제 도중 오류 발생: {e}")
+                break
