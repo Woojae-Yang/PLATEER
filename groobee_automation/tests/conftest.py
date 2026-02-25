@@ -150,7 +150,6 @@ def clear_campaigns():
     return _clear
 
 
-
 # ==========================
 # TestRail API helper
 # ==========================
@@ -289,11 +288,6 @@ def pytest_runtest_makereport(item, call):
             comment=f"pytest nodeid: {item.nodeid}"
         )
 
-        if ok:
-            print(f"TestRail uploaded: Case {cid} -> status {status_id}")
-        else:
-            print(f"Upload failed for Case {cid}: {msg}")
-
-    def pytest_configure(config):
-        config.addinivalue_line("markers", "case_id(id): TestRail case ID")
-        config.addinivalue_line("markers", "run_id(id): TestRail run ID")  # 0225 추가
+def pytest_configure(config):
+    config.addinivalue_line("markers", "case_id(id): TestRail case ID")
+    config.addinivalue_line("markers", "run_id(id): TestRail run ID")  # 0225 추가

@@ -3,6 +3,7 @@ import pytest
 from PageObjects.SmsPage import SmsPage
 
 @pytest.mark.usefixtures("login")
+@pytest.mark.run_id(82)
 class TestSmsCampaignCreate:
     expect_sms_title = "SMS 캠페인 :: GROOBEE"
     expect_sms_regist_title = "새로운 SMS 캠페인 만들기 :: GROOBEE"
