@@ -41,12 +41,19 @@ def pytest_addoption(parser):
 # ==========================
 # Fixtures
 # ==========================
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")  # session -> class 0225 변경
 def testrail_run_id(request):
+    # 1) CLI 우선
     cli = request.config.getoption("--testrail-run-id")
     if cli:
         return int(cli)
 
+    # 2) 클래스(또는 상위) 마커에서 run_id 읽기
+    marker = request.node.get_closest_marker("run_id")
+    if marker and marker.args:
+        return int(marker.args[0])
+
+    # 3) .env fallback
     env = os.getenv("TESTRAIL_RUN_ID")
     return int(env) if env else None
 
@@ -141,7 +148,6 @@ def clear_campaigns():
     def _clear(page_obj, timeout=10):
         page_obj.move_all_running_to_pause(timeout=timeout)
     return _clear
-
 
 
 # ==========================
@@ -273,3 +279,4 @@ def pytest_runtest_makereport(item, call):
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "case_id(id): TestRail case ID")
+    config.addinivalue_line("markers", "run_id(id): TestRail run ID")  # 0225 추가
