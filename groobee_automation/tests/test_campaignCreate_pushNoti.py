@@ -1,14 +1,11 @@
 import time
-import os
 import pytest
 from selenium.common import JavascriptException, WebDriverException, NoSuchElementException, TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from PageObjects.SegmentPage import SegmentPage
 from utilities.BaseClass import BaseClass
 from PageObjects.PushNotiPage import PushNotiPage
-from selenium.webdriver.common.keys import Keys
 
 @pytest.fixture(scope="module")
 def testrail_run_id():
@@ -41,19 +38,16 @@ class TestCampaignCreate(BaseClass):
     Push_sched_message_contents = "내용: 스케쥴 발송 테스트"
     Push_sched_message_contents_re = "내용: 스케쥴 반복 발송 테스트"
     Push_sched_unsubscribe_notice ="[자동화]수신거부070"
-    Offsite_seg_id = "[QA][HS] OFFSITE_회원ID_세그먼트용" #qa_hs_seg
+    Offsite_seg_id = "[QA][HS] OFFSITE_회원ID_세그먼트용"
     expected_file_name = "pushNoti_test_img.jpg"
     expected_file_name_member = "push_sample (37).csv"
     Offsite_deepLink_AOS ="groobee://campaign/detail?id=12"
     Offsite_deepLink_iOS ="https://app.groobee.io/campaign/detail?id=45"
     Offsite_webBrowser ="https://groobee.shop/product/list.html?cate_no=25"
-    Offsite_advanced_key ="누텔라"
-    Offsite_advanced_value = "15000"
+    Offsite_advanced_key ="초코"
+    Offsite_advanced_value = "누텔라"
     ad_type_str="광고성"
     info_type_str="정보성"
-
-    #타겟팅 유형> 세그먼트, 광고성, 기본 이미지> 설정(업로드된 상태), 본문 이미지,
-    # 딥링크(aos,ios), 고급 옵션
 
     #  ========case 1 단일 발송  ==========
     @pytest.mark.case_ids([17350,17351,17352])
@@ -93,15 +87,12 @@ class TestCampaignCreate(BaseClass):
         # 1.만들기 버튼 클릭
         groobee.click_create_pushnoti_btn()
         time.sleep(2)
-
         # 2.스케쥴 발송 선택
         groobee.click_create_btn_push_schedule()
         time.sleep(1)
-
         # 2. 새로운 푸시 알림 캠페인 만들기 페이지 노출 확인
         assert driver.title == self.Push_sched_campaign_brower_expect_title
         time.sleep(1)
-
 
     @pytest.mark.testrail(case_ids=[17354,17355])
     def test_7002(self,driver):
@@ -111,7 +102,6 @@ class TestCampaignCreate(BaseClass):
         groobee.send_cam_name(self.Push_sched_campaign_name)
         groobee.send_cam_des(self.Push_sched_campaign_des)
         time.sleep(1)
-
         # 1. 캠페인명/상세 설명 텍스트필드 노출 확인
         assert groobee.get_cam_name() == self.Push_sched_campaign_name
         assert groobee.get_cam_des() == self.Push_sched_campaign_des
@@ -133,8 +123,7 @@ class TestCampaignCreate(BaseClass):
     def test_7004(self,driver):
         groobee = PushNotiPage(driver)
 
-        # 1. 타겟팅 유형 > 세그먼트
-        # 2. 세그먼트 불러오기 RNB 선택
+        # 1. 타겟팅 유형 > 세그먼트 > 세그먼트 불러오기 RNB 선택
         groobee.click_seg_load()
         time.sleep(1)
         # 2-1. 세그먼트 탭
@@ -157,7 +146,6 @@ class TestCampaignCreate(BaseClass):
     @pytest.mark.case_id(17359)
     def test_7005(self,driver):
         groobee = PushNotiPage(driver)
-
         # 1. step 2 예상 타겟 수
         try:
             groobee.click_target_pushnoti_num_btn()
@@ -192,7 +180,7 @@ class TestCampaignCreate(BaseClass):
         # 3. 미리 보기 > 내용* 입력값 일치
         groobee.assert_push_preview_message(self.Push_sched_message_contents)
 
-        # 4. 미리 보기 > 수신거부 내용 일치
+        # 4. 미리 보기 > 수신 거부 내용 일치
         groobee.assert_push_preview_unsubscribe(self.Push_sched_unsubscribe_notice)
 
     @pytest.mark.testrail(case_ids=[17366,17367])
@@ -288,7 +276,7 @@ class TestCampaignCreate(BaseClass):
         # 2-1. 캠페인 저장 - 다이얼로그 노출 > 확인 버튼
         groobee.click_dialog_confirm_btn()
         time.sleep(2)
-        # 2-2. 푸시알림 캠페인 LNB
+        # 2-2. 푸시 알림 캠페인 LNB
         groobee.click_pushnoti_menu()
         time.sleep(1)
         # 2-3. 리스트 > 저장된 캠페인 일치 확인
@@ -446,10 +434,7 @@ class TestCampaignCreate(BaseClass):
         time.sleep(1)
 
 # ============= case 3 반복 발송==============================================
-    @pytest.mark.case_id(17375)
-    @pytest.mark.case_id(17376)
-    @pytest.mark.case_id(17377)
-    @pytest.mark.case_id(17378)
+    @pytest.mark.case_ids([17375, 17376, 17377,17378])
     def test_7013(self,driver):
         groobee = PushNotiPage(driver)
 
@@ -475,9 +460,7 @@ class TestCampaignCreate(BaseClass):
         assert driver.title == self.Push_sched_campaign_brower_expect_title
         time.sleep(1)
 
-    @pytest.mark.case_id(17379)
-    @pytest.mark.case_id(17380)
-
+    @pytest.mark.case_ids([17379, 17380])
     def test_7014(self, driver):
         groobee = PushNotiPage(driver)
 
@@ -490,18 +473,7 @@ class TestCampaignCreate(BaseClass):
         assert groobee.get_cam_name() == self.Push_sched_campaign_name_re
         assert groobee.get_cam_des() == self.Push_sched_campaign_des_re
 
-    @pytest.mark.case_id(17381)
-    @pytest.mark.case_id(17382)
-    @pytest.mark.case_id(17383)
-    @pytest.mark.case_id(17384)
-    @pytest.mark.case_id(17385)
-    @pytest.mark.case_id(17386)
-    @pytest.mark.case_id(17387)
-    @pytest.mark.case_id(17388)
-    @pytest.mark.case_id(17389)
-    @pytest.mark.case_id(17390)
-    @pytest.mark.case_id(17391)
-    @pytest.mark.case_id(17392)
+    @pytest.mark.case_ids([17381, 17382, 17383, 17384, 17385, 17386, 17387, 17388, 17389,17390, 17391, 17392])
     def test_7015(self, driver):
         groobee = PushNotiPage(driver)
 
@@ -592,8 +564,7 @@ class TestCampaignCreate(BaseClass):
         # 7-1. webBrowser > 입력 내용 일치
         groobee.assert_launch_webBrowser(self.Offsite_webBrowser)
 
-    @pytest.mark.case_id(17394)
-    @pytest.mark.case_id(17395)
+    @pytest.mark.case_ids([17394, 17395])
     def test_7019(self, driver):
         groobee = PushNotiPage(driver)
         # 8. 고급 옵션
@@ -610,8 +581,7 @@ class TestCampaignCreate(BaseClass):
         groobee.assert_advanced_options_value(self.Offsite_advanced_value)
         time.sleep(1)
 
-    @pytest.mark.case_id(17396)
-    @pytest.mark.case_id(17397)
+    @pytest.mark.case_ids([17396, 17397])
     def test_7020(self, driver):
         groobee = PushNotiPage(driver)
 
@@ -644,8 +614,7 @@ class TestCampaignCreate(BaseClass):
             assert len(single_option) > 0, "[FAIL] '단일 발송' 옵션이 존재하지 않습니다."
             assert len(repeat_option) > 0, "[FAIL] '반복 발송' 옵션이 존재하지 않습니다."
 
-    @pytest.mark.case_id(17398)
-    @pytest.mark.case_id(17399)
+    @pytest.mark.case_ids([17398, 17399])
     def test_7021(self, driver):
         groobee = PushNotiPage(driver)
 
@@ -685,20 +654,8 @@ class TestCampaignCreate(BaseClass):
         groobee.search_campaign_row_by_name(self.Push_sched_campaign_name_re)
         time.sleep(1)
 
-# =========== case 3 (수정하기) =========
-    @pytest.mark.case_id(17400)
-    @pytest.mark.case_id(17401)
-    @pytest.mark.case_id(17402)
-    @pytest.mark.case_id(17403)
-    @pytest.mark.case_id(17404)
-    @pytest.mark.case_id(17405)
-    @pytest.mark.case_id(17406)
-    @pytest.mark.case_id(17407)
-    @pytest.mark.case_id(17408)
-    @pytest.mark.case_id(17409)
-    @pytest.mark.case_id(17410)
-    @pytest.mark.case_id(17411)
-    @pytest.mark.case_id(17412)
+## =========== case 3 -edit =============================================================================
+    @pytest.mark.case_ids([17400, 17401, 17402, 17403,17404, 17405, 17406, 17407, 17408,17409, 17410, 17411, 17412])
     def test_7022(self, driver):
         groobee = PushNotiPage(driver)
         # 1-1. 진행 중 캠페인 중지
