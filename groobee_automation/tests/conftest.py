@@ -41,12 +41,19 @@ def pytest_addoption(parser):
 # ==========================
 # Fixtures
 # ==========================
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")  # session -> class 0225 변경
 def testrail_run_id(request):
+    # 1) CLI 우선
     cli = request.config.getoption("--testrail-run-id")
     if cli:
         return int(cli)
 
+    # 2) 클래스(또는 상위) 마커에서 run_id 읽기
+    marker = request.node.get_closest_marker("run_id")
+    if marker and marker.args:
+        return int(marker.args[0])
+
+    # 3) .env fallback
     env = os.getenv("TESTRAIL_RUN_ID")
     return int(env) if env else None
 
@@ -198,78 +205,95 @@ def pytest_runtest_makereport(item, call):
     rep = outcome.get_result()
     driver = item.funcargs.get("driver", None)
 
-    # 실패 시 스크린샷 저장 (call 단계)
+    # -------------------------
+    # 1.실패 시 스크린샷
+    # -------------------------
     if rep.when == "call" and rep.failed and driver:
         screenshot_dir = os.path.join(os.getcwd(), "screenshots")
         os.makedirs(screenshot_dir, exist_ok=True)
         file_path = os.path.join(screenshot_dir, f"{item.name}.png")
         driver.save_screenshot(file_path)
-        print(f"\nScreenshot saved to: {file_path}")
+        print(f"\n Screenshot saved: {file_path}")
 
-    # TestRail 업로드 (call 단계에서만)
+    # -------------------------
+    # 2️⃣ TestRail 업로드는 call 단계에서만
+    # -------------------------
     if rep.when != "call":
         return
 
     enabled = item.config.getoption("--testrail-upload").lower() == "true"
-    # fixture를 테스트 코드에서 명시적으로 받지 않아도 hook에서 강제로 읽기
     run_id = item._request.getfixturevalue("testrail_run_id")
 
-    if not enabled or not run_id:
-        return  # 업로드 비활성 또는 run_id 없음
-    
+    if not enabled:
+        print("TestRail upload disabled")
+        return
 
-    # case_id 마커 읽기 ----------------------------------------
+    if not run_id:
+        print("No TestRail run_id provided")
+        return
+
+    # -------------------------
+    # 3️⃣ case_id 수집 (완전 통합)
+    # -------------------------
     case_ids = []
 
-    ### 단수형 마커 처리: @pytest.mark.case_id(123) 형태
-    m = item.get_closest_marker("case_id")
-    if not m or not m.args:
-        return  # 마커 없으면 업로드 스킵
-    case_id = int(m.args[0])
+    # @pytest.mark.case_id(123)
+    for m in item.iter_markers(name="case_id"):
+        case_ids.extend(m.args)
 
-    ### 복합 마커 처리: @pytest.mark.case_ids(101, 102) 또는 ([101, 102])
-    ### @pytest.mark.testrail(case_ids=[...]) 또는 (case_id=...) 형태
-    
-    m_multi = item.get_closest_marker("case_ids") or item.get_closest_marker("testrail")
-    
-    if m_multi:
-        # positional args 확인: @pytest.mark.case_ids(101, 102)
-        if m_multi.args:
-            for arg in m_multi.args:
-                if isinstance(arg, (list, tuple, set)):
-                    case_ids.extend([int(x) for x in arg])
-                else:
-                    case_ids.append(int(arg))
-        
-        # keyword args 확인: @pytest.mark.testrail(case_ids=[101, 102])
-        raw_ids = m_multi.kwargs.get("case_ids") or m_multi.kwargs.get("case_id")
+    # @pytest.mark.case_ids(123, 456) 또는 ([123,456])
+    for m in item.iter_markers(name="case_ids"):
+        for arg in m.args:
+            if isinstance(arg, (list, tuple, set)):
+                case_ids.extend(arg)
+            else:
+                case_ids.append(arg)
+
+    # @pytest.mark.testrail(case_ids=[...])
+    for m in item.iter_markers(name="testrail"):
+        raw_ids = m.kwargs.get("case_ids") or m.kwargs.get("case_id")
         if raw_ids:
             if isinstance(raw_ids, (list, tuple, set)):
-                case_ids.extend([int(x) for x in raw_ids])
+                case_ids.extend(raw_ids)
             else:
-                case_ids.append(int(raw_ids))
+                case_ids.append(raw_ids)
 
-    # 중복 제거 및 최종 확인
-    case_ids = list(set(case_ids))
+    # 중복 제거 + 정수 변환
+    case_ids = list(set(int(x) for x in case_ids))
+
     if not case_ids:
-        return  # 전송할 ID가 없으면 중단
-    # case_id 수집 완료 ----------------------------------------
+        print(f"ℹ️ No case_id marker for {item.name}")
+        return
 
+    # -------------------------
+    # 4️⃣ 상태 매핑
+    # -------------------------
     if rep.passed:
-        status_id = 1  # Passed
+        status_id = 1   # Passed
     elif rep.failed:
-        status_id = 5  # Failed
+        status_id = 5   # Failed
     else:
-        status_id = 2  # Blocked
+        status_id = 2   # Blocked
 
-    # [업로드 실행] 각 Case ID별로 결과 전송
     cfg = _get_testrail_cfg()
-    ok, msg = _testrail_add_result_for_case(
-        cfg, run_id, case_id, status_id, comment=f"pytest nodeid: {item.nodeid}"
-    )
-    if not ok:
-        print(f"[TestRail] upload failed: {msg}")
 
+    # -------------------------
+    # 5️⃣ 각 Case별 업로드
+    # -------------------------
+    for cid in case_ids:
+        ok, msg = _testrail_add_result_for_case(
+            cfg,
+            run_id,
+            cid,
+            status_id,
+            comment=f"pytest nodeid: {item.nodeid}"
+        )
 
-def pytest_configure(config):
-    config.addinivalue_line("markers", "case_id(id): TestRail case ID")
+        if ok:
+            print(f"TestRail uploaded: Case {cid} -> status {status_id}")
+        else:
+            print(f"Upload failed for Case {cid}: {msg}")
+
+    def pytest_configure(config):
+        config.addinivalue_line("markers", "case_id(id): TestRail case ID")
+        config.addinivalue_line("markers", "run_id(id): TestRail run ID")  # 0225 추가
