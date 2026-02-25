@@ -290,4 +290,6 @@ def pytest_runtest_makereport(item, call):
 
 def pytest_configure(config):
     config.addinivalue_line("markers", "case_id(id): TestRail case ID")
+    config.addinivalue_line("markers", "case_ids(ids): TestRail 복수 case ID 등록용 (리스트 가능)") # 0225 추가
+    config.addinivalue_line("markers", "testrail(kwargs): TestRail 통합 마커 (case_ids=[...] 형태)") # 0225 추가
     config.addinivalue_line("markers", "run_id(id): TestRail run ID")  # 0225 추가
