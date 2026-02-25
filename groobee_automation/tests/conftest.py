@@ -217,12 +217,43 @@ def pytest_runtest_makereport(item, call):
     if not enabled or not run_id:
         return  # 업로드 비활성 또는 run_id 없음
     
-    # case_id 마커 읽기: @pytest.mark.case_id(<id>)
+
+    # case_id 마커 읽기 ----------------------------------------
+    case_ids = []
+
+    ### 단수형 마커 처리: @pytest.mark.case_id(123) 형태
     m = item.get_closest_marker("case_id")
     if not m or not m.args:
         return  # 마커 없으면 업로드 스킵
-
     case_id = int(m.args[0])
+
+    ### 복합 마커 처리: @pytest.mark.case_ids(101, 102) 또는 ([101, 102])
+    ### @pytest.mark.testrail(case_ids=[...]) 또는 (case_id=...) 형태
+    
+    m_multi = item.get_closest_marker("case_ids") or item.get_closest_marker("testrail")
+    
+    if m_multi:
+        # positional args 확인: @pytest.mark.case_ids(101, 102)
+        if m_multi.args:
+            for arg in m_multi.args:
+                if isinstance(arg, (list, tuple, set)):
+                    case_ids.extend([int(x) for x in arg])
+                else:
+                    case_ids.append(int(arg))
+        
+        # keyword args 확인: @pytest.mark.testrail(case_ids=[101, 102])
+        raw_ids = m_multi.kwargs.get("case_ids") or m_multi.kwargs.get("case_id")
+        if raw_ids:
+            if isinstance(raw_ids, (list, tuple, set)):
+                case_ids.extend([int(x) for x in raw_ids])
+            else:
+                case_ids.append(int(raw_ids))
+
+    # 중복 제거 및 최종 확인
+    case_ids = list(set(case_ids))
+    if not case_ids:
+        return  # 전송할 ID가 없으면 중단
+    # case_id 수집 완료 ----------------------------------------
 
     if rep.passed:
         status_id = 1  # Passed
@@ -231,6 +262,7 @@ def pytest_runtest_makereport(item, call):
     else:
         status_id = 2  # Blocked
 
+    # [업로드 실행] 각 Case ID별로 결과 전송
     cfg = _get_testrail_cfg()
     ok, msg = _testrail_add_result_for_case(
         cfg, run_id, case_id, status_id, comment=f"pytest nodeid: {item.nodeid}"
