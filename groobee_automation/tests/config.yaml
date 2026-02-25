@@ -4,9 +4,6 @@ testrail:
   user: "khs06@plateer.com"
   api_key_env: TESTRAIL_API_KEY
 
-  project_id: 10
-  suite_id: 21
-
   run:
     name_template: "[Run] 푸시알림 캠페인(스케줄) - {date} - {marker}"
-    include_all: false
+    id: 83
