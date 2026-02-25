@@ -14,7 +14,7 @@ from selenium.webdriver.common.keys import Keys
 def testrail_run_id():
     return 84  # 이 파일의 TestRail Run ID
 
-@pytest.mark.usefixtures("login")
+@pytest.mark.usefixtures("driver", "login")
 class TestCampaignCreate(BaseClass):
 
     Push_campaign_brower_title = "푸시 알림 캠페인 :: GROOBEE"
