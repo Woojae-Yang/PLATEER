@@ -1,4 +1,6 @@
 selenium~=4.40.0
+selenium-wire==5.1.0
 pytest~=9.0.2
 requests~=2.32.4
 python-dotenv~=1.2.1
+pyaywright~=1.57.0
