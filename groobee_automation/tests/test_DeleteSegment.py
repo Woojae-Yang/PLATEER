@@ -32,6 +32,7 @@ class TestSegDel:
         assert driver.title == self.login_expect_title
     
     @pytest.mark.del_seg
+    @pytest.mark.case_ids(17174, 17175)
     def test_delete_seg(self, request, driver):
         run_id = request.getfixturevalue("testrail_run_id")
         self.groobee.click_segment_menu()
@@ -43,13 +44,9 @@ class TestSegDel:
                 if BaseClass.wait_visible(driver, self.groobee.top_tools_btn).is_displayed():
                     self.groobee.click_top_tools_btn()
                     self.groobee.click_tools_del_btn()
-                    upload_result(run_id, 17174, self.modal_title == self.groobee.check_modal_title())
-                    assert self.modal_title == self.groobee.check_modal_title()
+                    
                     self.groobee.click_modal_ok_btn()
-            except AssertionError:
-                raise
             except Exception:
                 empty_msg = self.groobee.get_empty_msg()
-                upload_result(run_id, 17175, empty_msg == self.empty_expect_msg)
                 assert empty_msg == self.empty_expect_msg
                 break

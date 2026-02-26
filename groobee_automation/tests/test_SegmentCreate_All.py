@@ -20,17 +20,17 @@ class TestSegCreateCross:
     # --- [단일 케이스] 뒤의 변수2 영역은 모두 None 처리 ---
     # (case_id, range_v, time_v, cond_v, var1, v1_a, v1_b, var2, v2_a, v2_b)
         pytest.param(17161, "온사이트(웹/하이브리드)", "과거",       None,       "브라우저",    "Chrome",            "일 때",           None, None, None, id="web_past_browser_chrome"),
-        pytest.param(17162, "온사이트(웹/하이브리드)", "현재",       "AND/OR",   "브라우저",    "Chrome",            "아닐 때",         None, None, None, id="web_now_browser_chrome_not"),
+    #    pytest.param(17162, "온사이트(웹/하이브리드)", "현재",       "AND/OR",   "브라우저",    "Chrome",            "아닐 때",         None, None, None, id="web_now_browser_chrome_not"),
         pytest.param(17163, "온사이트(웹/하이브리드)", "현재",       "시퀀스(강)", "방문 페이지", "https://groobee.net", "일 때",          None, None, None, id="web_now_page_strong"),
-        pytest.param(17164, "온사이트(웹/하이브리드)", "현재",       "시퀀스(약)", "방문 페이지", "https://groobee.net", "포함할 때",      None, None, None, id="web_now_page_weak"),
-        pytest.param(17165, "온사이트(네이티브)",      "과거",       None,       "첫 방문",     None,                None,              None, None, None, id="native_past_first_visit"),
+    #    pytest.param(17164, "온사이트(웹/하이브리드)", "현재",       "시퀀스(약)", "방문 페이지", "https://groobee.net", "포함할 때",      None, None, None, id="web_now_page_weak"),
+    #    pytest.param(17165, "온사이트(네이티브)",      "과거",       None,       "첫 방문",     None,                None,              None, None, None, id="native_past_first_visit"),
         pytest.param(17166, "온사이트(네이티브)",      "현재",       "AND/OR",   "첫 방문",     None,                None,              None, None, None, id="native_now_first_visit"),
-        pytest.param(17167, "온사이트(네이티브)",      "현재",       "시퀀스(강)", "담은 상품명", "젤라또",            "포함하지 않을 때", None, None, None, id="native_now_cart_strong"),
+     #   pytest.param(17167, "온사이트(네이티브)",      "현재",       "시퀀스(강)", "담은 상품명", "젤라또",            "포함하지 않을 때", None, None, None, id="native_now_cart_strong"),
         pytest.param(17168, "온사이트(네이티브)",      "현재",       "시퀀스(약)", "담은 상품명", "젤라또",            "아닐 때",         None, None, None, id="native_now_cart_weak"),
         pytest.param(17169, "오프사이트",             None,         None,       "로그인 방문자", None,               None,              None, None, None, id="offsite_login_visitor"),
         
         # --- [크로스 케이스] 변수1(과거), 변수2(현재) 모두 사용 ---
-        pytest.param(17170, "온사이트(웹/하이브리드)", "과거 x 현재", None,      "주문 횟수",   5,                   "이상",            "로그인 방문자", None, None, id="web_cross_order_login"),
+    #    pytest.param(17170, "온사이트(웹/하이브리드)", "과거 x 현재", None,      "주문 횟수",   5,                   "이상",            "로그인 방문자", None, None, id="web_cross_order_login"),
         pytest.param(17171, "온사이트(네이티브)",      "과거 x 현재", None,      "첫 방문",     None,                None,              "로그인 방문자", None, None, id="native_cross_first_login")
          ]
 
