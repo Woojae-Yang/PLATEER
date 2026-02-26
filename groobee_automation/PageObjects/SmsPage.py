@@ -41,7 +41,7 @@ class SmsPage(GroobeeActions):
     # 미리보기
     preview_area = (By.XPATH, "(//button[normalize-space()='발송 테스트']/ancestor::*[.//div[contains(@class,'MuiPaper-root')]][1]//div[contains(@class,'MuiPaper-root')])[1]")
     preview_img = (By.XPATH, "(//img[contains(@src,'/upload_file/')])[2]")
-    preview_url = (By.XPATH, "//a[contains(@href,'grb.ai/s/')]")
+    preview_url = (By.XPATH, "//span[contains(normalize-space(.),'https://grb.ai/s/')]")
 
     # 옵션 설정 서브타이틀
     sms_subtitle_option = (By.XPATH, "//h6[contains(text(),'스케줄')]")
@@ -100,9 +100,19 @@ class SmsPage(GroobeeActions):
         return text in el.text
     def is_preview_img_visible(self, timeout=10):
         return BaseClass.wait_visible(self.driver, self.preview_img, timeout)
+
     def get_preview_url(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.preview_url, timeout)
-        return el.get_attribute("href").strip()
+
+        # 1) a 태그일 경우
+        href = el.get_attribute("href")
+        if href:
+            return href.strip()
+
+        # 2) span/text 구조일 경우
+        text = (el.text or el.get_attribute("textContent") or "").strip()
+        return text
+
     def is_preview_url_match(self, timeout=10):
         created = self.get_created_short_url(timeout)
         preview = self.get_preview_url(timeout)
