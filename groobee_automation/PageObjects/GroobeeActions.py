@@ -287,6 +287,7 @@ class GroobeeActions:
         el.clear()
         el.send_keys(text)
         el.send_keys(Keys.ENTER)
+        time.sleep(1.5)
     def click_order_frequency_tab(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.order_frequency_tab, timeout).click()
     def click_order_ganada_tab(self, timeout=10):

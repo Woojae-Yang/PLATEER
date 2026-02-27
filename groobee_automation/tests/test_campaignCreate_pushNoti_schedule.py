@@ -56,7 +56,7 @@ class TestCampaignCreate(BaseClass):
 
         # 1. 푸시 알림 캠페인 LNB 클릭
         groobee.click_pushnoti_menu()
-        time.sleep(3)
+        time.sleep(1)
 
         # 1. 푸시 알림 캠페인 페이지 노출 확인 _브라우저 타이틀
         assert driver.title == self.Push_campaign_brower_title
@@ -86,7 +86,7 @@ class TestCampaignCreate(BaseClass):
         groobee = PushNotiPage(driver)
         # 1.만들기 버튼 클릭
         groobee.click_create_pushnoti_btn()
-        time.sleep(2)
+        time.sleep(1)
         # 2.스케쥴 발송 선택
         groobee.click_create_btn_push_schedule()
         time.sleep(1)
@@ -232,7 +232,6 @@ class TestCampaignCreate(BaseClass):
         groobee.click_advanced_options()
         time.sleep(1)
         groobee.click_advanced_options_key(self.Offsite_advanced_key)
-        time.sleep(1)
         groobee.click_advanced_options_value(self.Offsite_advanced_value)
         time.sleep(1)
 

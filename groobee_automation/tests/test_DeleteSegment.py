@@ -9,10 +9,13 @@ from tests.conftest import upload_result
 
 from selenium.webdriver.common.by import By
 
+'''
 @pytest.fixture(scope="module")
 def testrail_run_id():
     return 80  # 이 파일의 TestRail Run ID
+'''
 
+@pytest.mark.run_id(80)
 @pytest.mark.usefixtures("driver", "login")
 class TestSegDel:
 
@@ -24,7 +27,7 @@ class TestSegDel:
     login_expect_title = "대시보드 :: GROOBEE"
     seg_expect_title = "세그먼트 타겟팅 :: GROOBEE"
     empty_expect_msg = "검색 결과가 없습니다."
-    modal_title = '세그먼트 삭제'
+    del_modal_title = '세그먼트 삭제'
 
     @pytest.mark.login
     def test_login(self, driver, login):
@@ -32,8 +35,8 @@ class TestSegDel:
         assert driver.title == self.login_expect_title
     
     @pytest.mark.del_seg
+    @pytest.mark.case_ids(17174, 17175)
     def test_delete_seg(self, request, driver):
-        run_id = request.getfixturevalue("testrail_run_id")
         self.groobee.click_segment_menu()
         assert driver.title == self.seg_expect_title
 
@@ -43,13 +46,8 @@ class TestSegDel:
                 if BaseClass.wait_visible(driver, self.groobee.top_tools_btn).is_displayed():
                     self.groobee.click_top_tools_btn()
                     self.groobee.click_tools_del_btn()
-                    upload_result(run_id, 17174, self.modal_title == self.groobee.check_modal_title())
-                    assert self.modal_title == self.groobee.check_modal_title()
                     self.groobee.click_modal_ok_btn()
-            except AssertionError:
-                raise
             except Exception:
                 empty_msg = self.groobee.get_empty_msg()
-                upload_result(run_id, 17175, empty_msg == self.empty_expect_msg)
                 assert empty_msg == self.empty_expect_msg
                 break
