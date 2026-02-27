@@ -15,7 +15,7 @@ def testrail_run_id():
     return 80  # 이 파일의 TestRail Run ID
 '''
 
-@pytest.mark.testrail_run_id(80)
+@pytest.mark.run_id(80)
 @pytest.mark.usefixtures("driver", "login")
 class TestSegDel:
 
