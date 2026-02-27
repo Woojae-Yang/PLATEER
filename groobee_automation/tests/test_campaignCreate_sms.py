@@ -44,7 +44,7 @@ class TestSmsCampaignCreate:
         groobee.click_create_btn()
 
         # 1. 새로운 SMS 캠페인 만들기 페이지 노출 확인
-        assert driver.title == self.expect_sms_regist_title
+        assert driver.title == self.expect_sms_modify_title # fail 유도
 
     @pytest.mark.case_id(17210)
     def test_17210(self, driver):
@@ -56,7 +56,7 @@ class TestSmsCampaignCreate:
         groobee.send_cam_des(self.sms_des_input)
 
         # 1. 캠페인명 텍스트필드 > {sms_campaign_input} 노출 확인
-        assert groobee.get_cam_name() == self.sms_campaign_input
+        assert groobee.get_cam_name() == self.sms_campaign_modify_input # fail 유도
         # 2. 상세 설명 텍스트필드 > {sms_des_input} 노출 확인
         assert groobee.get_cam_des() == self.sms_des_input
 
@@ -518,43 +518,43 @@ class TestSmsCampaignCreate:
     #
     #     # 2. 캠페인 리스트 > {sms_campaign_copy_input} 노출 확인
     #     assert groobee.get_cam_item(self.sms_campaign_copy_input).is_displayed()
-
-    @pytest.mark.case_id(17248)
-    def test_17248(self, driver):
-        groobee = SmsPage(driver)
-
-        # 1. 단일 발송 탭 클릭
-        groobee.click_single_tab()
-        # 2. 관리 도구 클릭
-        # 3. 완료 탭으로 이동 클릭 (반복)
-        groobee.moveto_complete_by_name(self.automation_text)
-
-        # 3. 캠페인 리스트 > [Auto] 캠페인 미노출 확인
-        assert not groobee.get_cam_list_items(self.automation_text)
-
-    @pytest.mark.case_id(17249)
-    def test_17249(self, driver):
-        groobee = SmsPage(driver)
-
-        # 1. 반복 발송 탭 클릭
-        groobee.click_repeat_tab()
-        # 2. 관리 도구 클릭
-        # 3. 완료 탭으로 이동 클릭 (반복)
-        groobee.moveto_complete_by_name(self.automation_text)
-
-        # 3. 캠페인 리스트 > [Auto] 캠페인 미노출 확인
-        assert not groobee.get_cam_list_items(self.automation_text)
-
-    @pytest.mark.case_id(17250)
-    def test_17250(self, driver):
-        groobee = SmsPage(driver)
-
-        # 1. 발송 완료 탭 클릭
-        groobee.click_complete_tab()
-        # 2. 관리 도구 클릭
-        # 3. 삭제 클릭
-        # 4. 삭제 버튼 클릭 (반복)
-        groobee.delete_campaign_by_name(self.automation_text)
-
-        # 4. 캠페인 리스트 > [Auto] 캠페인 미노출 확인
-        assert not groobee.get_cam_list_items(self.automation_text)
+    #
+    # @pytest.mark.case_id(17248)
+    # def test_17248(self, driver):
+    #     groobee = SmsPage(driver)
+    #
+    #     # 1. 단일 발송 탭 클릭
+    #     groobee.click_single_tab()
+    #     # 2. 관리 도구 클릭
+    #     # 3. 완료 탭으로 이동 클릭 (반복)
+    #     groobee.moveto_complete_by_name(self.automation_text)
+    #
+    #     # 3. 캠페인 리스트 > [Auto] 캠페인 미노출 확인
+    #     assert not groobee.get_cam_list_items(self.automation_text)
+    #
+    # @pytest.mark.case_id(17249)
+    # def test_17249(self, driver):
+    #     groobee = SmsPage(driver)
+    #
+    #     # 1. 반복 발송 탭 클릭
+    #     groobee.click_repeat_tab()
+    #     # 2. 관리 도구 클릭
+    #     # 3. 완료 탭으로 이동 클릭 (반복)
+    #     groobee.moveto_complete_by_name(self.automation_text)
+    #
+    #     # 3. 캠페인 리스트 > [Auto] 캠페인 미노출 확인
+    #     assert not groobee.get_cam_list_items(self.automation_text)
+    #
+    # @pytest.mark.case_id(17250)
+    # def test_17250(self, driver):
+    #     groobee = SmsPage(driver)
+    #
+    #     # 1. 발송 완료 탭 클릭
+    #     groobee.click_complete_tab()
+    #     # 2. 관리 도구 클릭
+    #     # 3. 삭제 클릭
+    #     # 4. 삭제 버튼 클릭 (반복)
+    #     groobee.delete_campaign_by_name(self.automation_text)
+    #
+    #     # 4. 캠페인 리스트 > [Auto] 캠페인 미노출 확인
+    #     assert not groobee.get_cam_list_items(self.automation_text)

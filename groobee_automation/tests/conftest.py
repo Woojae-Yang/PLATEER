@@ -2,6 +2,10 @@ import os
 import pytest
 import requests
 import time
+import subprocess
+import signal
+import platform
+from datetime import datetime
 
 from seleniumwire import webdriver 
 # api 테스트에서 webdriver 활용을 위해 selenium-wire 라이브러리로 변경, 다른 영역은 기존의 selenium과 호환 가능
@@ -37,6 +41,11 @@ def pytest_addoption(parser):
     parser.addoption("--testrail-run-id", action="store", default=None)
     parser.addoption("--testrail-upload", action="store", default="true")  # true/false
 
+    # 화면 녹화 옵션
+    parser.addoption("--record-video", action="store", default="false")  # true/false
+    parser.addoption("--video-pre", action="store", default="3")  # 실패 전 n초
+    parser.addoption("--video-post", action="store", default="3")  # 실패 후 n초
+
 
 # ==========================
 # Fixtures
@@ -65,7 +74,10 @@ def driver(request):
 
     # headless 여부 결정
     cli_headless = request.config.getoption("--headless").lower() == "true"
-    headless_enabled = in_docker or cli_headless  # Docker에서는 기본 headless
+    record_video = request.config.getoption("--record-video").lower() == "true"
+
+    # ✅ 녹화(B안)일 땐 Docker에서도 headless 끄기 (Xvfb에 실제 렌더링되게)
+    headless_enabled = (in_docker or cli_headless) and (not record_video)
 
     # Chrome 옵션 설정
     options = ChromeOptions()
@@ -75,12 +87,16 @@ def driver(request):
     options.add_argument("--accept-lang=ko-KR")
     options.add_argument("Accept-Language=ko-KR")
 
+    # ✅ Docker/헤드리스/녹화(Xvfb)에서는 고정 해상도 필요
+    if in_docker or headless_enabled or record_video:
+        options.add_argument("--window-size=2560,1440")
+
     options.add_experimental_option("perfLoggingPrefs", {"enableNetwork": True})
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
+
     if headless_enabled:
         options.add_argument("--headless=new")
-        options.add_argument("--window-size=2560,1440")
 
     # 드라이버 경로 설정
     if in_docker:
@@ -90,23 +106,203 @@ def driver(request):
         from webdriver_manager.chrome import ChromeDriverManager
 
         driver_path = ChromeDriverManager().install()
-
-        # Chrome for Testing 구조 때문에 잘못된 파일명을 잡는 케이스 방지
         if driver_path.endswith("THIRD_PARTY_NOTICES.chromedriver"):
             driver_path = driver_path.replace("THIRD_PARTY_NOTICES.chromedriver", "chromedriver")
 
         service = Service(driver_path)
 
-    # 드라이버 생성 (여기서는 브라우저만 띄움)
     driver = webdriver.Chrome(service=service, options=options)
     driver.implicitly_wait(10)
 
-    # 로컬(비 headless)일 때만 maximize
-    if not headless_enabled:
-        driver.maximize_window()
+    # ✅ 로컬(headful)에서는 최대화 (headless/도커/녹화에서는 금지)
+    if (not in_docker) and (not headless_enabled) and (not record_video):
+        try:
+            driver.maximize_window()
+        except Exception:
+            pass
 
     yield driver
     driver.quit()
+
+@pytest.fixture(autouse=True)
+def video_recording(request):
+    """
+    목적:
+      - 테스트 함수(item) 단위로 녹화를 시작/종료한다.
+      - FAIL일 때만 (failure_elapsed 기준 pre/post 클립) 저장한다.
+      - PASS면 원본(mp4) 삭제한다.
+    """
+    item = request.node  # 이 item이 makereport의 item과 동일(핵심)
+
+    record_enabled = item.config.getoption("--record-video").lower() == "true"
+    if not record_enabled:
+        yield
+        return
+
+    # class-scope driver를 받아와서 사용 (세션/로그인 공유 유지)
+    driver = request.getfixturevalue("driver")
+
+    # start: item(함수) 기준으로 녹화 시작
+    _start_video_recording(item, driver)
+
+    yield
+
+    # teardown: FAIL 여부를 보고 저장/삭제
+    failed = getattr(item, "_was_failed", False)
+    _stop_and_save_video(item, failed=failed)
+
+def _start_video_recording(item, driver):
+    record_enabled = item.config.getoption("--record-video").lower() == "true"
+    if not record_enabled:
+        return
+
+    if platform.system() != "Linux":
+        print("[VIDEO] Recording supported only on Linux/X11 (Docker/Server)")
+        return
+
+    display = os.getenv("DISPLAY")
+    if not display:
+        print("[VIDEO] DISPLAY not set. Skipping recording.")
+        return
+
+    os.makedirs("videos/tmp", exist_ok=True)
+
+    test_name = item.name
+    temp_path = f"videos/tmp/{test_name}_full.mp4"
+    log_path = f"videos/tmp/{test_name}.ffmpeg.log"
+
+    # ✅ xvfb-run screen size와 반드시 일치해야 함 (Dockerfile에서 2560x1440)
+    video_size = "2560x1440"
+
+    cmd = [
+        "ffmpeg",
+        "-y",
+        "-hide_banner",
+        "-loglevel", "error",
+        "-video_size", video_size,
+        "-framerate", "25",
+        "-f", "x11grab",
+        "-i", display,
+        "-c:v", "libx264",
+        "-preset", "ultrafast",
+        "-pix_fmt", "yuv420p",
+        "-movflags", "+faststart",
+        temp_path,
+    ]
+
+    log_f = open(log_path, "wb")
+    process = subprocess.Popen(
+        cmd,
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=log_f,
+    )
+
+    time.sleep(0.2)
+    if process.poll() is not None:
+        try:
+            log_f.flush()
+            log_f.close()
+        except Exception:
+            pass
+        print(f"[VIDEO] ffmpeg exited immediately (rc={process.returncode}). See {log_path}")
+        return
+
+    item._video_process = process
+    item._video_start_time = datetime.now()
+    item._video_temp_path = temp_path
+    item._video_log_path = log_path
+    item._video_log_f = log_f
+
+    # ✅ FAIL/PASS 처리 플래그 초기화
+    item._was_failed = False
+    item._failure_elapsed = None
+
+
+def _stop_and_save_video(item, failed: bool):
+    if not hasattr(item, "_video_process"):
+        return
+
+    process = item._video_process
+
+    pre = int(item.config.getoption("--video-pre"))
+    post = int(item.config.getoption("--video-post"))
+
+    # ✅ 실패면 post초 확보 (뒤 3초)
+    if failed and post > 0:
+        time.sleep(post)
+
+    # ✅ 정상 종료(중요): SIGINT -> wait
+    try:
+        if process.poll() is None:
+            process.send_signal(signal.SIGINT)
+        try:
+            process.wait(timeout=8)
+        except subprocess.TimeoutExpired:
+            if process.poll() is None:
+                process.kill()
+            process.wait(timeout=5)
+    finally:
+        try:
+            if getattr(item, "_video_log_f", None):
+                item._video_log_f.close()
+        except Exception:
+            pass
+
+    # PASS면 원본 삭제(정책)
+    if not failed:
+        if os.path.exists(item._video_temp_path):
+            os.remove(item._video_temp_path)
+        return
+
+    # 원본이 0바이트면 컷팅할 의미 없음 → 로그 확인
+    if (not os.path.exists(item._video_temp_path)) or os.path.getsize(item._video_temp_path) == 0:
+        print(f"[VIDEO] raw mp4 is empty: {item._video_temp_path}")
+        print(f"[VIDEO] check ffmpeg log: {getattr(item,'_video_log_path','(no log)')}")
+        return
+
+    # ✅ 컷 기준은 "실패 판정 순간" (makereport(call)에서 저장된 값)
+    failure_elapsed = getattr(item, "_failure_elapsed", None)
+    if failure_elapsed is None:
+        failure_elapsed = (datetime.now() - item._video_start_time).total_seconds()
+
+    start_cut = max(failure_elapsed - pre, 0)
+    duration = pre + post
+
+    os.makedirs("videos", exist_ok=True)
+    final_path = f"videos/{item.name}.mp4"
+
+    # ✅ 재인코딩 컷팅(안정): -c copy 금지 (키프레임/짤림 방지)
+    cmd = [
+        "ffmpeg",
+        "-y",
+        "-hide_banner",
+        "-loglevel", "error",
+        "-ss", str(start_cut),
+        "-i", item._video_temp_path,
+        "-t", str(duration),
+        "-c:v", "libx264",
+        "-preset", "veryfast",
+        "-pix_fmt", "yuv420p",
+        "-movflags", "+faststart",
+        final_path,
+    ]
+    r = subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    if r.returncode != 0:
+        print("[VIDEO] cut/encode failed:")
+        print(r.stderr.decode("utf-8", errors="ignore"))
+
+    try:
+        os.remove(item._video_temp_path)
+    except FileNotFoundError:
+        pass
+
+    if (not os.path.exists(final_path)) or os.path.getsize(final_path) == 0:
+        print(f"[VIDEO] final mp4 is empty: {final_path}")
+        print(f"[VIDEO] check ffmpeg log: {getattr(item,'_video_log_path','(no log)')}")
+        return
+
+    print(f"[VIDEO] Saved failure clip: {final_path}")
 
 ## 범위를 session -> class 변경 260204
 @pytest.fixture(scope="class")
@@ -213,6 +409,12 @@ def pytest_runtest_makereport(item, call):
         file_path = os.path.join(screenshot_dir, f"{item.name}.png")
         driver.save_screenshot(file_path)
         print(f"\n Screenshot saved: {file_path}")
+
+    # ✅ FAIL 시점만 기록 (종료/저장은 video_recording fixture teardown에서 1회 수행)
+    if rep.failed and rep.when in ("setup", "call"):
+        item._was_failed = True
+        if hasattr(item, "_video_start_time"):
+            item._failure_elapsed = (datetime.now() - item._video_start_time).total_seconds()
 
     # -------------------------
     # 2️⃣ TestRail 업로드는 call 단계에서만

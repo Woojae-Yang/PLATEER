@@ -10,6 +10,7 @@
       <w>datamonitoring</w>
       <w>dockerenv</w>
       <w>dvip</w>
+      <w>framerate</w>
       <w>ganada</w>
       <w>groobee</w>
       <w>groobeeshop</w>
@@ -19,8 +20,10 @@
       <w>kakaobrand</w>
       <w>kakaomoment</w>
       <w>makereport</w>
+      <w>maxlen</w>
       <w>menuitem</w>
       <w>moveto</w>
+      <w>movflags</w>
       <w>nodeid</w>
       <w>norecursedirs</w>
       <w>oncam</w>
