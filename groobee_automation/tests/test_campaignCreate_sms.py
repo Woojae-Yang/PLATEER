@@ -44,7 +44,7 @@ class TestSmsCampaignCreate:
         groobee.click_create_btn()
 
         # 1. 새로운 SMS 캠페인 만들기 페이지 노출 확인
-        assert driver.title == self.expect_sms_modify_title # fail 유도
+        assert driver.title == self.expect_sms_regist_title
 
     @pytest.mark.case_id(17210)
     def test_17210(self, driver):
@@ -56,7 +56,7 @@ class TestSmsCampaignCreate:
         groobee.send_cam_des(self.sms_des_input)
 
         # 1. 캠페인명 텍스트필드 > {sms_campaign_input} 노출 확인
-        assert groobee.get_cam_name() == self.sms_campaign_modify_input # fail 유도
+        assert groobee.get_cam_name() == self.sms_campaign_input
         # 2. 상세 설명 텍스트필드 > {sms_des_input} 노출 확인
         assert groobee.get_cam_des() == self.sms_des_input
 
