@@ -1,4 +1,6 @@
 import time
+from asyncio.timeouts import timeout
+
 from selenium.common import TimeoutException
 
 from PageObjects.GroobeeActions import GroobeeActions
@@ -34,19 +36,53 @@ class PushNotiPage(GroobeeActions):
     apiTrigger_send_tab = (By.XPATH, "//button[@role='tab' and normalize-space(.)='API 트리거 발송']")
     completed_tab =(By.XPATH, "//button[@role='tab' and normalize-space(.)='완료 캠페인']")
 
-    #캠페인명 검색
+    # 캠페인명 검색
     campaign_search =(By.XPATH, "//input[contains(@placeholder, '캠페인명 검색')]")
-
+    # 타겟 설정 펼치기
+    target_expand_icon = (By.XPATH, "//div[contains(@class,'MuiAccordionSummary-root') and .//text()[contains(.,'타겟 설정')]]")
     # 타겟팅 유형
     type_segment = (By.XPATH, "//input[@value='세그먼트']")
     type_recipient_consent = (By.XPATH, "//label[.//input[@value='수신 동의자 전체']]")
     type_member_upload =(By.XPATH, "//label[.//input[@value='회원 정보 업로드']]")
 
+    # 세그먼트 불러오기 RNB - 즐겨찾기 unexpand
+    favorite_collapse_icon = (By.XPATH, "//span[normalize-space(.)='keyboard_arrow_up_outlined']")
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     qa_hs_seg = (By.XPATH, "//h6[contains(text(),'[QA][HS] OFFSITE_회원ID_세그먼트용')]")
+    onsite_seg =(By.XPATH, "//h6[contains(text(),'[QA][HS] onsite_브라우저_크롬')]")
 
     # 세그먼트 설정* > 불러온 세그먼트
     is_qa_hs_seg =(By.XPATH, "//h6[contains(text(),'[QA][HS] OFFSITE_회원ID_세그먼트용')]")
+    is_onsite_seg =(By.XPATH, "//p[normalize-space(.)='[QA][HS] onsite_브라우저_크롬']")
+
+   # 트리거 설정 > 이벤트 *
+    event_select_box = (By.XPATH, "//div[@role='combobox']")
+    cart_option = (By.XPATH, "//li[@role='option' and contains(.,'장바구니')]")
+    order_option = (By.XPATH, "//li[@role='option' and contains(.,'주문')]")
+    visit_option =(By.XPATH, "//li[@role='option' and contains(.,'방문')]")
+    custom_event_option =(By.XPATH, "//li[@role='option' and contains(.,'커스텀')]")
+
+   # 트리거 설정 > 조건 *
+    condition_select_box = (By.XPATH, "//div[@role='combobox']")
+    condition_option_product_name = (By.XPATH, "//li[@role='option' and contains(.,'상품명')]")
+    condition_option_product_code = (By.XPATH, "//li[@role='option' and contains(.,'상품 코드 ')]")
+    condition_option_product_total = (By.XPATH, "//li[@role='option' and contains(.,'총액')]")
+
+    # 트리거 설정 > 조건 *의 옵션
+    condition_operator_select_box = (By.XPATH, "//div[@role='combobox'][.//p[contains(.,'선택해')]]")
+    ## 여기 수정해야할거같음 ##
+    condition_operator_equals = (By.XPATH, "//li[@role='option' and @data-value='0']")
+    condition_operator_not_equals = (By.XPATH, "//li[@role='option' and @data-value='1']")
+    condition_operator_contains = (By.XPATH, "//li[@role='option' and @data-value='2']")
+    condition_operator_not_contains = (By.XPATH, "//li[@role='option' and @data-value='3']")
+    condition_operator_in = (By.XPATH, "//li[@role='option' and @data-value='4']")
+    condition_operator_not_in = (By.XPATH, "//li[@role='option' and @data-value='5']")
+    condition_operator_any_contains = (By.XPATH, "//li[@role='option' and @data-value='6']")
+    condition_operator_none_contains = (By.XPATH, "//li[@role='option' and @data-value='7']")
+    # 트리거 설정> 조건 * > 문자열 string box
+
+    # 트리거 설정> 조건 * > 파일로 업로드 btn
+
     # 메시지 설정 - 서브 타이틀
     push_subtitle_msg = (By.XPATH, "//h6[contains(text(),'메시지 기본 설정')]")
 
@@ -131,7 +167,9 @@ class PushNotiPage(GroobeeActions):
     # 캠페인 서치바
     def click_campaign_search(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.campaign_search, timeout).click()
-
+    # 리스트 - 발송 탭
+    def click_eventTrigger_send_tab(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.eventTrigger_send_tab, timeout).click()
     # 만들기 버튼
     def click_create_btn_push_schedule(self, timeout=10):
         BaseClass.wait_clickable(self.driver,self.createBtn_pushNoti_schedule,timeout).click()
@@ -141,6 +179,13 @@ class PushNotiPage(GroobeeActions):
         BaseClass.wait_clickable(self.driver, self.createBtn_pushNoti_apiTrigger,timeout).click()
 
     # 타겟팅 유형
+    def click_target_expand(self, timeout=10):
+        element = WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(self.target_expand_icon)
+        )
+        self.driver.execute_script("arguments[0].scrollIntoView({block:'center'});", element)
+        self.driver.execute_script("arguments[0].click();", element)
+
     def click_type_segment(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.type_segment, timeout).click()
     def click_type_recipient_consent(self, timeout=10):
@@ -161,7 +206,12 @@ class PushNotiPage(GroobeeActions):
             EC.element_to_be_clickable(self.type_member_upload)
         )
         el.click()
-
+    # 세그먼트 불러오기 RNB > 아코디언 접기
+    def click_favorite_collapse_icon(self, timeout=10):
+        el = WebDriverWait(self.driver, timeout).until(
+            EC.element_to_be_clickable(self.favorite_collapse_icon)
+        )
+        el.click()
     # 세그먼트 불러오기 RNB(설정할 값 실제 작성)
     def click_qa_hs_seg(self, timeout=10):
         BaseClass.wait_clickable(self.driver, self.qa_hs_seg,timeout).click()
@@ -169,6 +219,55 @@ class PushNotiPage(GroobeeActions):
     def get_is_qa_push_seg(self, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.is_qa_hs_seg, timeout)
         return el.text.strip()
+
+    # 트리거 설정 > 이벤트*
+    def click_event_select_box(self, timeout=10):
+        BaseClass.wait_clickable(self.driver, self.event_select_box, timeout).click()
+    def click_cart_option(self):
+        BaseClass.wait_clickable(self.driver, self.cart_option, timeout).click()
+    def click_order_option(self):
+        BaseClass.wait_clickable(self.driver, self.order_option, timeout).click()
+    def click_visit_option(self):
+        BaseClass.wait_clickable(self.driver, self.visit_option, timeout).click()
+    def click_custom_event_option(self):
+        BaseClass.wait_clickable(self.driver, self.custom_event_option, timeout).click()
+
+    # 트리거 설정 > 조건*
+    def click_condition_select_box(self, timeout=2):
+        BaseClass.wait_clickable(self.driver, self.condition_select_box, timeout).click()
+    def click_condition_option_product_name(self):
+        BaseClass.wait_clickable(self.driver, self.condition_option_product_name, timeout).click()
+    def click_condition_option_product_code(self):
+        BaseClass.wait_clickable(self.driver, self.condition_option_product_code, timeout).click()
+    def click_condition_option_product_total(self):
+        BaseClass.wait_clickable(self.driver, self.condition_option_product_total, timeout).click()
+    # 트리거 설정 > 조건 * > 선택 박스
+    def click_condition_operator_select_box(self, timeout=2):
+        BaseClass.wait_clickable(self.driver, self.condition_operator_select_box, timeout).click()
+    def click_condition_operator_equals(self):
+        BaseClass.wait_clickable(self.driver, self.condition_operator_equals, timeout).click()
+    def click_condition_operator_contains(self):
+        BaseClass.wait_clickable(self.driver, self.condition_operator_contains, timeout).click()
+    def click_condition_operator_not_contains(self):
+        BaseClass.wait_clickable(self.driver, self.condition_operator_not_contains, timeout).click()
+    def click_condition_operator_in(self):
+        BaseClass.wait_clickable(self.driver, self.condition_operator_in, timeout).click()
+    def click_condition_operator_not_in(self):
+        BaseClass.wait_clickable(self.driver, self.condition_operator_not_in, timeout).click()
+    def click_condition_operator_any_contains(self):
+        BaseClass.wait_clickable(self.driver, self.condition_operator_any_contains, timeout).click()
+    def click_condition_operator_none_contains(self):
+        BaseClass.wait_clickable(self.driver, self.condition_operator_none_contains, timeout).click()
+
+    # 조건*> 텍스트 박스 string
+
+    # 트리거 설정 > 조건 * > 드롭박스 스크롤
+    def scroll_to_oper(driver, option_locator, timeout=2):
+        option = WebDriverWait(driver, timeout).until(
+            EC.presence_of_element_located(option_locator)
+        )
+        driver.execute_script("arguments[0].scrollIntoView({block:'center'});", option)
+        return option
 
     # 메시지 설정 - 서브 타이틀
     def wait_push_subtitle_msg_visible(self, timeout=10):
@@ -249,7 +348,6 @@ class PushNotiPage(GroobeeActions):
         time.sleep(1)
         el.send_keys(text)
 
-
     # 미리보기
     def is_preview_text_contains(self, text, timeout=10):
         el = BaseClass.wait_visible(self.driver, self.preview_area, timeout)
@@ -273,7 +371,6 @@ class PushNotiPage(GroobeeActions):
         el.clear()
         el.send_keys(text)
         el.send_keys(Keys.ENTER)
-
 
     #클릭 동작
     def click_launch_app(self, timeout=10):
@@ -415,8 +512,17 @@ class PushNotiPage(GroobeeActions):
     def get_seg_list(self):
         return self.driver.find_elements(*self.qa_hs_seg)
 
+    def get_seg_list_onsite(self):
+        return self.driver.find_elements(*self.onsite_seg)
+
     def click_first_seg(self):
         segs = self.get_seg_list()
+        if segs:
+            segs[0].click()
+        return self
+
+    def click_first_seg_onsite(self):
+        segs = self.get_seg_list_onsite()
         if segs:
             segs[0].click()
         return self
@@ -435,6 +541,13 @@ class PushNotiPage(GroobeeActions):
         except:
             return False
 
+    # 불러온 세그먼트 일치 확인
+    def assert_is_onsite_seg(self, expected_value):
+        actual_value = self.driver.find_element(
+            *self.is_onsite_seg
+        ).text.strip()
+
+        assert expected_value in actual_value
 
     # ===== 미리보기 일치 =========================== #
 
