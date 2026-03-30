@@ -1,5 +1,4 @@
 import time
-from asyncio.timeouts import timeout
 
 from selenium.common import TimeoutException
 

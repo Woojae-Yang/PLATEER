@@ -12,6 +12,8 @@ from seleniumwire import webdriver
 
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.chrome.service import Service
+from appium import webdriver as appium_webdriver
+from appium.options.android import UiAutomator2Options
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
 
@@ -390,6 +392,27 @@ def upload_result(run_id: int, case_id: int, passed: bool):
     if not ok:
         print(f"[TestRail] upload failed: {msg}")
 
+# ========================
+# Appium
+# ========================
+
+@pytest.fixture(scope="class")
+def mobile_driver():
+
+    options = UiAutomator2Options()
+    options.platform_name = "Android"
+    options.automation_name = "UiAutomator2"
+    options.device_name = "Android"
+
+    options.app_package = "com.android.settings"
+    options.app_activity = ".Settings"
+
+    driver = appium_webdriver.Remote(
+        "http://127.0.0.1:4723",
+        options=options
+    )
+    yield driver
+    driver.quit()
 
 # ==========================
 # Hooks
