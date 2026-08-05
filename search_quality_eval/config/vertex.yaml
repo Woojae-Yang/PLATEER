@@ -1,0 +1,22 @@
+# ============================================================
+# Vertex AI 설정
+# ============================================================
+# vertex_credentials_file: config/ 디렉토리 기준 상대 경로
+# DevOps에서 받은 서비스 계정 JSON 파일을 config/ 에 넣고 파일명을 입력
+# ============================================================
+vertex_project_id:       "groobee-ai"                        # GCP 프로젝트 ID (DevOps 확인)
+vertex_location:         "global"               # 리전
+vertex_credentials_file: ""  # config/ 하위 서비스 계정 JSON 파일명
+vertex_model:            "gemini-3.1-flash-lite"
+vertex_max_output_tokens: 8192
+vertex_max_workers: 5           # 평가 요청 1건이 쓰는 Vertex 동시 호출 수
+vertex_max_retries: 3
+vertex_retry_backoff: 2.0       # 초
+
+# 쿼리 테스트 API가 동시에 받을 평가 요청 수 상한 (과부하·비용 폭증 방지).
+# 전체 Vertex 동시 호출 ≈ 이 값 × vertex_max_workers (예: 8 × 5 = 40)
+vertex_max_eval_concurrency: 8
+
+# 평가 로그(data/api_eval/*.jsonl, debug_*.txt) 보관 기간(일).
+# 평가가 끝날 때마다 이 기간보다 오래된 파일을 자동 삭제. 0 이하면 정리 안 함.
+vertex_eval_log_retention_days: 14

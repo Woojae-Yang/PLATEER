@@ -1,0 +1,14 @@
+ko:
+  scenario_id_column: 시나리오ID
+  turn_column: 턴
+  question_column: 검색쿼리
+
+en:
+  scenario_id_column: 시나리오ID
+  turn_column: 턴
+  question_column: 검색쿼리
+
+ja:
+  scenario_id_column: シナリオID
+  turn_column: ターン
+  question_column: 検索クエリ

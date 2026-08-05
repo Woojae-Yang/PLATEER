@@ -1,0 +1,286 @@
+profiles:
+
+
+##################################
+## YAMATO
+##################################
+  # ================================
+  # ===== YAMATO -stg =====
+  # ================================
+  
+  yamato_stg-ja: ## 운영 DB 덤프로 인하여 vendor_id는 운영 환경과 일치하도록 수정 - 260602
+    lang_code: ja
+    api_base_url: https://stg-gelatto-chat-780663204901.asia-northeast3.run.app
+    business_type: genser_discovery
+    vendor_id: 0e26f03f-1fa4-4064-9ffd-ed69dd8dcc0e
+    prompt_file: 야마토_260603_v3_prompt.md
+    report_type: yamato   # 평가 파이프라인 분기 플래그 (genser_discovery는 mizuno·shoplist도 공유하므로 명시적 분기)
+    
+  yamato_adk-ja-shw:
+    api_type: adk_front
+    lang_code: ja
+    api_base_url: https://shw-adk2-front-3ym5kkfpvq-du.a.run.app
+    tab: yamato                # 라우팅 대상 스토어 (mizuno / yamato 등)
+    mode: agent               # defaults.yaml 기본값 사용 시 생략 가능
+    search_backend: atlas     # defaults.yaml 기본값 사용 시 생략 가능
+    origin: https://shw-adk2-front-3ym5kkfpvq-du.a.run.app
+    iap_audience: "780663204901-beaca9lrn0bsqaa90o1bpl8elhnndqc8.apps.googleusercontent.com"
+    iap_credentials_file: aicx-stg-06dd56becb9d.json   # (A) 자동발급용 서비스계정 JSON
+    # iap_token: "여기에_발급받은_ID토큰_붙여넣기"   # (B) 주입 시 iap_credentials_file(JSON)보다 우선. 환경변수 IAP_TOKEN 으로도 가능
+    prompt_file: 야마토_260603_v3_prompt.md
+    report_type: yamato
+
+  yamato_qa-ja:
+    api_type: gcloud_run
+    lang_code: ja
+    api_base_url: https://qa-gelatto-genserd-chat-3ym5kkfpvq-du.a.run.app
+    tab: yamato
+    mode: standard            # curl 예시 기준 (defaults.yaml 기본값은 agent)
+    search_backend: atlas
+    iap_credentials_file: aicx-stg-06dd56becb9d.json   # 화이트리스트된 SA(stg-qa@aicx-stg) 키. gcloud 불필요(EC2 OK)
+    # iap_token: "여기에_ID토큰_직접_붙여넣기"        # (대안) 또는 환경변수 IAP_TOKEN (임시·단기)
+    prompt_file: 야마토_260603_v3_prompt.md
+    report_type: yamato
+    vendor_id: 0e26f03f-1fa4-4064-9ffd-ed69dd8dcc0e
+
+  # ================================
+  # ===== YAMATO -prod =====
+  # ================================
+
+  yamato_prod-ja:
+    lang_code: ja
+    api_base_url: https://prod-gelatto-chat-jp-648679562792.asia-northeast1.run.app
+    business_type: genser_discovery
+    vendor_id: 0e26f03f-1fa4-4064-9ffd-ed69dd8dcc0e
+    prompt_file: 야마토_260603_v3_prompt.md
+    report_type: yamato   # 평가 파이프라인 분기 플래그
+
+
+##################################
+## B2C
+##################################
+
+
+
+##################################
+## MIZUNO
+##################################
+  # ================================
+  # ===== MIZUNO -stg =====
+  # ================================
+  
+  #mizuno_stg-ja:
+  #  lang_code: ja
+  #  api_base_url: https://stg-gelatto-chat-780663204901.asia-northeast3.run.app
+  #  business_type: genser_discovery
+  #  vendor_id: bfaa7a94-af9a-4e82-834c-c1ec263a79a0
+    
+  mizuno_stg-ja:
+     lang_code: ja
+     api_base_url: https://stg-gelatto-genserd-adk2-chat-780663204901.asia-northeast3.run.app
+     tab: mizuno
+     mode: agent
+     business_type: genser_discovery
+     vendor_id: 567e07ff-9eba-40d7-a786-0ec1443e15bd
+    
+
+  mizuno_adk-ja-shw:
+    api_type: adk_front
+    lang_code: ja
+    api_base_url: https://shw-adk2-front-3ym5kkfpvq-du.a.run.app
+    tab: mizuno                # 라우팅 대상 스토어 (mizuno / yamato 등)
+    mode: agent               # defaults.yaml 기본값 사용 시 생략 가능
+    search_backend: atlas     # defaults.yaml 기본값 사용 시 생략 가능
+    origin: https://shw-adk2-front-3ym5kkfpvq-du.a.run.app
+    #prompt_file: SCORING_HARNESS.md
+    iap_audience: "780663204901-beaca9lrn0bsqaa90o1bpl8elhnndqc8.apps.googleusercontent.com"
+    iap_credentials_file: aicx-stg-06dd56becb9d.json   # (A) 자동발급용 서비스계정 JSON
+    # iap_token: "여기에_발급받은_ID토큰_붙여넣기"   # (B) 주입 시 iap_credentials_file(JSON)보다 우선. 환경변수 IAP_TOKEN 으로도 가능
+
+  mizuno_qa-ja:
+    api_type: gcloud_run
+    lang_code: ja
+    api_base_url: https://qa-gelatto-genserd-chat-3ym5kkfpvq-du.a.run.app
+    tab: mizuno
+    mode: standard
+    search_backend: atlas
+    iap_credentials_file: aicx-stg-06dd56becb9d.json
+    vendor_id: bfaa7a94-af9a-4e82-834c-c1ec263a79a0
+
+  # ================================
+  # ===== MIZUNO -prod =====
+  # ================================
+
+  mizuno_prod-ja:
+    lang_code: ja
+    api_base_url: https://prod-gelatto-genserd-adk2-chat-jp-648679562792.asia-northeast1.run.app
+    business_type: genser_discovery
+    vendor_id: 567e07ff-9eba-40d7-a786-0ec1443e15bd
+
+
+##################################
+## ShopList
+##################################
+  # ================================
+  # ===== ShopList -stg =====
+  # ================================
+
+  shoplist_stg-ja:
+    lang_code: ja
+    api_base_url: https://stg-gelatto-chat-780663204901.asia-northeast3.run.app
+    business_type: genser_discovery
+    vendor_id: c90aef2a-deca-49a5-ab08-a58bacbbba90
+
+  shoplist_adk-ja-shw:
+    api_type: adk_front
+    lang_code: ja
+    api_base_url: https://shw-adk2-front-3ym5kkfpvq-du.a.run.app
+    tab: shoplist                # 라우팅 대상 스토어 (mizuno / yamato 등)
+    mode: agent               # defaults.yaml 기본값 사용 시 생략 가능
+    search_backend: atlas     # defaults.yaml 기본값 사용 시 생략 가능
+    origin: https://shw-adk2-front-3ym5kkfpvq-du.a.run.app
+    iap_audience: "780663204901-beaca9lrn0bsqaa90o1bpl8elhnndqc8.apps.googleusercontent.com"
+    iap_credentials_file: aicx-stg-06dd56becb9d.json   # (A) 자동발급용 서비스계정 JSON
+    # iap_token: "여기에_발급받은_ID토큰_붙여넣기"   # (B) 주입 시 iap_credentials_file(JSON)보다 우선. 환경변수 IAP_TOKEN 으로도 가능
+
+  shoplist_qa-ja:
+    api_type: gcloud_run
+    lang_code: ja
+    api_base_url: https://qa-gelatto-genserd-chat-3ym5kkfpvq-du.a.run.app
+    tab: shoplist
+    mode: standard
+    search_backend: atlas
+    iap_credentials_file: aicx-stg-06dd56becb9d.json
+    vendor_id: c90aef2a-deca-49a5-ab08-a58bacbbba90
+
+  # ================================
+  # ===== ShopList -prod =====
+  # ================================
+
+  shoplist_prod-ja:
+    lang_code: ja
+    api_base_url: https://prod-gelatto-chat-jp-648679562792.asia-northeast1.run.app
+    business_type: genser_discovery
+    vendor_id: 03807975-34c1-4d0d-930c-e0613149f6c0
+
+##################################
+## LIVART
+##################################
+  # =============================
+  # === STG ====
+  # =============================
+  livart_stg-ko:
+    lang_code: ko
+    api_base_url: https://stg-gelatto-chat-780663204901.asia-northeast3.run.app
+    business_type: genser_discovery
+    vendor_id: 6b7354d4-e3d0-4336-b75d-0e80f6bce119
+    prompt_file: 프롬프트_v2.1_LIVART_KR_LLM판단전용.md   # 가구·홈퍼니싱 도메인 (공통 v2.1 복사 후 수정)
+
+
+  # =============================
+  # === PROD ===
+  # =============================
+  livart_prod-ko:
+    lang_code: ko
+    api_base_url: https://prod-gelatto-chat-180804437426.asia-northeast3.run.app
+    business_type: genser_discovery
+    vendor_id: 2cb3a4e7-47c2-41a3-8488-f72f37a0671c
+    prompt_file: 프롬프트_v2.1_LIVART_KR_LLM판단전용.md   # 가구·홈퍼니싱 도메인 (공통 v2.1 복사 후 수정)
+
+
+##################################
+## CTKCLIP
+##################################
+  # ================================
+  # ===== STG =====
+  # ================================
+
+  ctk_stg-ko:
+    lang_code: ko
+    api_base_url: https://stg-gelatto-chat-780663204901.asia-northeast3.run.app
+    business_type: genser_discovery
+    vendor_id: c92b2848-dc25-4e2c-8c27-2a01e9a5b1ae
+
+  ctk_stg-en:
+    lang_code: en
+    api_base_url: https://stg-gelatto-chat-780663204901.asia-northeast3.run.app
+    business_type: genser_discovery
+    vendor_id: 3b731ec7-cede-4704-8237-bf7012481015
+
+  # ================================
+  # ===== PROD =====
+  # ================================
+
+  ctk_prod-ko:
+    lang_code: ko
+    api_base_url: https://prod-gelatto-chat-180804437426.asia-northeast3.run.app
+    business_type: genser_discovery
+    vendor_id: 0a630bf4-ce87-4f63-9301-224aa8a50f16
+
+  ctk_prod-en:
+    lang_code: en
+    api_base_url: https://prod-gelatto-chat-jp-648679562792.asia-northeast1.run.app
+    business_type: genser_discovery
+    vendor_id: 4ad747f2-8dde-4689-b724-5fdca9061641
+
+
+##################################
+## B2C
+##################################
+  # ================================
+  # ===== PROD =====
+  # ================================
+  prod-ko:
+    lang_code: ko
+    api_base_url: https://prod-gelatto-chat-180804437426.asia-northeast3.run.app
+    business_type: gelatto
+
+  prod-ja:
+    lang_code: ja
+    api_base_url: https://prod-gelatto-chat-jp-648679562792.asia-northeast1.run.app
+    business_type: gelatto
+  
+
+  # ================================
+  # ===== STG =====
+  # ================================
+  stg-ko:
+    lang_code: ko
+    api_base_url: https://stg-gelatto-genserd-adk2-b2c-chat-780663204901.asia-northeast3.run.app
+    business_type: gelatto
+
+  stg-ja:
+    lang_code: ja
+    api_base_url: https://stg-gelatto-genserd-adk2-b2c-chat-780663204901.asia-northeast3.run.app
+    business_type: gelatto
+
+
+
+
+
+
+##################################
+## 신규 ADK2-front API (표준 SSE + IAP 인증) — 예시
+##################################
+# 사용법: build_config(lang="mizuno_adk-ja", ...) 처럼 아래 키를 프로파일명으로 호출.
+#  - api_type: adk_front  → runners.build_client() 가 AdkFrontClient 를 생성
+#  - 라우팅은 헤더가 아니라 body 의 tab/lang/mode/search_backend 로 전달
+#  - 인증(IAP): 아래 둘 중 하나
+#      (A) iap_audience + iap_credentials_file : 서비스계정으로 OIDC ID 토큰 자동발급(권장, 자동화용)
+#          ※ 해당 서비스계정이 IAP + 앱(Genser Discovery) 화이트리스트에 등록돼야 함
+#      (B) iap_token : gcloud 등으로 발급한 Bearer 토큰을 직접 주입(수동 테스트용, 단기)
+
+##################################
+# ===== QA genserd (Cloud Run IAM 인증) =====
+##################################
+# 신규 환경: qa-gelatto-genserd-chat (프로파일: yamato_qa-ja / mizuno_qa-ja / shoplist_qa-ja)
+#  - body/SSE 포맷은 ADK2-front 와 동일 (tab/lang/mode/search_backend, 표준 SSE)
+#  - 인증만 다름: IAP(audience) 대신 Cloud Run IAM (Bearer OIDC ID 토큰)
+#  - api_type: gcloud_run → runners.build_client() 가 GcloudRunClient 생성
+#  토큰 발급 우선순위 (위가 높음):
+#    1) iap_token / 환경변수 IAP_TOKEN·ID_TOKEN  ← 직접 주입(ID토큰 ~1h 만료, 단기용)
+#    2) iap_credentials_file(서비스계정 JSON)     ← gcloud 불필요. EC2 자동화 권장(기본).
+#         · Cloud Run aud=서비스 URL 은 코드가 api_base_url 로 자동 설정
+#         · ⚠️ 해당 SA 가 'Genser Discovery' 화이트리스트에 등록돼 있어야 통과(아니면 403)
+#    3) gcloud auth print-identity-token          ← 로컬에 gcloud 가 있을 때만
+#  ※ EC2 엔 gcloud 가 없으므로 (1) 또는 (2) 필수. 아래 프로파일은 (2) 를 기본 사용.
