@@ -1,0 +1,42 @@
+# /etc/systemd/system/search-quality-eval.service
+# FastAPI(uvicorn) 백엔드를 부팅 시 자동 기동 + 죽으면 재시작.
+#
+# 설치:
+#   sudo cp deploy/search-quality-eval.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now search-quality-eval
+#   systemctl status search-quality-eval
+#
+# ⚠️ 경로/포트는 환경에 맞게 확인할 것:
+#   - WorkingDirectory: 'pwd'로 확인한 실제 프로젝트 루트 (지금은 이중 중첩 경로)
+#   - venv 경로: venv/bin/uvicorn
+#   - 포트 8000: nginx가 8080을 점유 중이라 API는 8000으로 분리
+[Unit]
+Description=Search Quality Eval API (FastAPI/uvicorn)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/search_quality_eval/search_quality_eval
+
+# 인증: 사내망 신뢰 전제로 'API_KEY 미설정 = 인증 없음'으로 운용.
+# (코드상 API_KEY가 비어 있으면 X-API-Key 검사를 건너뜀)
+# 외부에 노출하게 되면 아래 줄의 주석을 풀고 키를 설정할 것.
+# Environment=API_KEY=CHANGE_ME
+# Vertex 인증은 config/vertex.yaml의 vertex_credentials_file로 처리되므로
+# GOOGLE_APPLICATION_CREDENTIALS는 보통 불필요. (ADC 폴백이 필요할 때만 설정)
+# Environment=GOOGLE_APPLICATION_CREDENTIALS=/home/ec2-user/search_quality_eval/search_quality_eval/config/groobee-ai_qa_tmp.json
+
+# 백그라운드 잡 상태가 인메모리라 워커는 1개로 고정 (다중 워커 시 /jobs/{id} 불일치)
+ExecStart=/home/ec2-user/search_quality_eval/search_quality_eval/venv/bin/uvicorn api.main:app --host 127.0.0.1 --port 8000 --workers 1
+
+Restart=on-failure
+RestartSec=3
+# 시트 평가가 길어도 프로세스가 죽지 않도록 (잡 자체는 비동기)
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target
